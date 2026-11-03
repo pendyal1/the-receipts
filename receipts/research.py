@@ -290,6 +290,8 @@ class Investigator:
                 report, citation_errors = validate_report(repair, ledger.evidence, investigation['scope'])
             if citation_errors:
                 raise ModelError('The report did not pass evidence-reference validation. Collected sources remain available; no unverified report was published.')
+            report['summary'] = calculated_summary(ledger.evidence, scope.tickers[0]) or report['summary']
+            ledger.trace('Writer', 'finalize_summary', {}, {'basis': 'Reported annual observations and arithmetic range checks', 'summary': report['summary']})
             ledger.trace('Writer', 'validate_evidence_references', {}, {'passed': True, 'semantic_entailment_verified': False, 'final_verdict': report['verdict'], 'limits': report['limits']})
             investigation.update(status='complete', report=report)
             answer = format_report(report, ledger.evidence)
@@ -518,3 +520,40 @@ def financial_changes(evidence):
                 'direction': 'increased' if delta > 0 else 'decreased' if delta < 0 else 'unchanged',
                 'delta_USD': delta, 'evidence_ids': [id1, id2]})
     return changes
+
+
+def calculated_summary(evidence, primary):
+    """A factual opening; free-form interpretation remains in the cited sections."""
+    def number(value):
+        return f"${value / 1e9:,.3f} billion"
+    observations = []
+    groups = {}
+    for eid, record in evidence.items():
+        if record.get('kind') == 'financial' and record.get('ticker') == primary:
+            periods = groups.setdefault(record['metric'], {})
+            existing = periods.get(record['period_end'])
+            if not existing or record['filed'] < existing[1]['filed']:
+                periods[record['period_end']] = (eid, record)
+    for metric, label in [('revenue', 'revenue'), ('net_income', 'net income'), ('capex', 'cash PP&E purchases')]:
+        rows = sorted(groups.get(metric, {}).items())
+        if not rows:
+            continue
+        period, (eid, latest) = rows[-1]
+        text = f"{primary} {label} for the fiscal period ended {period} was {number(latest['value'])} [{eid}]"
+        if len(rows) >= 2:
+            old_period, (old_id, old) = rows[-2]
+            change = 'up' if latest['value'] > old['value'] else 'down' if latest['value'] < old['value'] else 'unchanged'
+            text += f", {change} from {number(old['value'])} for {old_period} [{old_id}]"
+        observations.append(text + '.')
+    seen = set()
+    for check in quantitative_range_checks(evidence):
+        if evidence[check['claim_id']].get('ticker') != primary:
+            continue
+        identity = (check['fiscal_period_end'], check['lower'], check['upper'])
+        if identity in seen:
+            continue
+        seen.add(identity)
+        observations.append(f"The retrieved outlook gave a capital-spending range of {number(check['lower'])} to {number(check['upper'])} for the year ending {check['fiscal_period_end']} [{check['claim_id']}]. Reported cash PP&E purchases were {number(check['actual'])}, {check['relation']} [{check['outcome_id']}].")
+        if len(seen) >= 2:
+            break
+    return ' '.join(observations)

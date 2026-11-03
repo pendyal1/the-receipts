@@ -164,3 +164,14 @@ def test_gap_references_can_explain_missing_evidence_but_not_facts():
     assert not validate_report(raw,evidence)[1]
     raw['summary']='Capex was $100 billion [Egap].'
     assert any('coverage-gap' in e for e in validate_report(raw,evidence)[1])
+
+
+def test_calculated_summary_keeps_revenue_and_profit_directions_separate():
+    from receipts.research import calculated_summary
+    records={}
+    for eid,metric,end,value in [('Er1','revenue','2023-12-31',96_773_000_000),('Er2','revenue','2024-12-31',97_690_000_000),('En1','net_income','2023-12-31',14_997_000_000),('En2','net_income','2024-12-31',7_091_000_000)]:
+        records[eid]={'kind':'financial','ticker':'TSLA','metric':metric,'period_end':end,'filed':'2025-01-01','value':value}
+    summary=calculated_summary(records,'TSLA')
+    assert 'up from $96.773 billion' in summary
+    assert 'down from $14.997 billion' in summary
+    assert 'peaked' not in summary

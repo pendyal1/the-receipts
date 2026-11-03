@@ -1,5 +1,7 @@
 {
-  "deploy_url": "",
-  "authors": ["ap4839@columbia.edu"],
+  "deploy_url": "https://the-receipts-7l4zrnepoq-ue.a.run.app",
+  "authors": [
+    "ap4839@columbia.edu"
+  ],
   "path": "research"
 }
