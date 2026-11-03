@@ -479,15 +479,17 @@ Open `http://localhost:8000`. When ADC is absent locally, the model adapter can 
 
 ## Tests
 
-Final local verification: **33 tests passed**. The public Cloud Run service also returned HTTP 200 for the homepage, health, catalog and a complete, cited `/chat` investigation. A second browser-driven live investigation completed with working source links, receipt cards and charts.
+Local regression verification (November 3): **47 tests passed**. The public Cloud Run service also returned HTTP 200 for the homepage, health, catalog and a complete, cited `/chat` investigation. A second browser-driven live investigation completed with working source links, receipt cards and charts.
 
 ```bash
 uv run pytest -q
+# Real deployed prompts and edge cases (uses Vertex AI quota):
+uv run python -m scripts.test_live
 uv run python -m compileall -q app.py receipts scripts
 node --check static/app.js
 ```
 
-Tests include real archived SEC/price parsing, as-of filing filters, annual-duration selection, no silent restatement substitution, total-versus-contract revenue, integrity checks, offline gaps, request validation, separate sessions, Project 1 response compatibility, actual concurrent fresh-context Researchers, bounded gap filling, citation rejection and invalid claim/outcome links. Unit/model-orchestration tests use fake model calls; the separate sample investigations make actual Vertex AI and source calls.
+Tests include real archived SEC/price parsing, as-of filing filters, annual-duration selection, no silent restatement substitution, total-versus-contract revenue, integrity checks, offline gaps, request validation, separate sessions, Project 1 response compatibility, actual concurrent fresh-context Researchers, bounded gap filling, citation rejection and invalid claim/outcome links. Unit/model-orchestration tests use fake model calls; the separate sample investigations and `scripts.test_live` make actual Vertex AI and source calls. The deployed prompt and edge-case review is recorded in [evaluations/live-suite/README.md](evaluations/live-suite/README.md), including failures found before fixes and the verified results afterward.
 
 ## Cloud Run and continuous deployment
 

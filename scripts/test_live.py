@@ -90,6 +90,17 @@ def inspect(case, http_status, data):
             if not any(r.get('ticker')=='TSLA' and r.get('metric')=='capex' and r.get('period_end')==year+'-12-31' and r.get('value')==value for r in evidence): errors.append(f'Missing exact Tesla {year} capex')
     if case['id']=='cloud_missing_metric' and status=='complete':
         if not any(r.get('ticker')=='AMZN' and r.get('kind')=='source_gap' and r.get('metric')=='capex' for r in evidence): errors.append('Amazon capex gap not explicit')
+    anchors={
+        'chips_fiscal_dates':[('NVDA','revenue','2025-01-26',130_497_000_000),('NVDA','operating_income','2025-01-26',81_453_000_000),('AMD','operating_income','2024-12-28',1_900_000_000),('INTC','operating_income','2024-12-28',-11_678_000_000)],
+        'apple_live_sources':[('AAPL','revenue','2024-09-28',391_035_000_000),('AAPL','net_income','2024-09-28',93_736_000_000)],
+    }
+    if status=='complete':
+        for ticker,metric,end,value in anchors.get(case['id'],[]):
+            if not any(r.get('ticker')==ticker and r.get('metric')==metric and r.get('period_end')==end and r.get('value')==value for r in evidence): errors.append(f'Missing exact anchor: {ticker} {metric} {end}')
+    if case['id']=='no_eligible_filings' and status=='complete':
+        if any(r['kind'] in ('claim','financial') for r in evidence): errors.append('Invented an eligible filing for the empty window')
+        if (inv.get('report') or {}).get('verdict')!='insufficient evidence': errors.append('Empty window received a confident verdict')
+    if case['id']=='scope_in_question' and status=='complete' and inv.get('scope')!=scoped(['TSLA']): errors.append('Natural-language companies/dates were parsed incorrectly')
     return list(dict.fromkeys(errors))
 
 
@@ -109,21 +120,57 @@ def perform(base, case, out):
     return result
 
 
+def session_checks(base, out):
+    # Evidence preview seeds the same bounded question/scope context as /chat.
+    seed=requests.post(base+'/evidence',json={'message':CASES[0]['message'],'scope':CASES[0]['scope']},timeout=290)
+    seed.raise_for_status();first=seed.json();sid=first['session_id']
+    records={'seed':{'http_status':seed.status_code,'session_id':sid,'scope':first['investigation']['scope']}}
+    checks=[]
+    def follow():
+        r=requests.post(base+'/chat',json={'message':'What was missing from that comparison?','session_id':sid},timeout=290)
+        return {'http_status':r.status_code,'data':r.json()}
+    with ThreadPoolExecutor(max_workers=1) as pool:
+        future=pool.submit(follow);time.sleep(1)
+        r=requests.post(base+'/clear',json={'session_id':sid},timeout=25)
+        records['clear_while_active']={'http_status':r.status_code,'data':r.json()}
+        checks.append({'id':'clear_while_active','passed':r.status_code==409})
+        records['followup']=future.result()
+    response=records['followup'];d=response['data']
+    checks.append({'id':'followup','passed':response['http_status']==200 and d.get('session_id')==sid and d.get('investigation',{}).get('status')=='complete' and d['investigation'].get('scope')==CASES[0]['scope']})
+    r=requests.post(base+'/chat',json={'message':'What was missing from that comparison?'},timeout=290);d=r.json()
+    records['separate_session']={'http_status':r.status_code,'data':d}
+    checks.append({'id':'separate_session','passed':r.status_code==200 and d.get('session_id')!=sid and d.get('investigation',{}).get('status')=='clarification' and not d.get('investigation',{}).get('evidence')})
+    r=requests.post(base+'/clear',json={'session_id':sid},timeout=25)
+    records['clear_idle']={'http_status':r.status_code,'data':r.json()}
+    checks.append({'id':'clear_idle','passed':r.status_code==200})
+    r=requests.post(base+'/chat',json={'message':'What was missing from that comparison?','session_id':sid},timeout=290);d=r.json()
+    records['after_clear']={'http_status':r.status_code,'data':d}
+    checks.append({'id':'after_clear','passed':r.status_code==200 and d.get('session_id')!=sid and d.get('investigation',{}).get('status')=='clarification' and not d.get('investigation',{}).get('evidence')})
+    (out/'sessions.json').write_text(json.dumps({'checks':checks,'records':records},indent=2))
+    for check in checks: print(json.dumps(check),flush=True)
+    return checks
+
+
 if __name__=='__main__':
     parser=argparse.ArgumentParser();parser.add_argument('--base-url',default=json.loads(Path('submission.json').read_text())['deploy_url']);parser.add_argument('--only');parser.add_argument('--out',default='evaluations/live-suite')
+    parser.add_argument('--sessions-only',action='store_true')
     args=parser.parse_args();out=Path(args.out);out.mkdir(parents=True,exist_ok=True)
+    version=requests.get(args.base_url+'/health',timeout=25).json()
     results=[]
-    if not args.only:
+    if not args.only and not args.sessions_only:
         for name,payload,code in VALIDATION:
             endpoint='/evidence' if name=='preview_requires_scope' else '/chat'
             r=requests.post(args.base_url+endpoint,json=payload,timeout=25)
             result={'id':name,'http_status':r.status_code,'expected':code,'passed':r.status_code==code,'body':r.json()};results.append(result)
             print(json.dumps(result),flush=True)
         (out/'validation.json').write_text(json.dumps(results,indent=2))
-    selected=[c for c in CASES if not args.only or c['id'] in args.only.split(',')]
+    selected=[] if args.sessions_only else [c for c in CASES if not args.only or c['id'] in args.only.split(',')]
     with ThreadPoolExecutor(max_workers=2) as pool:
         futures=[pool.submit(perform,args.base_url,case,out) for case in selected]
         cases=[future.result() for future in as_completed(futures)]
-    failed=sum(bool(c['automated_errors']) for c in cases)+sum(not r['passed'] for r in results)
-    print(json.dumps({'prompts':len(cases),'validation_requests':len(results),'failed':failed}),flush=True)
+    sessions=session_checks(args.base_url,out) if not args.only else []
+    failed=sum(bool(c['automated_errors']) for c in cases)+sum(not r['passed'] for r in results)+sum(not r['passed'] for r in sessions)
+    summary={'tested_at':datetime.now(timezone.utc).isoformat(),'base_url':args.base_url,'deployment':version,'prompts':len(cases),'validation_requests':len(results),'session_checks':len(sessions),'failed':failed}
+    (out/('sessions-run.json' if args.sessions_only else 'run.json')).write_text(json.dumps(summary,indent=2))
+    print(json.dumps(summary),flush=True)
     sys.exit(1 if failed else 0)

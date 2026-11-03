@@ -1,0 +1,7 @@
+{
+  "status": "ok",
+  "model": "gemini-3.5-flash-lite",
+  "snapshot_files": 66,
+  "revision": "the-receipts-00007-54g",
+  "commit": "d134d5816fe598a0026ac0d48ce51136dc7e1f6b"
+}

@@ -1,0 +1,22 @@
+{
+  "response": "Which company and what historical time period would you like to investigate? For example: What were Apple's financial results and management claims in fiscal year 2022?",
+  "session_id": "0a0555b9-3164-43e7-9c1b-5b5212a8f4d1",
+  "tool_calls": [
+    {
+      "agent": "Lead",
+      "name": "plan",
+      "args": {
+        "fresh_context": true
+      },
+      "result": "{\"clarification\": \"Which company and what historical time period would you like to investigate? For example: What were Apple's financial results and management claims in fiscal year 2022?\"}",
+      "elapsed_ms": 2313
+    }
+  ],
+  "investigation": {
+    "status": "clarification",
+    "report": null,
+    "evidence": [],
+    "limits": [],
+    "rounds": 0
+  }
+}

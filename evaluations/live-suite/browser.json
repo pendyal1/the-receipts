@@ -1,0 +1,38 @@
+{
+  "deployment": {
+    "status": "ok",
+    "model": "gemini-3.5-flash-lite",
+    "snapshot_files": 66,
+    "revision": "the-receipts-00008-864",
+    "commit": "7f547f5fc37f98778ade66b051b2d6b9b628055c"
+  },
+  "checks": [
+    {
+      "id": "blank_question",
+      "passed": true,
+      "observation": "Browser required-field message; no investigation started."
+    },
+    {
+      "id": "reversed_dates",
+      "passed": true,
+      "observation": "Dates-in-order message; no investigation started."
+    },
+    {
+      "id": "default_investigation",
+      "passed": true,
+      "question": "Did Tesla deliver on its plans after 2022?",
+      "observation": "Completed with 53 source records and 21 research-log entries. Revenue $97.69B, net profit $7.09B, cash capital spending $11.34B for 2024."
+    },
+    {
+      "id": "citation_navigation",
+      "passed": true,
+      "observation": "Result citation opened E730dbabced: SEC 10-K filed 2023-01-31, with quoted ranges, URL and provenance."
+    },
+    {
+      "id": "performance_chart",
+      "passed": true,
+      "observation": "Chart rendered one series with five points, one path and width 930."
+    }
+  ],
+  "screenshot": "docs/screenshots/live-tested.png"
+}

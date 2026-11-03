@@ -1,0 +1,45 @@
+{
+  "case": {
+    "id": "conflicting_company_scope",
+    "message": "Compare Apple and Microsoft revenue and profitability.",
+    "scope": {
+      "tickers": [
+        "TSLA"
+      ],
+      "start": "2020-01-01",
+      "as_of": "2023-03-01",
+      "through": "2025-03-01"
+    },
+    "expect": "clarification"
+  },
+  "tested_at": "2026-11-03T23:01:30.010021+00:00",
+  "http_status": 200,
+  "seconds": 11.05,
+  "data": {
+    "response": "The model request did not complete (JSONDecodeError). You can still open a sourced evidence preview below.",
+    "session_id": "c82ae4fa-2195-4e3c-9ca0-3ffb6df77a6f",
+    "tool_calls": [
+      {
+        "agent": "Lead",
+        "name": "plan",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"error\": \"The model request did not complete (JSONDecodeError).\"}",
+        "elapsed_ms": 10923
+      }
+    ],
+    "investigation": {
+      "status": "unavailable",
+      "report": null,
+      "evidence": [],
+      "limits": [
+        "The model request did not complete (JSONDecodeError)."
+      ],
+      "rounds": 0
+    }
+  },
+  "automated_errors": [
+    "Expected clarification before research"
+  ]
+}

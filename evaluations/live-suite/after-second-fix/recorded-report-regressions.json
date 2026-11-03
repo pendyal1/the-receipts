@@ -1,0 +1,34 @@
+[
+  {
+    "case": "unknown_ticker",
+    "fixture": "after-first-fix",
+    "expected_valid": true,
+    "passed": true,
+    "errors": []
+  },
+  {
+    "case": "cloud_missing_metric",
+    "fixture": "after-first-fix",
+    "expected_valid": false,
+    "passed": true,
+    "errors": [
+      "Claim receipt Eb10bcd6832 uses a different metric or a period ending before the management statement. Allowed outcome IDs: []. Use only those IDs for the matching component, or mark not testable with no outcome_ids. Positive cash flow alone cannot verify liquidity sufficiency."
+    ]
+  },
+  {
+    "case": "chips_fiscal_dates",
+    "fixture": "after-first-fix",
+    "expected_valid": false,
+    "passed": true,
+    "errors": [
+      "Claim receipt E294075c419 uses a different metric or a period ending before the management statement. Allowed outcome IDs: []. Use only those IDs for the matching component, or mark not testable with no outcome_ids. Positive cash flow alone cannot verify liquidity sufficiency."
+    ]
+  },
+  {
+    "case": "tesla_spending",
+    "fixture": "initial",
+    "expected_valid": true,
+    "passed": true,
+    "errors": []
+  }
+]

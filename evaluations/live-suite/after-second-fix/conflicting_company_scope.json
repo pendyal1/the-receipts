@@ -1,0 +1,41 @@
+{
+  "case": {
+    "id": "conflicting_company_scope",
+    "message": "Compare Apple and Microsoft revenue and profitability.",
+    "scope": {
+      "tickers": [
+        "TSLA"
+      ],
+      "start": "2020-01-01",
+      "as_of": "2023-03-01",
+      "through": "2025-03-01"
+    },
+    "expect": "clarification"
+  },
+  "tested_at": "2026-11-03T23:13:12.281004+00:00",
+  "http_status": 200,
+  "seconds": 1.78,
+  "data": {
+    "response": "The explicit scope provided contains ticker TSLA (Automakers), but your question asks to compare Apple and Microsoft revenue and profitability. Which scope do you intend? For example, to research Apple and Microsoft, please provide tickers AAPL and MSFT with start, as_of, and through dates (e.g., tickers: [\"AAPL\", \"MSFT\"], start: \"2020-01-01\", as_of: \"2023-03-01\", through: \"2025-03-01\").",
+    "session_id": "acc6cd7a-fae8-4358-a2bc-5edd047145a6",
+    "tool_calls": [
+      {
+        "agent": "Lead",
+        "name": "plan",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"clarification\": \"The explicit scope provided contains ticker TSLA (Automakers), but your question asks to compare Apple and Microsoft revenue and profitability. Which scope do you intend? For example, to research Apple and Microsoft, please provide tickers AAPL and MSFT with start, as_of, and through dates (e.g., tickers: [\\\"AAPL\\\", \\\"MSFT\\\"], start: \\\"2020-01-01\\\", as_of: \\\"2023-03-01\\\", through: \\\"2025-03-01\\\").\", \"scope\": {\"tickers\": [], \"start\": \"\", \"as_of\": \"\", \"through\": \"\"}, \"tasks\": {\"Claims\": \"\", \"Financials\": \"\", \"Peers\": \"\", \"Context\": \"\"}}",
+        "elapsed_ms": 1636
+      }
+    ],
+    "investigation": {
+      "status": "clarification",
+      "report": null,
+      "evidence": [],
+      "limits": [],
+      "rounds": 0
+    }
+  },
+  "automated_errors": []
+}

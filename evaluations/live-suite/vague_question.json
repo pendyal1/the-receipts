@@ -1,0 +1,33 @@
+{
+  "case": {
+    "id": "vague_question",
+    "message": "Is it good?",
+    "expect": "clarification"
+  },
+  "tested_at": "2026-11-03T23:18:03.778391+00:00",
+  "http_status": 200,
+  "seconds": 1.11,
+  "data": {
+    "response": "Please provide a specific company ticker, a start date, a historical knowledge cutoff date (as_of), and an outcome cutoff date (through) for your research question. For example: AAPL, start: 2022-01-01, as_of: 2023-01-01, through: 2024-01-01.",
+    "session_id": "6e522eb5-a0bf-41b7-8375-951eba433ac6",
+    "tool_calls": [
+      {
+        "agent": "Lead",
+        "name": "plan",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"clarification\": \"Please provide a specific company ticker, a start date, a historical knowledge cutoff date (as_of), and an outcome cutoff date (through) for your research question. For example: AAPL, start: 2022-01-01, as_of: 2023-01-01, through: 2024-01-01.\", \"scope\": {\"tickers\": [], \"start\": \"\", \"as_of\": \"\", \"through\": \"\"}, \"tasks\": {\"Claims\": \"\", \"Financials\": \"\", \"Peers\": \"\", \"Context\": \"\"}, \"focus\": \"\"}",
+        "elapsed_ms": 999
+      }
+    ],
+    "investigation": {
+      "status": "clarification",
+      "report": null,
+      "evidence": [],
+      "limits": [],
+      "rounds": 0
+    }
+  },
+  "automated_errors": []
+}

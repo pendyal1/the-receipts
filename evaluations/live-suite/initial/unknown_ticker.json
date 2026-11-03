@@ -1,0 +1,19 @@
+{
+  "case": {
+    "id": "unknown_ticker",
+    "message": "Investigate the historical management claims and results for ZZZZX.",
+    "scope": {
+      "tickers": [
+        "ZZZZX"
+      ],
+      "start": "2020-01-01",
+      "as_of": "2023-03-01",
+      "through": "2025-03-01"
+    },
+    "expect": "unknown"
+  },
+  "seconds": 10.5,
+  "automated_errors": [
+    "'NoneType' object has no attribute 'get'"
+  ]
+}

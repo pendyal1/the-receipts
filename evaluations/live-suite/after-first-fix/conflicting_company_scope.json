@@ -1,0 +1,41 @@
+{
+  "case": {
+    "id": "conflicting_company_scope",
+    "message": "Compare Apple and Microsoft revenue and profitability.",
+    "scope": {
+      "tickers": [
+        "TSLA"
+      ],
+      "start": "2020-01-01",
+      "as_of": "2023-03-01",
+      "through": "2025-03-01"
+    },
+    "expect": "clarification"
+  },
+  "tested_at": "2026-11-03T23:08:21.473666+00:00",
+  "http_status": 200,
+  "seconds": 1.07,
+  "data": {
+    "response": "The question names different companies (Apple and Microsoft) than the explicit scope provided (TSLA). Which scope do you intend? For example, do you want to analyze TSLA from 2020-01-01 as of 2023-03-01 through 2025-03-01, or would you like to update the scope for Apple and Microsoft?",
+    "session_id": "0230f687-af19-4ebd-a044-6d0187c6b5ab",
+    "tool_calls": [
+      {
+        "agent": "Lead",
+        "name": "plan",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"clarification\": \"The question names different companies (Apple and Microsoft) than the explicit scope provided (TSLA). Which scope do you intend? For example, do you want to analyze TSLA from 2020-01-01 as of 2023-03-01 through 2025-03-01, or would you like to update the scope for Apple and Microsoft?\"}",
+        "elapsed_ms": 960
+      }
+    ],
+    "investigation": {
+      "status": "clarification",
+      "report": null,
+      "evidence": [],
+      "limits": [],
+      "rounds": 0
+    }
+  },
+  "automated_errors": []
+}

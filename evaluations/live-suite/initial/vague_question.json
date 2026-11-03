@@ -1,0 +1,33 @@
+{
+  "case": {
+    "id": "vague_question",
+    "message": "Is it good?",
+    "expect": "clarification"
+  },
+  "tested_at": "2026-11-03T23:01:07.451708+00:00",
+  "http_status": 200,
+  "seconds": 1.12,
+  "data": {
+    "response": "Could you please specify which company you would like to investigate and provide a research question with a ticker and dates, for example: 'How did AAPL perform between 2020-01-01 and 2023-01-01?'",
+    "session_id": "fbd4fa52-73f2-42a6-a15d-4b46f42a1a92",
+    "tool_calls": [
+      {
+        "agent": "Lead",
+        "name": "plan",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"clarification\": \"Could you please specify which company you would like to investigate and provide a research question with a ticker and dates, for example: 'How did AAPL perform between 2020-01-01 and 2023-01-01?'\"}",
+        "elapsed_ms": 1004
+      }
+    ],
+    "investigation": {
+      "status": "clarification",
+      "report": null,
+      "evidence": [],
+      "limits": [],
+      "rounds": 0
+    }
+  },
+  "automated_errors": []
+}

@@ -1,0 +1,113 @@
+{
+  "checks": [
+    {
+      "id": "clear_while_active",
+      "passed": true
+    },
+    {
+      "id": "followup",
+      "passed": false
+    },
+    {
+      "id": "separate_session",
+      "passed": true
+    },
+    {
+      "id": "clear_idle",
+      "passed": true
+    },
+    {
+      "id": "after_clear",
+      "passed": true
+    }
+  ],
+  "records": {
+    "clear_while_active": {
+      "http_status": 409,
+      "data": {
+        "detail": "Wait for the active investigation to finish before clearing it."
+      }
+    },
+    "followup": {
+      "http_status": 200,
+      "data": {
+        "response": "Could you please specify which comparison you are referring to, or provide a new historical research question using the previous scope?",
+        "session_id": "f87dc005-1989-4176-9459-9109d217df37",
+        "tool_calls": [
+          {
+            "agent": "Lead",
+            "name": "plan",
+            "args": {
+              "fresh_context": true
+            },
+            "result": "{\"clarification\": \"Could you please specify which comparison you are referring to, or provide a new historical research question using the previous scope?\", \"scope\": {\"tickers\": [\"TSLA\", \"GM\", \"F\"], \"start\": \"2020-01-01\", \"as_of\": \"2023-03-01\", \"through\": \"2025-03-01\"}, \"tasks\": {\"Claims\": \"\", \"Financials\": \"\", \"Peers\": \"\", \"Context\": \"\"}, \"focus\": \"\"}",
+            "elapsed_ms": 988
+          }
+        ],
+        "investigation": {
+          "status": "clarification",
+          "report": null,
+          "evidence": [],
+          "limits": [],
+          "rounds": 0
+        }
+      }
+    },
+    "separate_session": {
+      "http_status": 200,
+      "data": {
+        "response": "Please specify the companies, start date, historical knowledge cutoff (as_of), and outcome cutoff (through) for your comparison question. For example: AAPL, start=2022-01-01, as_of=2023-01-01, through=2024-01-01.",
+        "session_id": "e64faef6-fcbb-4f77-888c-53197a6541e1",
+        "tool_calls": [
+          {
+            "agent": "Lead",
+            "name": "plan",
+            "args": {
+              "fresh_context": true
+            },
+            "result": "{\"clarification\": \"Please specify the companies, start date, historical knowledge cutoff (as_of), and outcome cutoff (through) for your comparison question. For example: AAPL, start=2022-01-01, as_of=2023-01-01, through=2024-01-01.\", \"scope\": {\"tickers\": [], \"start\": \"\", \"as_of\": \"\", \"through\": \"\"}, \"tasks\": {\"Claims\": \"\", \"Financials\": \"\", \"Peers\": \"\", \"Context\": \"\"}, \"focus\": \"\"}",
+            "elapsed_ms": 1061
+          }
+        ],
+        "investigation": {
+          "status": "clarification",
+          "report": null,
+          "evidence": [],
+          "limits": [],
+          "rounds": 0
+        }
+      }
+    },
+    "clear_idle": {
+      "http_status": 200,
+      "data": {
+        "status": "ok"
+      }
+    },
+    "after_clear": {
+      "http_status": 200,
+      "data": {
+        "response": "Please specify the companies and the date range (start, historical knowledge cutoff as_of, and outcome cutoff through) you would like to compare, for example: ticker MSFT, start 2022-01-01, as_of 2023-01-01, through 2024-01-01.",
+        "session_id": "f56a9766-ec66-45b1-bba4-fb04ce8d866f",
+        "tool_calls": [
+          {
+            "agent": "Lead",
+            "name": "plan",
+            "args": {
+              "fresh_context": true
+            },
+            "result": "{\"clarification\": \"Please specify the companies and the date range (start, historical knowledge cutoff as_of, and outcome cutoff through) you would like to compare, for example: ticker MSFT, start 2022-01-01, as_of 2023-01-01, through 2024-01-01.\", \"scope\": {\"tickers\": [], \"start\": \"\", \"as_of\": \"\", \"through\": \"\"}, \"tasks\": {\"Claims\": \"\", \"Financials\": \"\", \"Peers\": \"\", \"Context\": \"\"}}",
+            "elapsed_ms": 1147
+          }
+        ],
+        "investigation": {
+          "status": "clarification",
+          "report": null,
+          "evidence": [],
+          "limits": [],
+          "rounds": 0
+        }
+      }
+    }
+  }
+}

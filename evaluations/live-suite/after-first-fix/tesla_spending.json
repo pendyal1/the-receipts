@@ -1,0 +1,45 @@
+{
+  "case": {
+    "id": "tesla_spending",
+    "message": "Did Tesla stay within its stated 2023 and 2024 capital-spending outlook? Give the quoted ranges, actual cash PP&E spending, and compare revenue and net income with GM and Ford.",
+    "scope": {
+      "tickers": [
+        "TSLA",
+        "GM",
+        "F"
+      ],
+      "start": "2020-01-01",
+      "as_of": "2023-03-01",
+      "through": "2025-03-01"
+    },
+    "expect": "complete"
+  },
+  "tested_at": "2026-11-03T23:07:28.630830+00:00",
+  "http_status": 200,
+  "seconds": 1.57,
+  "data": {
+    "response": "The scope covers 2023 and 2024 capital-spending outcomes, but the provided as_of date is 2023-03-01, meaning 2024 outcomes and full 2023 actuals are beyond known-then evidence. I will research the stated 2023 outlook available by 2023-03-01 and compare revenue and net income with GM and Ford up to that date, while 2024 outcomes cannot be evaluated.",
+    "session_id": "c31d40bd-704a-4ca8-89d6-516f1174c770",
+    "tool_calls": [
+      {
+        "agent": "Lead",
+        "name": "plan",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"clarification\": \"The scope covers 2023 and 2024 capital-spending outcomes, but the provided as_of date is 2023-03-01, meaning 2024 outcomes and full 2023 actuals are beyond known-then evidence. I will research the stated 2023 outlook available by 2023-03-01 and compare revenue and net income with GM and Ford up to that date, while 2024 outcomes cannot be evaluated.\", \"scope\": {\"tickers\": [\"TSLA\", \"GM\", \"F\"]}, \"tasks\": {\"Claims\": \"Research stated 2023 capital spending outlook\", \"Financials\": \"Compare available revenue and net income for TSLA, GM, and F\", \"Peers\": \"Compare GM and F financial results against TSLA within the known-then period ending 2023-03-01\"}}",
+        "elapsed_ms": 1452
+      }
+    ],
+    "investigation": {
+      "status": "clarification",
+      "report": null,
+      "evidence": [],
+      "limits": [],
+      "rounds": 0
+    }
+  },
+  "automated_errors": [
+    "Expected completed investigation, got clarification"
+  ]
+}

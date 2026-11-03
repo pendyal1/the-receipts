@@ -1,0 +1,790 @@
+{
+  "case": {
+    "id": "unknown_ticker",
+    "message": "Investigate the historical management claims and results for ZZZZX.",
+    "scope": {
+      "tickers": [
+        "ZZZZX"
+      ],
+      "start": "2020-01-01",
+      "as_of": "2023-03-01",
+      "through": "2025-03-01"
+    },
+    "expect": "unknown"
+  },
+  "tested_at": "2026-11-03T23:08:27.213560+00:00",
+  "http_status": 200,
+  "seconds": 10.55,
+  "data": {
+    "response": "The report did not pass evidence-reference validation. Collected sources remain available; no unverified report was published. You can still open a sourced evidence preview below.",
+    "session_id": "dae99dff-591f-4b7b-b10b-9c0150480ac4",
+    "tool_calls": [
+      {
+        "agent": "Lead",
+        "name": "plan",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"clarification\": \"\", \"scope\": {\"tickers\": [\"ZZZZX\"]}, \"tasks\": {}}",
+        "elapsed_ms": 792
+      },
+      {
+        "agent": "Financials",
+        "name": "research_decision",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"calls\": [{\"tool\": \"financials_then\", \"ticker\": \"ZZZZX\"}], \"findings\": [], \"gaps\": []}",
+        "elapsed_ms": 1004
+      },
+      {
+        "agent": "Claims",
+        "name": "research_decision",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"calls\": [{\"tool\": \"claims\", \"ticker\": \"ZZZZX\"}], \"findings\": [], \"gaps\": []}",
+        "elapsed_ms": 1051
+      },
+      {
+        "agent": "Peers",
+        "name": "research_decision",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"calls\": [{\"tool\": \"financials_later\", \"ticker\": \"ZZZZX\"}], \"findings\": [], \"gaps\": []}",
+        "elapsed_ms": 1083
+      },
+      {
+        "agent": "Context",
+        "name": "research_decision",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"calls\": [{\"tool\": \"prices\", \"ticker\": \"ZZZZX\"}, {\"tool\": \"macro\", \"ticker\": \"ZZZZX\"}], \"findings\": [], \"gaps\": [\"Awaiting tool outputs for prices and macro data.\"]}",
+        "elapsed_ms": 1219
+      },
+      {
+        "agent": "Financials",
+        "name": "financials_then",
+        "args": {
+          "ticker": "ZZZZX",
+          "tickers": [
+            "ZZZZX"
+          ],
+          "start": "2020-01-01",
+          "as_of": "2023-03-01",
+          "through": "2025-03-01"
+        },
+        "result": "[{\"kind\": \"source_gap\", \"ticker\": \"ZZZZX\", \"error\": \"ZZZZX was not found in the SEC ticker directory. Foreign/private companies are not covered.\", \"id\": \"E58f81489cb\", \"phase\": \"coverage_gap\"}]",
+        "elapsed_ms": 287
+      },
+      {
+        "agent": "Claims",
+        "name": "claims",
+        "args": {
+          "ticker": "ZZZZX",
+          "tickers": [
+            "ZZZZX"
+          ],
+          "start": "2020-01-01",
+          "as_of": "2023-03-01",
+          "through": "2025-03-01"
+        },
+        "result": "[{\"kind\": \"source_gap\", \"ticker\": \"ZZZZX\", \"error\": \"ZZZZX was not found in the SEC ticker directory. Foreign/private companies are not covered.\", \"id\": \"E58f81489cb\", \"phase\": \"coverage_gap\"}]",
+        "elapsed_ms": 413
+      },
+      {
+        "agent": "Peers",
+        "name": "financials_later",
+        "args": {
+          "ticker": "ZZZZX",
+          "tickers": [
+            "ZZZZX"
+          ],
+          "start": "2020-01-01",
+          "as_of": "2023-03-01",
+          "through": "2025-03-01"
+        },
+        "result": "[{\"kind\": \"source_gap\", \"ticker\": \"ZZZZX\", \"error\": \"ZZZZX was not found in the SEC ticker directory. Foreign/private companies are not covered.\", \"id\": \"E58f81489cb\", \"phase\": \"coverage_gap\"}]",
+        "elapsed_ms": 584
+      },
+      {
+        "agent": "Context",
+        "name": "prices",
+        "args": {
+          "ticker": "ZZZZX",
+          "tickers": [
+            "ZZZZX"
+          ],
+          "start": "2020-01-01",
+          "as_of": "2023-03-01",
+          "through": "2025-03-01"
+        },
+        "result": "[{\"kind\": \"source_gap\", \"ticker\": \"ZZZZX\", \"error\": \"ZZZZX was not found in the SEC ticker directory. Foreign/private companies are not covered.\", \"id\": \"E58f81489cb\", \"phase\": \"coverage_gap\"}]",
+        "elapsed_ms": 711
+      },
+      {
+        "agent": "Context",
+        "name": "macro",
+        "args": {
+          "ticker": "ZZZZX",
+          "tickers": [
+            "ZZZZX"
+          ],
+          "start": "2020-01-01",
+          "as_of": "2023-03-01",
+          "through": "2025-03-01"
+        },
+        "result": "[{\"kind\": \"macro\", \"series\": \"FEDFUNDS\", \"label\": \"Effective federal funds rate\", \"unit\": \"percent\", \"url\": \"https://fred.stlouisfed.org/series/FEDFUNDS\", \"provenance\": {\"url\": \"https://fred.stlouisfed.org/graph/fredgraph.csv?id=FEDFUNDS&cosd=2020-01-01&coed=2025-03-01\", \"retrieved_at\": \"2026-11-03T06:05:25.621595+00:00\", \"sha256\": \"794e22c61dda5bf75d442ff0658dd382a70d044dff7a7e40638b83fe591473ed\"}, \"scope\": \"Current revised historical series, NOT an as-of vintage. Excluded from the historical knowledge room.\", \"id\": \"E70ea691411\", \"phase\": \"hindsight_context\", \"observation_count\": 63, \"first\": {\"date\": \"2020-01-01\", \"value\": 1.55}, \"last\": {\"date\": \"2025-03-01\", \"value\": 4.33}}, {\"kind\": \"macro\", \"series\": \"CPIAUCSL\", \"label\": \"CPI, all urban consumers, seasonally adjusted\", \"unit\": \"index 1982–84=100\", \"url\": \"https://fred.stlouisfed.org/series/CPIAUCSL\", \"provenance\": {\"url\": \"https://fred.stlouisfed.org/graph/fredgraph.csv?id=CPIAUCSL&cosd=2020-01-01&coed=2025-03-01\", \"retrieved_at\": \"2026-11-03T06:05:26.072306+00:00\", \"sha256\": \"6e242aa0319aa1878423ace6c71bd0a67bfb6fb656fc2a0ff1f356329d98e9d5\"}, \"scope\": \"Current revised historical series, NOT an as-of vintage. Excluded from the historical knowledge room.\", \"id\": \"Ecdcd46e32b\", \"phase\": \"hindsight_context\", \"observation_count\": 63, \"first\": {\"date\": \"2020-01-01\", \"value\": 259.127}, \"last\": {\"date\": \"2025-03-01\", \"value\": 319.785}}]",
+        "elapsed_ms": 1
+      },
+      {
+        "agent": "Financials",
+        "name": "research_decision",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"calls\": [], \"findings\": [{\"text\": \"ZZZZX was not found in the SEC ticker directory according to the financials_then tool coverage gap.\", \"evidence_ids\": [\"E58f81489cb\"]}], \"gaps\": [\"No historical financials or management claims are available for ZZZZX due to coverage gap.\"]}",
+        "elapsed_ms": 1167
+      },
+      {
+        "agent": "Claims",
+        "name": "research_decision",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"calls\": [], \"findings\": [{\"text\": \"ZZZZX was not found in the SEC ticker directory, and foreign or private companies are not covered.\", \"evidence_ids\": [\"E58f81489cb\"]}], \"gaps\": [\"No primary ticker data or management claims available for ZZZZX.\"]}",
+        "elapsed_ms": 1181
+      },
+      {
+        "agent": "Peers",
+        "name": "research_decision",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"calls\": [], \"findings\": [{\"text\": \"ZZZZX was not found in the SEC ticker directory and is not covered by financials_later.\", \"evidence_ids\": [\"E58f81489cb\"]}], \"gaps\": [\"No financial or historical evidence available for ZZZZX due to coverage gap.\"]}",
+        "elapsed_ms": 1108
+      },
+      {
+        "agent": "Context",
+        "name": "research_decision",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"calls\": [], \"findings\": [{\"text\": \"ZZZZX was not found in the SEC ticker directory and is not covered in price tools.\", \"evidence_ids\": [\"E58f81489cb\"]}], \"gaps\": [\"No historical financial statements or management claims are available for ZZZZX due to coverage gap.\"]}",
+        "elapsed_ms": 1077
+      },
+      {
+        "agent": "Lead",
+        "name": "review_gaps",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"gap_tasks\": [], \"remaining_limits\": [\"ZZZZX is not present in SEC directory or available coverage.\"]}",
+        "elapsed_ms": 800
+      },
+      {
+        "agent": "Writer",
+        "name": "cross_examine_ranges",
+        "args": {},
+        "result": "{\"range_checks\": [], \"financial_changes\": []}",
+        "elapsed_ms": 0
+      },
+      {
+        "agent": "Writer",
+        "name": "write_report",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"title\": \"Investigation of ZZZZX\", \"verdict\": \"insufficient evidence\", \"summary\": \"No historical financial statements, management claims, or coverage were found for ZZZZX because the ticker is not present in the SEC directory [E58f81489cb].\", \"sections\": [{\"title\": \"What was knowable then\", \"text\": \"ZZZZX was not found in the SEC ticker directory according to the financials_then tool coverage gap [E58f81489cb]. No historical management claims or primary ticker data were available [E58f81489cb].\"}, {\"title\": \"What happened later\", \"text\": \"There are no historical financial statements, filings, or subsequent outcome metrics available for ZZZZX due to the coverage gap [E58f81489cb].\"}, {\"title\": \"The peer test\", \"text\": \"No peer comparison is possible for ZZZZX because the company is not covered in financials or peer analysis tools [E58f81489cb].\"}, {\"title\": \"Cross-examination\", \"text\": \"No relevant management passage or verifiable forecast can be tested due to the total absence of company records and coverage [E58f81489cb].\"}], \"receipts\": [], \"limits\": [\"ZZZZX is not present in SEC directory or available coverage.\", \"No historical financials, management claims, or peer data exist in the retrieved evidence.\"]}",
+        "elapsed_ms": 1768
+      },
+      {
+        "agent": "Writer",
+        "name": "fact_check_report",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"title\": \"Investigation of ZZZZX\", \"verdict\": \"insufficient evidence\", \"summary\": \"No historical financial statements, management claims, or coverage were found for ZZZZX because the ticker is not present in the SEC directory [E58f81489cb].\", \"sections\": [{\"title\": \"What was knowable then\", \"text\": \"ZZZZX was not found in the SEC ticker directory according to the financials_then tool coverage gap [E58f81489cb]. No historical management claims or primary ticker data were available [E58f81489cb].\"}, {\"title\": \"What happened later\", \"text\": \"There are no historical financial statements, filings, or subsequent outcome metrics available for ZZZZX due to the coverage gap [E58f81489cb].\"}, {\"title\": \"The peer test\", \"text\": \"No peer comparison is possible for ZZZZX because the company is not covered in financials or peer analysis tools [E58f81489cb].\"}, {\"title\": \"Cross-examination\", \"text\": \"No relevant management passage or verifiable forecast can be tested due to the total absence of company records and coverage [E58f81489cb].\"}], \"receipts\": [], \"limits\": [\"ZZZZX is not present in SEC directory or available coverage.\", \"No historical financials, management claims, or peer data exist in the retrieved evidence.\"]}",
+        "elapsed_ms": 2563
+      },
+      {
+        "agent": "Writer",
+        "name": "repair_citations",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"title\": \"Investigation of ZZZZX\", \"verdict\": \"insufficient evidence\", \"summary\": \"No historical financial statements, management claims, or coverage were found for ZZZZX because the ticker is absent from available coverage [E58f81489cb].\", \"sections\": [{\"title\": \"What was knowable then\", \"text\": \"ZZZZX was not found in the SEC ticker directory according to the financials_then tool coverage gap [E58f81489cb]. No historical management claims or primary ticker data were available [E58f81489cb].\"}, {\"title\": \"What happened later\", \"text\": \"There are no historical financial statements, filings, or subsequent outcome metrics available for ZZZZX due to the coverage gap [E58f81489cb].\"}, {\"title\": \"The peer test\", \"text\": \"No peer comparison is possible for ZZZZX because the company is not covered in financials or peer analysis tools [E58f81489cb].\"}, {\"title\": \"Cross-examination\", \"text\": \"No relevant management passage or verifiable forecast can be tested due to the total absence of company records and coverage [E58f81489cb].\"}], \"receipts\": [], \"limits\": [\"ZZZZX is not present in SEC directory or available coverage.\", \"No historical financials, management claims, or peer data exist in the retrieved evidence.\"]}",
+        "elapsed_ms": 1481
+      }
+    ],
+    "investigation": {
+      "status": "unavailable",
+      "report": null,
+      "evidence": [
+        {
+          "kind": "source_gap",
+          "ticker": "ZZZZX",
+          "error": "ZZZZX was not found in the SEC ticker directory. Foreign/private companies are not covered.",
+          "id": "E58f81489cb",
+          "phase": "coverage_gap"
+        },
+        {
+          "kind": "macro",
+          "series": "FEDFUNDS",
+          "label": "Effective federal funds rate",
+          "unit": "percent",
+          "observations": [
+            {
+              "date": "2020-01-01",
+              "value": 1.55
+            },
+            {
+              "date": "2020-02-01",
+              "value": 1.58
+            },
+            {
+              "date": "2020-03-01",
+              "value": 0.65
+            },
+            {
+              "date": "2020-04-01",
+              "value": 0.05
+            },
+            {
+              "date": "2020-05-01",
+              "value": 0.05
+            },
+            {
+              "date": "2020-06-01",
+              "value": 0.08
+            },
+            {
+              "date": "2020-07-01",
+              "value": 0.09
+            },
+            {
+              "date": "2020-08-01",
+              "value": 0.1
+            },
+            {
+              "date": "2020-09-01",
+              "value": 0.09
+            },
+            {
+              "date": "2020-10-01",
+              "value": 0.09
+            },
+            {
+              "date": "2020-11-01",
+              "value": 0.09
+            },
+            {
+              "date": "2020-12-01",
+              "value": 0.09
+            },
+            {
+              "date": "2021-01-01",
+              "value": 0.09
+            },
+            {
+              "date": "2021-02-01",
+              "value": 0.08
+            },
+            {
+              "date": "2021-03-01",
+              "value": 0.07
+            },
+            {
+              "date": "2021-04-01",
+              "value": 0.07
+            },
+            {
+              "date": "2021-05-01",
+              "value": 0.06
+            },
+            {
+              "date": "2021-06-01",
+              "value": 0.08
+            },
+            {
+              "date": "2021-07-01",
+              "value": 0.1
+            },
+            {
+              "date": "2021-08-01",
+              "value": 0.09
+            },
+            {
+              "date": "2021-09-01",
+              "value": 0.08
+            },
+            {
+              "date": "2021-10-01",
+              "value": 0.08
+            },
+            {
+              "date": "2021-11-01",
+              "value": 0.08
+            },
+            {
+              "date": "2021-12-01",
+              "value": 0.08
+            },
+            {
+              "date": "2022-01-01",
+              "value": 0.08
+            },
+            {
+              "date": "2022-02-01",
+              "value": 0.08
+            },
+            {
+              "date": "2022-03-01",
+              "value": 0.2
+            },
+            {
+              "date": "2022-04-01",
+              "value": 0.33
+            },
+            {
+              "date": "2022-05-01",
+              "value": 0.77
+            },
+            {
+              "date": "2022-06-01",
+              "value": 1.21
+            },
+            {
+              "date": "2022-07-01",
+              "value": 1.68
+            },
+            {
+              "date": "2022-08-01",
+              "value": 2.33
+            },
+            {
+              "date": "2022-09-01",
+              "value": 2.56
+            },
+            {
+              "date": "2022-10-01",
+              "value": 3.08
+            },
+            {
+              "date": "2022-11-01",
+              "value": 3.78
+            },
+            {
+              "date": "2022-12-01",
+              "value": 4.1
+            },
+            {
+              "date": "2023-01-01",
+              "value": 4.33
+            },
+            {
+              "date": "2023-02-01",
+              "value": 4.57
+            },
+            {
+              "date": "2023-03-01",
+              "value": 4.65
+            },
+            {
+              "date": "2023-04-01",
+              "value": 4.83
+            },
+            {
+              "date": "2023-05-01",
+              "value": 5.06
+            },
+            {
+              "date": "2023-06-01",
+              "value": 5.08
+            },
+            {
+              "date": "2023-07-01",
+              "value": 5.12
+            },
+            {
+              "date": "2023-08-01",
+              "value": 5.33
+            },
+            {
+              "date": "2023-09-01",
+              "value": 5.33
+            },
+            {
+              "date": "2023-10-01",
+              "value": 5.33
+            },
+            {
+              "date": "2023-11-01",
+              "value": 5.33
+            },
+            {
+              "date": "2023-12-01",
+              "value": 5.33
+            },
+            {
+              "date": "2024-01-01",
+              "value": 5.33
+            },
+            {
+              "date": "2024-02-01",
+              "value": 5.33
+            },
+            {
+              "date": "2024-03-01",
+              "value": 5.33
+            },
+            {
+              "date": "2024-04-01",
+              "value": 5.33
+            },
+            {
+              "date": "2024-05-01",
+              "value": 5.33
+            },
+            {
+              "date": "2024-06-01",
+              "value": 5.33
+            },
+            {
+              "date": "2024-07-01",
+              "value": 5.33
+            },
+            {
+              "date": "2024-08-01",
+              "value": 5.33
+            },
+            {
+              "date": "2024-09-01",
+              "value": 5.13
+            },
+            {
+              "date": "2024-10-01",
+              "value": 4.83
+            },
+            {
+              "date": "2024-11-01",
+              "value": 4.64
+            },
+            {
+              "date": "2024-12-01",
+              "value": 4.48
+            },
+            {
+              "date": "2025-01-01",
+              "value": 4.33
+            },
+            {
+              "date": "2025-02-01",
+              "value": 4.33
+            },
+            {
+              "date": "2025-03-01",
+              "value": 4.33
+            }
+          ],
+          "url": "https://fred.stlouisfed.org/series/FEDFUNDS",
+          "provenance": {
+            "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=FEDFUNDS&cosd=2020-01-01&coed=2025-03-01",
+            "retrieved_at": "2026-11-03T06:05:25.621595+00:00",
+            "sha256": "794e22c61dda5bf75d442ff0658dd382a70d044dff7a7e40638b83fe591473ed"
+          },
+          "scope": "Current revised historical series, NOT an as-of vintage. Excluded from the historical knowledge room.",
+          "id": "E70ea691411",
+          "phase": "hindsight_context"
+        },
+        {
+          "kind": "macro",
+          "series": "CPIAUCSL",
+          "label": "CPI, all urban consumers, seasonally adjusted",
+          "unit": "index 1982–84=100",
+          "observations": [
+            {
+              "date": "2020-01-01",
+              "value": 259.127
+            },
+            {
+              "date": "2020-02-01",
+              "value": 259.25
+            },
+            {
+              "date": "2020-03-01",
+              "value": 258.076
+            },
+            {
+              "date": "2020-04-01",
+              "value": 256.032
+            },
+            {
+              "date": "2020-05-01",
+              "value": 255.802
+            },
+            {
+              "date": "2020-06-01",
+              "value": 257.042
+            },
+            {
+              "date": "2020-07-01",
+              "value": 258.352
+            },
+            {
+              "date": "2020-08-01",
+              "value": 259.316
+            },
+            {
+              "date": "2020-09-01",
+              "value": 259.997
+            },
+            {
+              "date": "2020-10-01",
+              "value": 260.319
+            },
+            {
+              "date": "2020-11-01",
+              "value": 260.911
+            },
+            {
+              "date": "2020-12-01",
+              "value": 262.045
+            },
+            {
+              "date": "2021-01-01",
+              "value": 262.687
+            },
+            {
+              "date": "2021-02-01",
+              "value": 263.579
+            },
+            {
+              "date": "2021-03-01",
+              "value": 264.961
+            },
+            {
+              "date": "2021-04-01",
+              "value": 266.614
+            },
+            {
+              "date": "2021-05-01",
+              "value": 268.383
+            },
+            {
+              "date": "2021-06-01",
+              "value": 270.654
+            },
+            {
+              "date": "2021-07-01",
+              "value": 271.903
+            },
+            {
+              "date": "2021-08-01",
+              "value": 272.676
+            },
+            {
+              "date": "2021-09-01",
+              "value": 273.91
+            },
+            {
+              "date": "2021-10-01",
+              "value": 276.55
+            },
+            {
+              "date": "2021-11-01",
+              "value": 278.919
+            },
+            {
+              "date": "2021-12-01",
+              "value": 280.845
+            },
+            {
+              "date": "2022-01-01",
+              "value": 282.543
+            },
+            {
+              "date": "2022-02-01",
+              "value": 284.5
+            },
+            {
+              "date": "2022-03-01",
+              "value": 287.674
+            },
+            {
+              "date": "2022-04-01",
+              "value": 288.561
+            },
+            {
+              "date": "2022-05-01",
+              "value": 291.298
+            },
+            {
+              "date": "2022-06-01",
+              "value": 294.957
+            },
+            {
+              "date": "2022-07-01",
+              "value": 294.913
+            },
+            {
+              "date": "2022-08-01",
+              "value": 295.097
+            },
+            {
+              "date": "2022-09-01",
+              "value": 296.349
+            },
+            {
+              "date": "2022-10-01",
+              "value": 298.007
+            },
+            {
+              "date": "2022-11-01",
+              "value": 298.786
+            },
+            {
+              "date": "2022-12-01",
+              "value": 298.832
+            },
+            {
+              "date": "2023-01-01",
+              "value": 300.42
+            },
+            {
+              "date": "2023-02-01",
+              "value": 301.45
+            },
+            {
+              "date": "2023-03-01",
+              "value": 301.821
+            },
+            {
+              "date": "2023-04-01",
+              "value": 302.845
+            },
+            {
+              "date": "2023-05-01",
+              "value": 303.334
+            },
+            {
+              "date": "2023-06-01",
+              "value": 304.014
+            },
+            {
+              "date": "2023-07-01",
+              "value": 304.609
+            },
+            {
+              "date": "2023-08-01",
+              "value": 306.082
+            },
+            {
+              "date": "2023-09-01",
+              "value": 307.276
+            },
+            {
+              "date": "2023-10-01",
+              "value": 307.696
+            },
+            {
+              "date": "2023-11-01",
+              "value": 308.148
+            },
+            {
+              "date": "2023-12-01",
+              "value": 308.741
+            },
+            {
+              "date": "2024-01-01",
+              "value": 309.698
+            },
+            {
+              "date": "2024-02-01",
+              "value": 310.967
+            },
+            {
+              "date": "2024-03-01",
+              "value": 312.345
+            },
+            {
+              "date": "2024-04-01",
+              "value": 313.023
+            },
+            {
+              "date": "2024-05-01",
+              "value": 313.175
+            },
+            {
+              "date": "2024-06-01",
+              "value": 313.044
+            },
+            {
+              "date": "2024-07-01",
+              "value": 313.569
+            },
+            {
+              "date": "2024-08-01",
+              "value": 314.062
+            },
+            {
+              "date": "2024-09-01",
+              "value": 314.732
+            },
+            {
+              "date": "2024-10-01",
+              "value": 315.631
+            },
+            {
+              "date": "2024-11-01",
+              "value": 316.528
+            },
+            {
+              "date": "2024-12-01",
+              "value": 317.604
+            },
+            {
+              "date": "2025-01-01",
+              "value": 318.961
+            },
+            {
+              "date": "2025-02-01",
+              "value": 319.679
+            },
+            {
+              "date": "2025-03-01",
+              "value": 319.785
+            }
+          ],
+          "url": "https://fred.stlouisfed.org/series/CPIAUCSL",
+          "provenance": {
+            "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=CPIAUCSL&cosd=2020-01-01&coed=2025-03-01",
+            "retrieved_at": "2026-11-03T06:05:26.072306+00:00",
+            "sha256": "6e242aa0319aa1878423ace6c71bd0a67bfb6fb656fc2a0ff1f356329d98e9d5"
+          },
+          "scope": "Current revised historical series, NOT an as-of vintage. Excluded from the historical knowledge room.",
+          "id": "Ecdcd46e32b",
+          "phase": "hindsight_context"
+        }
+      ],
+      "limits": [
+        "ZZZZX is not present in SEC directory or available coverage.",
+        "The report did not pass evidence-reference validation. Collected sources remain available; no unverified report was published."
+      ],
+      "rounds": 1,
+      "scope": {
+        "tickers": [
+          "ZZZZX"
+        ],
+        "start": "2020-01-01",
+        "as_of": "2023-03-01",
+        "through": "2025-03-01"
+      }
+    }
+  },
+  "automated_errors": [
+    "Unknown ticker did not receive a useful answer (unavailable)"
+  ]
+}

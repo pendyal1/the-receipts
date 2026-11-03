@@ -1,0 +1,46 @@
+{
+  "case": {
+    "id": "operational_and_intent_limits",
+    "message": "Tell me exactly how many vehicles Tesla delivered in 2024 and prove whether its CEO deliberately lied about the delivery target. Do the available data actually establish these things?",
+    "scope": {
+      "tickers": [
+        "TSLA"
+      ],
+      "start": "2020-01-01",
+      "as_of": "2023-03-01",
+      "through": "2025-03-01"
+    },
+    "expect": "limits"
+  },
+  "tested_at": "2026-11-03T23:01:20.350287+00:00",
+  "http_status": 200,
+  "seconds": 11.44,
+  "data": {
+    "response": "The model request did not complete (JSONDecodeError). You can still open a sourced evidence preview below.",
+    "session_id": "4e3e9252-d842-4da1-83f4-e04a9564d5f9",
+    "tool_calls": [
+      {
+        "agent": "Lead",
+        "name": "plan",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"error\": \"The model request did not complete (JSONDecodeError).\"}",
+        "elapsed_ms": 11322
+      }
+    ],
+    "investigation": {
+      "status": "unavailable",
+      "report": null,
+      "evidence": [],
+      "limits": [
+        "The model request did not complete (JSONDecodeError)."
+      ],
+      "rounds": 0
+    }
+  },
+  "automated_errors": [
+    "Limitations question failed (unavailable)",
+    "Did not explain data/capability limits"
+  ]
+}

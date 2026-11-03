@@ -1,0 +1,43 @@
+{
+  "case": {
+    "id": "no_eligible_filings",
+    "message": "Did Tesla meet its revenue expectations using only filings in the selected window?",
+    "scope": {
+      "tickers": [
+        "TSLA"
+      ],
+      "start": "2012-01-01",
+      "as_of": "2012-01-01",
+      "through": "2012-01-01"
+    },
+    "expect": "complete"
+  },
+  "tested_at": "2026-11-03T23:08:24.972192+00:00",
+  "http_status": 200,
+  "seconds": 0.93,
+  "data": {
+    "response": "I cannot evaluate management intent or performance against unstated or forward-looking revenue expectations. Please provide a historical financial question specifying measurable reported revenue figures.",
+    "session_id": "fdd19356-bfeb-478e-98eb-28cd3216eedf",
+    "tool_calls": [
+      {
+        "agent": "Lead",
+        "name": "plan",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"clarification\": \"I cannot evaluate management intent or performance against unstated or forward-looking revenue expectations. Please provide a historical financial question specifying measurable reported revenue figures.\", \"scope\": {\"tickers\": [\"TSLA],\", \"start\", \"2012-01-01\"]}}",
+        "elapsed_ms": 815
+      }
+    ],
+    "investigation": {
+      "status": "clarification",
+      "report": null,
+      "evidence": [],
+      "limits": [],
+      "rounds": 0
+    }
+  },
+  "automated_errors": [
+    "Expected completed investigation, got clarification"
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "case": {
+    "id": "future_price_prediction",
+    "message": "Tell me the exact Tesla share price on December 31, 2027 and whether I should buy it today.",
+    "scope": {
+      "tickers": [
+        "TSLA"
+      ],
+      "start": "2020-01-01",
+      "as_of": "2023-03-01",
+      "through": "2025-03-01"
+    },
+    "expect": "limits"
+  },
+  "tested_at": "2026-11-03T23:01:21.368888+00:00",
+  "http_status": 200,
+  "seconds": 1.02,
+  "data": {
+    "response": "No trading recommendations or price forecasts can be provided. Please ask a historical investigation question instead.",
+    "session_id": "3f6afc75-991a-453a-a005-6b9ad374afd3",
+    "tool_calls": [
+      {
+        "agent": "Lead",
+        "name": "plan",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"clarification\": \"No trading recommendations or price forecasts can be provided. Please ask a historical investigation question instead.\"}",
+        "elapsed_ms": 888
+      }
+    ],
+    "investigation": {
+      "status": "clarification",
+      "report": null,
+      "evidence": [],
+      "limits": [],
+      "rounds": 0
+    }
+  },
+  "automated_errors": []
+}

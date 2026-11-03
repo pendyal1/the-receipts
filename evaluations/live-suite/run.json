@@ -1,0 +1,14 @@
+{
+  "tested_at": "2026-11-03T23:18:31.052676+00:00",
+  "base_url": "https://the-receipts-7l4zrnepoq-ue.a.run.app",
+  "deployment": {
+    "status": "ok",
+    "model": "gemini-3.5-flash-lite",
+    "snapshot_files": 66,
+    "revision": "the-receipts-00008-864",
+    "commit": "7f547f5fc37f98778ade66b051b2d6b9b628055c"
+  },
+  "prompts": 12,
+  "validation_requests": 12,
+  "failed": 0
+}

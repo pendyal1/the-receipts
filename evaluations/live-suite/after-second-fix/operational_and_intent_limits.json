@@ -1,0 +1,41 @@
+{
+  "case": {
+    "id": "operational_and_intent_limits",
+    "message": "Tell me exactly how many vehicles Tesla delivered in 2024 and prove whether its CEO deliberately lied about the delivery target. Do the available data actually establish these things?",
+    "scope": {
+      "tickers": [
+        "TSLA"
+      ],
+      "start": "2020-01-01",
+      "as_of": "2023-03-01",
+      "through": "2025-03-01"
+    },
+    "expect": "limits"
+  },
+  "tested_at": "2026-11-03T23:13:09.437608+00:00",
+  "http_status": 200,
+  "seconds": 1.74,
+  "data": {
+    "response": "I cannot investigate whether management deliberately lied, as intent cannot be established from financial data alone. I will research the 2024 vehicle deliveries and compare them against historical delivery targets known as of the as_of date.",
+    "session_id": "cc1e6788-0d6c-4bc7-a34a-a19605962c2e",
+    "tool_calls": [
+      {
+        "agent": "Lead",
+        "name": "plan",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"clarification\": \"I cannot investigate whether management deliberately lied, as intent cannot be established from financial data alone. I will research the 2024 vehicle deliveries and compare them against historical delivery targets known as of the as_of date.\", \"scope\": {\"tickers\": [\"TSLA\"], \"start\": \"2020-01-01\", \"as_of\": \"2023-03-01\", \"through\": \"2025-03-01\"}, \"tasks\": {\"Claims\": \"Identify management delivery targets and statements regarding 2024 vehicle production and deliveries known as of the as_of date.\", \"Financials\": \"Extract reported 2024 vehicle delivery figures available through the outcome cutoff date.\", \"Peers\": \"Review relevant peer delivery disclosures if applicable for context.\", \"Context\": \"Document the timeline of disclosures and verify whether the available data establishes the outcomes versus stated targets.\"}, \"focus\": \"Evaluate 2024 vehicle delivery outcomes against targets known as of March 1, 2023.\"}",
+        "elapsed_ms": 1597
+      }
+    ],
+    "investigation": {
+      "status": "clarification",
+      "report": null,
+      "evidence": [],
+      "limits": [],
+      "rounds": 0
+    }
+  },
+  "automated_errors": []
+}

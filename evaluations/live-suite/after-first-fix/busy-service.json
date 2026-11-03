@@ -1,0 +1,6 @@
+{
+  "http_status": 429,
+  "data": {
+    "detail": "Two investigations are running. Please retry shortly."
+  }
+}

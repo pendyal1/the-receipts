@@ -1,0 +1,33 @@
+{
+  "case": {
+    "id": "vague_question",
+    "message": "Is it good?",
+    "expect": "clarification"
+  },
+  "tested_at": "2026-11-03T23:08:16.659006+00:00",
+  "http_status": 200,
+  "seconds": 1.05,
+  "data": {
+    "response": "Please ask a specific historical financial question. For example, 'How did AAPL revenue change between 2020-01-01 and 2023-01-01 based on filings known by 2023-06-01?'",
+    "session_id": "2049dbad-8e1a-49ec-a486-20228e3cd73f",
+    "tool_calls": [
+      {
+        "agent": "Lead",
+        "name": "plan",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"clarification\": \"Please ask a specific historical financial question. For example, 'How did AAPL revenue change between 2020-01-01 and 2023-01-01 based on filings known by 2023-06-01?'\"}",
+        "elapsed_ms": 937
+      }
+    ],
+    "investigation": {
+      "status": "clarification",
+      "report": null,
+      "evidence": [],
+      "limits": [],
+      "rounds": 0
+    }
+  },
+  "automated_errors": []
+}

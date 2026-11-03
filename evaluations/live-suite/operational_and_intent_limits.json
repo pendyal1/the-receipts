@@ -1,0 +1,50 @@
+{
+  "case": {
+    "id": "operational_and_intent_limits",
+    "message": "Tell me exactly how many vehicles Tesla delivered in 2024 and prove whether its CEO deliberately lied about the delivery target. Do the available data actually establish these things?",
+    "scope": {
+      "tickers": [
+        "TSLA"
+      ],
+      "start": "2020-01-01",
+      "as_of": "2023-03-01",
+      "through": "2025-03-01"
+    },
+    "expect": "limits"
+  },
+  "tested_at": "2026-11-03T23:18:05.230714+00:00",
+  "http_status": 200,
+  "seconds": 1.3,
+  "data": {
+    "response": "I cannot establish management intent or whether the CEO deliberately lied, as internal motivations and intent cannot be proven from public filings. However, I can research Tesla's 2024 vehicle delivery numbers and compare them against earlier known targets up to the through date.",
+    "session_id": "8b526735-fb94-469a-aadd-418bc5108dec",
+    "tool_calls": [
+      {
+        "agent": "Lead",
+        "name": "company_lookup",
+        "args": {
+          "ticker": "TSLA"
+        },
+        "result": "{\"ticker\": \"TSLA\", \"name\": \"Tesla\", \"cik\": 1318605}",
+        "elapsed_ms": 0
+      },
+      {
+        "agent": "Lead",
+        "name": "plan",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"clarification\": \"I cannot establish management intent or whether the CEO deliberately lied, as internal motivations and intent cannot be proven from public filings. However, I can research Tesla's 2024 vehicle delivery numbers and compare them against earlier known targets up to the through date.\", \"scope\": {\"tickers\": [\"TSLA\"], \"start\": \"2020-01-01\", \"as_of\": \"2023-03-01\", \"through\": \"2025-03-01\"}, \"tasks\": {\"Claims\": \"Research management delivery targets and forward statements known by as_of\", \"Financials\": \"Determine actual reported vehicle deliveries for 2024\", \"Peers\": \"Not applicable\", \"Context\": \"Examine context around delivery targets and actual reported results\"}, \"focus\": \"Research 2024 vehicle deliveries and compare them with targets known as of 2023-03-01\"}",
+        "elapsed_ms": 1181
+      }
+    ],
+    "investigation": {
+      "status": "clarification",
+      "report": null,
+      "evidence": [],
+      "limits": [],
+      "rounds": 0
+    }
+  },
+  "automated_errors": []
+}

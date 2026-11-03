@@ -1,0 +1,45 @@
+{
+  "case": {
+    "id": "apple_live_sources",
+    "message": "Compare Apple annual revenue and net income before and after November 10, 2023. Explain whether management outlook passages can actually be tested using the retrieved financial metrics.",
+    "scope": {
+      "tickers": [
+        "AAPL"
+      ],
+      "start": "2022-01-01",
+      "as_of": "2023-11-10",
+      "through": "2025-03-01"
+    },
+    "expect": "complete"
+  },
+  "tested_at": "2026-11-03T23:01:06.325880+00:00",
+  "http_status": 200,
+  "seconds": 16.25,
+  "data": {
+    "response": "The model request did not complete (JSONDecodeError). You can still open a sourced evidence preview below.",
+    "session_id": "5e8673b8-e787-4521-a6c7-16458ef7745f",
+    "tool_calls": [
+      {
+        "agent": "Lead",
+        "name": "plan",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"error\": \"The model request did not complete (JSONDecodeError).\"}",
+        "elapsed_ms": 12116
+      }
+    ],
+    "investigation": {
+      "status": "unavailable",
+      "report": null,
+      "evidence": [],
+      "limits": [
+        "The model request did not complete (JSONDecodeError)."
+      ],
+      "rounds": 0
+    }
+  },
+  "automated_errors": [
+    "Expected completed investigation, got unavailable"
+  ]
+}

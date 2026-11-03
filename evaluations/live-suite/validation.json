@@ -1,0 +1,121 @@
+[
+  {
+    "id": "blank",
+    "http_status": 422,
+    "expected": 422,
+    "passed": true,
+    "body": {
+      "error": "invalid_input",
+      "message": "Check your question, tickers and dates. Use start \u2264 as_of \u2264 through, from 2012 through today, and at most three companies."
+    }
+  },
+  {
+    "id": "empty",
+    "http_status": 422,
+    "expected": 422,
+    "passed": true,
+    "body": {
+      "error": "invalid_input",
+      "message": "Check your question, tickers and dates. Use start \u2264 as_of \u2264 through, from 2012 through today, and at most three companies."
+    }
+  },
+  {
+    "id": "oversize",
+    "http_status": 422,
+    "expected": 422,
+    "passed": true,
+    "body": {
+      "error": "invalid_input",
+      "message": "Check your question, tickers and dates. Use start \u2264 as_of \u2264 through, from 2012 through today, and at most three companies."
+    }
+  },
+  {
+    "id": "bad_session",
+    "http_status": 422,
+    "expected": 422,
+    "passed": true,
+    "body": {
+      "error": "invalid_input",
+      "message": "Check your question, tickers and dates. Use start \u2264 as_of \u2264 through, from 2012 through today, and at most three companies."
+    }
+  },
+  {
+    "id": "future_date",
+    "http_status": 422,
+    "expected": 422,
+    "passed": true,
+    "body": {
+      "error": "invalid_input",
+      "message": "Check your question, tickers and dates. Use start \u2264 as_of \u2264 through, from 2012 through today, and at most three companies."
+    }
+  },
+  {
+    "id": "reversed_dates",
+    "http_status": 422,
+    "expected": 422,
+    "passed": true,
+    "body": {
+      "error": "invalid_input",
+      "message": "Check your question, tickers and dates. Use start \u2264 as_of \u2264 through, from 2012 through today, and at most three companies."
+    }
+  },
+  {
+    "id": "precoverage",
+    "http_status": 422,
+    "expected": 422,
+    "passed": true,
+    "body": {
+      "error": "invalid_input",
+      "message": "Check your question, tickers and dates. Use start \u2264 as_of \u2264 through, from 2012 through today, and at most three companies."
+    }
+  },
+  {
+    "id": "too_many_companies",
+    "http_status": 422,
+    "expected": 422,
+    "passed": true,
+    "body": {
+      "error": "invalid_input",
+      "message": "Check your question, tickers and dates. Use start \u2264 as_of \u2264 through, from 2012 through today, and at most three companies."
+    }
+  },
+  {
+    "id": "no_companies",
+    "http_status": 422,
+    "expected": 422,
+    "passed": true,
+    "body": {
+      "error": "invalid_input",
+      "message": "Check your question, tickers and dates. Use start \u2264 as_of \u2264 through, from 2012 through today, and at most three companies."
+    }
+  },
+  {
+    "id": "url_as_ticker",
+    "http_status": 422,
+    "expected": 422,
+    "passed": true,
+    "body": {
+      "error": "invalid_input",
+      "message": "Check your question, tickers and dates. Use start \u2264 as_of \u2264 through, from 2012 through today, and at most three companies."
+    }
+  },
+  {
+    "id": "unknown_request_field",
+    "http_status": 422,
+    "expected": 422,
+    "passed": true,
+    "body": {
+      "error": "invalid_input",
+      "message": "Check your question, tickers and dates. Use start \u2264 as_of \u2264 through, from 2012 through today, and at most three companies."
+    }
+  },
+  {
+    "id": "preview_requires_scope",
+    "http_status": 422,
+    "expected": 422,
+    "passed": true,
+    "body": {
+      "detail": "Choose companies and all three research dates to open an evidence preview."
+    }
+  }
+]
