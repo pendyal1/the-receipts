@@ -8,11 +8,13 @@
 
 ## Use the application
 
-1. Enter one to three U.S. public-company tickers. The first is the company under investigation; the others are comparison peers.
-2. Choose a history start, a historical knowledge cutoff, and an outcome horizon. For the bundled cases use **2020-01-01 / 2023-03-01 / 2025-03-01**.
-3. Ask a specific question about historical expectations and later results.
-4. Choose **Open evidence** for a model-free source preview or **Investigate** for the multi-agent report.
-5. Use the chart's metric selector, peer visibility controls, knowledge-date replay slider and hindsight toggle. Open the evidence ledger, follow primary-source links, inspect the research trace, or export the entire case as JSON.
+1. Choose a company by name from the suggestions, or enter another U.S. stock ticker.
+2. Enter your question and select **Investigate**. The visible date summary shows the historical scope.
+3. Optionally open **Compare companies or change dates** to add up to two peers, adjust the three dates, or browse source data without an AI answer. The bundled examples use **2020-01-01 / 2023-03-01 / 2025-03-01**.
+4. Results open with a short finding and key financial figures. Expand claim checks, performance charts, the full report, market context or limitations only when needed.
+5. Select a numbered citation to inspect its source. **Sources** and **Research log** preserve the evidence ledger and full agent/tool trace. **Download** exports the complete case as JSON.
+
+The public-facing interface uses progressive disclosure, plain language, labeled inputs, keyboard-native controls and touch-sized actions. Company, question and one primary action form the starting screen; optional setup and detailed research are collapsed. Example investigations are compact suggestions rather than separate landing-page sections.
 
 The interface explains the audience, workflow, data boundaries and difference between evidence preview and AI investigation. It renders model text as text nodes, with server-validated evidence references linked to the ledger. Model-generated HTML is never injected.
 
