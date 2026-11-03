@@ -1,0 +1,10 @@
+name: the-receipts-main
+description: Test and deploy The Receipts when main is pushed
+filename: cloudbuild.yaml
+serviceAccount: projects/ieor-4570-f26-ap4839/serviceAccounts/1027747864849-compute@developer.gserviceaccount.com
+developerConnectEventConfig:
+  gitRepositoryLink: projects/ieor-4570-f26-ap4839/locations/us-east1/connections/connection-bvmdsn4/gitRepositoryLinks/pendyal1-the-receipts
+  gitRepositoryLinkType: GITHUB
+  push:
+    branch: ^main$
+includeBuildLogs: INCLUDE_BUILD_LOGS_WITH_STATUS

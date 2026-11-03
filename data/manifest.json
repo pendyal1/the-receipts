@@ -1,0 +1,66 @@
+{
+  "retrieved_at": "2026-11-03T06:23:19.969169+00:00",
+  "scope": {
+    "start": "2020-01-01",
+    "as_of": "2023-03-01",
+    "through": "2025-03-01"
+  },
+  "companies": [
+    {
+      "ticker": "TSLA",
+      "financials": 25,
+      "prices": 1297,
+      "claims": 10
+    },
+    {
+      "ticker": "NVDA",
+      "financials": 24,
+      "prices": 1297,
+      "claims": 10
+    },
+    {
+      "ticker": "GM",
+      "financials": 25,
+      "prices": 1297,
+      "claims": 10
+    },
+    {
+      "ticker": "F",
+      "financials": 20,
+      "prices": 1297,
+      "claims": 10
+    },
+    {
+      "ticker": "AMD",
+      "financials": 25,
+      "prices": 1297,
+      "claims": 10
+    },
+    {
+      "ticker": "MSFT",
+      "financials": 25,
+      "prices": 1297,
+      "claims": 10
+    },
+    {
+      "ticker": "INTC",
+      "financials": 25,
+      "prices": 1297,
+      "claims": 10
+    },
+    {
+      "ticker": "AMZN",
+      "financials": 20,
+      "prices": 1297,
+      "claims": 10
+    },
+    {
+      "ticker": "GOOGL",
+      "financials": 25,
+      "prices": 1297,
+      "claims": 10
+    }
+  ],
+  "archive_files": 66,
+  "notes": "Unmodified UTF-8 source bodies with SHA-256, original URL and retrieval timestamp. Public historical data; archived at build time, not known at historical dates."
+}
