@@ -231,6 +231,12 @@ class Investigator:
     def run(self, message, explicit_scope=None, previous_scope=None, previous_question=None):
         ledger, deadline = Ledger(), time.monotonic() + self.DEADLINE_SECONDS
         investigation = {'status': 'researching', 'report': None, 'evidence': [], 'limits': [], 'rounds': 0}
+        question = message
+        if not explicit_scope and previous_scope and previous_question:
+            question = (f'Continue this specific historical investigation, using its existing companies and dates unless the current request explicitly changes them.\n'
+                        f'Investigation question: {previous_question}\n'
+                        f'Existing scope: {json.dumps(previous_scope)}\n'
+                        f'Current follow-up: {message}')
         try:
             companies = []
             # Establish ticker coverage from the directory, never model memory.
@@ -247,7 +253,7 @@ class Investigator:
                     ledger.trace('Lead', 'company_lookup', {'ticker': ticker}, company, started)
                     companies.append(company)
             plan = self.model_call(ledger, 'Lead', 'plan', LEAD_PLAN,
-                {'question': message, 'explicit_scope': explicit_scope, 'previous_scope': previous_scope,
+                {'question': question, 'explicit_scope': explicit_scope, 'previous_scope': previous_scope,
                  'previous_question': previous_question, 'industry_map': INDUSTRIES, 'verified_companies': companies}, deadline)
             if plan.get('clarification'):
                 return {'response': str(plan['clarification']), 'tool_calls': ledger.traces,
@@ -261,7 +267,7 @@ class Investigator:
             seen, seen_lock, findings = set(), threading.Lock(), []
             tasks = plan.get('tasks', {})
             with ThreadPoolExecutor(max_workers=4) as pool:
-                futures = {pool.submit(self.researcher, ledger, agent, str(tasks.get(agent, message)), scope, deadline, seen, seen_lock): agent
+                futures = {pool.submit(self.researcher, ledger, agent, str(tasks.get(agent, question)), scope, deadline, seen, seen_lock): agent
                            for agent in ('Claims', 'Financials', 'Peers', 'Context')}
                 for future in as_completed(futures):
                     try:
@@ -270,7 +276,7 @@ class Investigator:
                         investigation['limits'].append(f'{futures[future]}: {exc}')
             investigation['rounds'] = 1
             review = self.model_call(ledger, 'Lead', 'review_gaps', LEAD_REVIEW,
-                {'question': message, 'scope': investigation['scope'], 'findings': findings,
+                {'question': question, 'scope': investigation['scope'], 'findings': findings,
                  'evidence': [compact(r) for r in ledger.evidence.values()],
                  'completed_calls': sorted(seen), 'researcher_failures': investigation['limits'], 'remaining_rounds': 1}, deadline)
             investigation['limits'] += review.get('remaining_limits', [])[:8]
@@ -284,7 +290,7 @@ class Investigator:
                     eligible.append(task)
             if eligible and deadline - time.monotonic() > 60:
                 with ThreadPoolExecutor(max_workers=2) as pool:
-                    futures = [pool.submit(self.researcher, ledger, t['agent'], str(t.get('focus', message)),
+                    futures = [pool.submit(self.researcher, ledger, t['agent'], str(t.get('focus', question)),
                                            scope, deadline, seen, seen_lock, t) for t in eligible]
                     for future in as_completed(futures):
                         try:
@@ -296,12 +302,12 @@ class Investigator:
             changes = financial_changes(ledger.evidence)
             ledger.trace('Writer', 'cross_examine_ranges', {}, {'range_checks': range_checks, 'financial_changes': changes})
             raw = self.model_call(ledger, 'Writer', 'write_report', WRITER,
-                {'question': message, 'scope': investigation['scope'], 'findings': findings,
+                {'question': question, 'scope': investigation['scope'], 'findings': findings,
                  'evidence': [compact(r) for r in ledger.evidence.values()],
                  'coverage_limits': investigation['limits'], 'claim_test_candidates': claim_test_candidates(ledger.evidence),
                  'quantitative_range_checks': range_checks, 'financial_changes': changes}, deadline)
             raw = self.model_call(ledger, 'Writer', 'fact_check_report', WRITER + FACT_CHECK,
-                {'draft': raw, 'question': message, 'scope': investigation['scope'],
+                {'draft': raw, 'question': question, 'scope': investigation['scope'],
                  'evidence': [compact(r) for r in ledger.evidence.values()],
                  'claim_test_candidates': claim_test_candidates(ledger.evidence),
                  'quantitative_range_checks': range_checks, 'financial_changes': changes}, deadline)
@@ -309,7 +315,7 @@ class Investigator:
             if citation_errors:
                 # One bounded citation-repair turn, never an unbounded writer retry.
                 repair = self.model_call(ledger, 'Writer', 'repair_citations', WRITER,
-                    {'draft': raw, 'validation_errors': citation_errors, 'question': message, 'scope': investigation['scope'],
+                    {'draft': raw, 'validation_errors': citation_errors, 'question': question, 'scope': investigation['scope'],
                      'evidence': [compact(r) for r in ledger.evidence.values()],
                      'claim_test_candidates': claim_test_candidates(ledger.evidence),
                      'quantitative_range_checks': range_checks, 'financial_changes': changes,
