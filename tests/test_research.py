@@ -199,3 +199,26 @@ def test_repair_retains_question_scope_and_identifies_bad_receipt():
     assert model.repair_payload['scope'] == SCOPE
     assert model.repair_payload['question'] == 'Compare cash capital spending with GM'
     assert any('Allowed outcome IDs: []' in e for e in model.repair_payload['validation_errors'])
+
+
+@pytest.mark.parametrize('excerpt', [
+    'We expect to recognize approximately 45 % of this revenue over the next 12 months and the remainder thereafter.',
+    'We expect the macroeconomic uncertainty and the challenging market environment will extend into 2023. 2022 vs. 2021 2022 revenue was $63.1 billion, down $16.0 billion, or 20%, from 2021.',
+    'We expect cash flows from operations to be sufficient to fund capital expenditures.',
+])
+def test_accounting_recognition_risk_and_liquidity_are_not_revenue_forecasts(excerpt):
+    from receipts.research import claim_test_candidates
+    evidence={'Eclaim': {'kind':'claim', 'phase':'known_then', 'ticker':'MSFT', 'filed':'2023-02-01', 'excerpt':excerpt}}
+    for metric in ('revenue','capex','operating_cash_flow'):
+        evidence['E'+metric]={'kind':'financial','ticker':'MSFT','metric':metric,'period_end':'2023-12-31'}
+    candidate=claim_test_candidates(evidence)['Eclaim']
+    assert candidate['metric'] is None
+    assert candidate['allowed_outcome_ids']==[]
+
+
+def test_unknown_ticker_gap_can_support_a_not_found_explanation():
+    evidence={'Egap':{'kind':'source_gap','error':'ZZZZX was not found in the SEC ticker directory.'},
+              'Emacro':{'kind':'macro'}}
+    raw={'verdict':'insufficient evidence','summary':'ZZZZX was not found in the SEC ticker directory [Egap].',
+         'sections':[{'title':'What was knowable then','text':'No company records were found; ZZZZX is not covered [Egap].'}]}
+    assert not validate_report(raw,evidence,SCOPE)[1]
