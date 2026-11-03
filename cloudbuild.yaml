@@ -15,7 +15,7 @@ steps:
       - --image=us-east1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/the-receipts:$COMMIT_SHA
       - --region=us-east1
       - --service-account=1027747864849-compute@developer.gserviceaccount.com
-      - --set-env-vars=GOOGLE_CLOUD_PROJECT=$PROJECT_ID,GEMINI_MODEL=gemini-3.5-flash-lite
+      - --set-env-vars=GOOGLE_CLOUD_PROJECT=$PROJECT_ID,GEMINI_MODEL=gemini-3.5-flash-lite,APP_COMMIT=$COMMIT_SHA
       - --timeout=300
       - --memory=1Gi
       - --cpu=1

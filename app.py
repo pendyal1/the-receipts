@@ -138,7 +138,8 @@ def index():
 
 @app.get('/health')
 def health():
-    return {'status': 'ok', 'model': MODEL, 'snapshot_files': len(list((ROOT / 'data' / 'snapshots').glob('*.json.gz')))}
+    return {'status': 'ok', 'model': MODEL, 'snapshot_files': len(list((ROOT / 'data' / 'snapshots').glob('*.json.gz'))),
+            'revision': os.getenv('K_REVISION', 'local'), 'commit': os.getenv('APP_COMMIT', 'local')}
 
 
 @app.get('/catalog')

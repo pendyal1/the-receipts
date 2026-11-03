@@ -15,6 +15,10 @@ class ModelError(Exception):
     pass
 
 
+class StructuredOutputError(ModelError):
+    """A retryable malformed answer, distinct from access or quota failures."""
+
+
 class Gemini:
     def __init__(self):
         self._credentials = None
@@ -69,8 +73,10 @@ class Gemini:
                 return text
             value = json.loads(text)
             if not isinstance(value, dict):
-                raise ModelError('The model returned an invalid structured answer.')
+                raise StructuredOutputError('The model returned an invalid structured answer.')
             return value
+        except json.JSONDecodeError:
+            raise StructuredOutputError('The model returned incomplete structured output.') from None
         except ModelError:
             raise
         except (requests.RequestException, ValueError, KeyError) as exc:

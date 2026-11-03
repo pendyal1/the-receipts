@@ -175,3 +175,27 @@ def test_calculated_summary_keeps_revenue_and_profit_directions_separate():
     assert 'up from $96.773 billion' in summary
     assert 'down from $14.997 billion' in summary
     assert 'peaked' not in summary
+
+
+def test_repair_retains_question_scope_and_identifies_bad_receipt():
+    class RepairModel(FakeModel):
+        writer_turn = 0
+        repair_payload = None
+        def generate(self, system, payload, **kwargs):
+            result = super().generate(system, payload, **kwargs)
+            if 'You are Writer.' in system:
+                self.writer_turn += 1
+                if self.writer_turn <= 2:
+                    claim = next(r for r in payload['evidence'] if r['kind'] == 'claim')
+                    fact = next(r for r in payload['evidence'] if r['kind'] == 'financial')
+                    result['receipts'] = [{'claim_id': claim['id'], 'outcome_ids': [fact['id']],
+                        'assessment': 'supported', 'explanation': 'Revenue verifies spending.'}]
+                else:
+                    self.repair_payload = payload
+            return result
+    model = RepairModel()
+    result = Investigator(FakeSources(), model).run('Compare cash capital spending with GM', SCOPE)
+    assert result['investigation']['status'] == 'complete'
+    assert model.repair_payload['scope'] == SCOPE
+    assert model.repair_payload['question'] == 'Compare cash capital spending with GM'
+    assert any('Allowed outcome IDs: []' in e for e in model.repair_payload['validation_errors'])
