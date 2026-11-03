@@ -13,7 +13,7 @@ function setStatus(text, kind=''){const e=$('status');e.hidden=false;e.className
 function showView(view){document.querySelectorAll('.view').forEach(e=>e.hidden=e.id!=='view-'+view);document.querySelectorAll('.tab').forEach(e=>{e.classList.toggle('active',e.dataset.view===view);e.setAttribute('aria-pressed',String(e.dataset.view===view));});if(view==='overview')drawChart();}
 async function run(mode){
  if(state.busy)return;
- const form=$('research-form');const invalid=form.querySelector(':invalid');if(invalid?.closest('details'))invalid.closest('details').open=true;if(!form.reportValidity())return;
+ updateCompanyQuestion();const form=$('research-form');const invalid=form.querySelector(':invalid');if(invalid?.closest('details'))invalid.closest('details').open=true;if(!form.reportValidity())return;
  const s=scope();if(s.tickers.length<1||s.tickers.length>3||new Set(s.tickers).size!==s.tickers.length){setStatus('Choose one company and up to two different peers.','error');return;}
  if(s.tickers.some(t=>!/^([A-Z][A-Z0-9.-]{0,9})$/.test(t))){setStatus('Choose a suggested company name, or enter its U.S. stock ticker.','error');return;}
  if(!(s.start<=s.as_of&&s.as_of<=s.through)){setStatus('Use dates in order: history start, what we knew on, then results through.','error');return;}
@@ -37,7 +37,8 @@ async function run(mode){
 $('research-form').addEventListener('submit',e=>{e.preventDefault();run('chat');});$('preview').addEventListener('click',()=>run('evidence'));
 document.querySelectorAll('.case-card').forEach(button=>button.addEventListener('click',()=>{const c=cases[button.dataset.case],symbols=c.tickers.split(',').map(x=>x.trim());$('tickers').value=names[symbols[0]]||symbols[0];$('peers').value=symbols.slice(1).join(', ');$('question').value=c.question;state.autoQuestion=c.question;$('start').value='2020-01-01';$('asof').value='2023-03-01';$('through').value='2025-03-01';updateScopeCaption();$('research-form').scrollIntoView({behavior:'smooth',block:'center'});$('question').focus({preventScroll:true});$('status').hidden=true;}));
 for(const id of ['tickers','peers','start','asof','through'])$(id).addEventListener('change',updateScopeCaption);
-$('tickers').addEventListener('change',()=>{if($('question').value===state.autoQuestion){const symbol=ticker($('tickers').value);state.autoQuestion=`Did ${names[symbol]||symbol} deliver on its plans after 2022?`;$('question').value=state.autoQuestion;}});
+function updateCompanyQuestion(){if($('question').value===state.autoQuestion){const symbol=ticker($('tickers').value);if(!symbol)return;state.autoQuestion=`Did ${names[symbol]||symbol} deliver on its plans after 2022?`;$('question').value=state.autoQuestion;}}
+$('tickers').addEventListener('change',updateCompanyQuestion);$('tickers').addEventListener('input',updateCompanyQuestion);
 $('comparison-detail').addEventListener('toggle',()=>{if($('comparison-detail').open)drawChart();});
 document.querySelector('.about-link').addEventListener('click',event=>{event.preventDefault();$('about').open=true;$('about').scrollIntoView({behavior:'smooth'});});
 document.querySelectorAll('.tab').forEach(button=>button.addEventListener('click',()=>showView(button.dataset.view)));
