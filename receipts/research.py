@@ -89,7 +89,7 @@ Write an investigation using only the supplied ledger and research findings. Ret
 "sections":[{"title":"What was knowable then|What happened later|The peer test|Cross-examination","text":"1-2 concise paragraphs with exact [E...] citations after EVERY material factual or numeric claim"}],
 "receipts":[{"claim_id":"an actual claim evidence id","outcome_ids":["financial evidence ids"],"assessment":"supported|mixed|contradicted|not testable","explanation":"compare exact matching metric/entity/horizon, or explain why it cannot be tested"}],
 "limits":["missing coverage and uncertainty"]}.
-Include all four sections, exactly once, and cover every scoped company whose data was retrieved. In The peer test, compare the same metric with explicit fiscal period dates. In Cross-examination, distinguish a supported observation from a verified management forecast. Do not claim peers mirrored each other when their profit directions differ. For compound outlook passages, test a numerical capex component separately from unobservable funding sources.
+Include all four sections, exactly once, and cover every scoped company whose data was retrieved. In The peer test, compare the same metric with explicit fiscal period-end dates (YYYY-MM-DD), using the latest available annual periods through the outcome cutoff for EVERY scoped company. Do not stop at the pre-as_of baseline when later outcomes are present. Explain differing fiscal calendars and missing metrics. In Cross-examination, distinguish a supported observation from a verified management forecast. Do not claim peers mirrored each other when their profit directions differ. For compound outlook passages, test a numerical capex component separately from unobservable funding sources.
 Use quantitative_range_checks as the arithmetic authority when available: an actual above the quoted upper bound is ABOVE the outlook range, not broadly supported or within range. An approximate forecast is not a guarantee; state the deviation without inferring intent.
 A receipt must follow claim_test_candidates: use only its allowed_outcome_ids. A forecast requires at least one matched financial period ending AFTER the claim's filed date. Revenue growth CANNOT verify spending expectations; periods preceding a statement cannot verify its future outlook. If there are no eligible outcomes, mark not testable and explicitly state that the data cannot answer that part of the question. Do not convert a spending claim into a revenue target or use historical deceleration as proof of a later forecast.
 An assertion that liquidity or operating cash flows will be sufficient to fund commitments is not verified by positive operating cash flow alone. Mark that sufficiency assertion not testable. A compound passage may separately support a capital-expenditure component only when claim_test_candidates permits the matching capex outcomes. Never substitute cash-flow observations for that component. Keep every scoped company in the final comparison, including companies with missing metrics.
@@ -232,9 +232,23 @@ class Investigator:
         ledger, deadline = Ledger(), time.monotonic() + self.DEADLINE_SECONDS
         investigation = {'status': 'researching', 'report': None, 'evidence': [], 'limits': [], 'rounds': 0}
         try:
+            companies = []
+            # Establish ticker coverage from the directory, never model memory.
+            if explicit_scope:
+                for ticker in explicit_scope['tickers']:
+                    started = time.monotonic()
+                    try:
+                        company = self.sources.resolve(ticker)
+                    except SourceError as exc:
+                        records = ledger.add([{'kind': 'source_gap', 'ticker': ticker, 'error': str(exc)}], 'coverage_gap')
+                        ledger.trace('Lead', 'company_lookup', {'ticker': ticker}, records, started)
+                        return {'response': f'I could not resolve {ticker} from the SEC directory: {exc} Check the ticker or choose a covered U.S. public company.',
+                            'tool_calls': ledger.traces, 'investigation': {**investigation, 'status': 'clarification', 'evidence': records}}
+                    ledger.trace('Lead', 'company_lookup', {'ticker': ticker}, company, started)
+                    companies.append(company)
             plan = self.model_call(ledger, 'Lead', 'plan', LEAD_PLAN,
                 {'question': message, 'explicit_scope': explicit_scope, 'previous_scope': previous_scope,
-                 'previous_question': previous_question, 'industry_map': INDUSTRIES}, deadline)
+                 'previous_question': previous_question, 'industry_map': INDUSTRIES, 'verified_companies': companies}, deadline)
             if plan.get('clarification'):
                 return {'response': str(plan['clarification']), 'tool_calls': ledger.traces,
                         'investigation': {**investigation, 'status': 'clarification'}}
@@ -331,9 +345,13 @@ def validate_report(raw, evidence, scope=None):
         errors.append('Verdict must use an allowed label.')
     report['summary'] = normalize_citations(report['summary'])
     texts = [report['summary']]
+    scope_only_texts = set()
     for section in raw.get('sections', [])[:8]:
         if isinstance(section, dict) and isinstance(section.get('text'), str):
             text = normalize_citations(section['text'][:9000])
+            if scope and len(scope.get('tickers', [])) == 1 and section.get('title') == 'The peer test':
+                text = f"Only {scope['tickers'][0]} was selected. Add a peer company to compare results."
+                scope_only_texts.add(text)
             report['sections'].append({'title': str(section.get('title', 'Evidence'))[:120], 'text': text})
             texts.append(text)
             if scope and section.get('title') == 'What was knowable then':
@@ -345,11 +363,11 @@ def validate_report(raw, evidence, scope=None):
         errors.append('Summary and sourced sections are required.')
     for text in texts:
         ids = re.findall(r'\[(E[a-zA-Z0-9]+)\]', text)
-        if allowed and not ids:
+        if allowed and not ids and text not in scope_only_texts:
             errors.append('A factual summary or section is missing evidence citations.')
         if any(eid not in evidence for eid in ids):
             errors.append('Unknown or unavailable evidence citation.')
-        if any(evidence.get(eid, {}).get('kind') == 'source_gap' for eid in ids) and not re.search(r'missing|unavailable|not available|not provided|cannot|untest|not testable|lack|limited|not found|not covered|not present|absen|coverage gap|unsupported|no (?:matching|historical|financial|management|company|peer|records|data|coverage)', text, re.I):
+        if any(evidence.get(eid, {}).get('kind') == 'source_gap' for eid in ids) and not re.search(r'missing|unavailable|not available|not provided|cannot|untest|not testable|lack|limited|not found|not covered|not present|absen|(?:source|coverage) gap|unsupported|no (?:annual|matching|historical|financial|management|company|peer|records|data|coverage)', text, re.I):
             errors.append('A coverage-gap reference can only support a statement about missing or unavailable evidence.')
         if re.search(r'https?://', text):
             errors.append('Writer must use evidence IDs, not generated URLs.')
@@ -431,7 +449,7 @@ def claim_test_candidates(evidence):
             continue
         # Incidental historical numbers in the next sentence are not forecasts.
         sentences = re.split(r'(?<=[.!?])\s+(?=[A-Z0-9$])', claim.get('excerpt', ''))
-        forward = [s for s in sentences if re.search(r'\bexpect|\banticipat|\bintend|\bplan|\bforecast|\bproject|\bwill\b|\bbelieve', s, re.I)]
+        forward = [s for s in sentences if re.search(r'\bexpect|\banticipat|\bintend|\bplan(?:s|ned|ning)?\b|\bforecast|\bwill\b|\bbelieve|\bwe\s+(?:currently\s+)?project\b', s, re.I)]
         text = (forward[0] if forward else '').lower()
         metric = None
         if re.search(r'performance obligations|deferred revenue|unearned revenue|contract liabilit|recogniz|backlog|depreciation|traffic acquisition|income tax|\btac\b', text):
@@ -475,6 +493,8 @@ def quantitative_range_checks(evidence):
         following = re.search(r'between\s+\$([\d.]+)\s+(?:to|and)\s+\$([\d.]+)\s+billion\s+in each of the following two fiscal years', text, re.I)
         if following:
             targets += [(year+i, float(following[1])*1e9, float(following[2])*1e9) for i in (1,2)]
+        elif re.search(r'and (?:in )?each of the next two fiscal years', text[match.end():], re.I):
+            targets += [(year+i, lower, upper) for i in (1,2)]
         for target_year, low, high in targets:
             for outcome_id in candidate['allowed_outcome_ids']:
                 record = evidence[outcome_id]

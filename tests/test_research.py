@@ -11,6 +11,8 @@ SCOPE = {'tickers': ['TSLA', 'GM'], 'start': '2020-01-01', 'as_of': '2023-03-01'
 
 
 class FakeSources:
+    def resolve(self, ticker):
+        return {'ticker': ticker, 'name': ticker, 'cik': 1}
     def financials(self, ticker, start, end, available_by):
         return [{'kind': 'financial', 'ticker': ticker, 'value': 100, 'metric': 'revenue',
                  'period_end': '2022-12-31', 'filed': '2023-02-01', 'url': 'https://www.sec.gov/example'}]
@@ -222,3 +224,50 @@ def test_unknown_ticker_gap_can_support_a_not_found_explanation():
     raw={'verdict':'insufficient evidence','summary':'ZZZZX was not found in the SEC ticker directory [Egap].',
          'sections':[{'title':'What was knowable then','text':'No company records were found; ZZZZX is not covered [Egap].'}]}
     assert not validate_report(raw,evidence,SCOPE)[1]
+
+
+def test_incidental_word_project_does_not_hide_a_later_explicit_capex_forecast():
+    from receipts.research import claim_test_candidates
+    evidence={'Eclaim':{'kind':'claim','ticker':'TSLA','filed':'2022-10-24','excerpt':
+        'The magnitude of purchase orders is difficult to accurately project. We currently expect capital expenditures between $6.00 to $8.00 billion in 2022.'},
+        'Ecapex':{'kind':'financial','ticker':'TSLA','metric':'capex','period_end':'2022-12-31'}}
+    assert claim_test_candidates(evidence)['Eclaim']['allowed_outcome_ids']==['Ecapex']
+
+
+def test_capex_range_repeated_for_next_two_years_checks_every_attached_outcome():
+    from receipts.research import quantitative_range_checks
+    evidence={'Eclaim':{'kind':'claim','phase':'known_then','ticker':'TSLA','filed':'2022-10-24',
+        'excerpt':'We expect capital expenditures between $6.00 to $8.00 billion in 2022 and each of the next two fiscal years.'}}
+    for year,value in [(2022,7_158_000_000),(2023,8_898_000_000),(2024,11_339_000_000)]:
+        evidence['E'+str(year)]={'kind':'financial','ticker':'TSLA','metric':'capex','period_end':f'{year}-12-31','value':value}
+    checks=quantitative_range_checks(evidence)
+    assert [c['relation'] for c in checks]==['within quoted range','above quoted range','above quoted range']
+    raw={'verdict':'supported','summary':'Outlook [Eclaim]','sections':[{'title':'Evidence','text':'Outcomes [E2022] [E2023] [E2024]'}],
+         'receipts':[{'claim_id':'Eclaim','outcome_ids':['E2022','E2023','E2024'],'assessment':'supported','explanation':'Only 2022 was within the range.'}]}
+    assert any('outside its quoted forecast range' in e for e in validate_report(raw,evidence)[1])
+
+
+def test_unknown_company_is_verified_without_asking_the_model_to_guess():
+    class MissingSources(FakeSources):
+        def resolve(self, ticker):
+            raise SourceError(f'{ticker} was not found in the SEC ticker directory.')
+    result=Investigator(MissingSources(),FakeModel()).run('Investigate ZZZZX',dict(SCOPE,tickers=['ZZZZX']))
+    assert result['investigation']['status']=='clarification'
+    assert 'SEC ticker directory' in result['response']
+    assert [t['name'] for t in result['tool_calls']]==['company_lookup']
+    assert result['investigation']['evidence'][0]['kind']=='source_gap'
+
+
+def test_single_company_peer_note_is_derived_from_scope_without_a_fake_citation():
+    evidence={'Evalue':{'kind':'financial'}}
+    raw={'verdict':'insufficient evidence','summary':'A value [Evalue].',
+         'sections':[{'title':'The peer test','text':'There are no peers.'}]}
+    report,errors=validate_report(raw,evidence,dict(SCOPE,tickers=['AAPL']))
+    assert not errors
+    assert report['sections'][0]['text']=='Only AAPL was selected. Add a peer company to compare results.'
+
+
+def test_source_gap_can_explain_absent_annual_observations():
+    raw={'verdict':'insufficient evidence','summary':'No annual USD revenue observation was available [Egap].',
+         'sections':[{'title':'Cross-examination','text':'A source gap prevents verification [Egap].'}]}
+    assert not validate_report(raw,{'Egap':{'kind':'source_gap'}})[1]
