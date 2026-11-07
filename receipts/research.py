@@ -392,8 +392,8 @@ def validate_report(raw, evidence, scope=None):
             errors.append('A factual summary or section is missing evidence citations.')
         if any(eid not in evidence for eid in ids):
             errors.append('Unknown or unavailable evidence citation.')
-        if any(evidence.get(eid, {}).get('kind') == 'source_gap' for eid in ids) and not re.search(r'missing|unavailable|not available|not provided|unprovided|cannot|untest|not testable|lack|limited|incomplete|unpopulated|not found|not covered|not present|absen|(?:source|coverage|disclosure) gap|unsupported|no (?:annual|matching|historical|financial|management|company|peer|records|data|coverage)|\bno\b[^.!?]{0,100}\b(?:retrieved|provided|present|available|found)\b', text, re.I):
-            errors.append('A coverage-gap reference can only support a statement about missing or unavailable evidence.')
+        if any(evidence.get(eid, {}).get('kind') == 'source_gap' for eid in ids) and not re.search(r'missing|unavailable|not available|not provided|unprovided|cannot|untest|not testable|lack|limited|incomplete|unpopulated|not retrieved|not captured|not returned|not represented|not found|not covered|not present|absen|(?:source|coverage|disclosure) gap|unsupported|no (?:annual|matching|historical|financial|management|company|peer|records|data|coverage)|\bno\b[^.!?]{0,100}\b(?:retrieved|provided|present|available|found)\b', text, re.I):
+            errors.append('A coverage-gap reference can only support missing evidence. If this is a coverage limitation, use the explicit wording "not available under the supported tags/search"; otherwise remove the unsupported gap citation. Revise this text: ' + text)
         if re.search(r'https?://', text):
             errors.append('Writer must use evidence IDs, not generated URLs.')
         if scope:
