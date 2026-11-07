@@ -8,7 +8,9 @@
 <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="/static/fonts/Orbitron.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="preload" href="/static/fonts/Sora.ttf" as="font" type="font/ttf" crossorigin>
+<script src="/static/theme.js"></script>
 <link rel="stylesheet" href="/static/style.css">
+<link rel="stylesheet" href="/static/theme.css">
 <script src="/static/fonts.js" defer></script><script src="/static/company-directory.js" defer></script><script src="/static/app.js" defer></script><script src="/static/company-lookup.js" defer></script><script src="/static/research-lens.js" defer></script><script src="/static/interface.js" defer></script>
 </head>
 <body>
@@ -68,7 +70,7 @@
 <section id="view-trace" class="view" hidden><h3>Research log</h3><p class="muted">The Lead plans the investigation, independent Researchers collect evidence, and the Writer checks and reports it. Open an entry to see its inputs and results.</p><div id="traces"></div></section>
 </section>
 </main>
-<footer class="site-footer"><div class="footer-left"><button type="button" class="source-link" data-panel="sources" aria-haspopup="dialog"><svg class="source-orbit" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6.5"/></svg> Source</button><span class="footer-sources">SEC EDGAR / FRED / HISTORICAL PRICES</span></div><div class="footer-right"><button id="motion-toggle" class="motion-button" type="button" aria-label="Turn background motion off" aria-pressed="true"><span class="motion-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="sr-only">Background motion</span></button></div></footer>
+<footer class="site-footer"><div class="footer-left"><button type="button" class="source-link" data-panel="sources" aria-haspopup="dialog"><svg class="source-orbit" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6.5"/></svg> Source</button><span class="footer-sources">SEC EDGAR / FRED / HISTORICAL PRICES</span></div><div class="footer-right"><button id="theme-toggle" class="theme-button" type="button" aria-label="Switch to light mode" aria-pressed="false" title="Switch to light mode"><svg class="theme-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg><svg class="theme-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.2A8.8 8.8 0 0 1 9.8 3.5 8.8 8.8 0 1 0 20.5 14.2Z"/></svg><span class="sr-only">Light mode</span></button><button id="motion-toggle" class="motion-button" type="button" aria-label="Turn background motion off" aria-pressed="true"><span class="motion-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="sr-only">Background motion</span></button></div></footer>
 </div>
 <dialog id="info-dialog" class="modal info-modal" aria-labelledby="info-title">
 <div class="modal-topline"><button class="close-button" type="button" data-close-dialog aria-label="Close information">×</button></div>

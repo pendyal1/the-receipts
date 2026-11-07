@@ -41,3 +41,7 @@ After the user chose free self-hosted alternatives to Sage's licensed fonts, Orb
 The optional context panel uses a continuous chronology, small green nodes, flat underline fields, issuer-logo peer chips and thin rules. Dates use a custom Sora calendar and validated ISO text entries; they do not open a browser calendar. The search textarea has no inherited bottom margin, and its box is centered on the submit button. Navigation explicitly uses Orbitron. New controls retain the question-first workflow.
 
 Logo lookup now covers any ticker in the SEC snapshot through the local `/company-logo/{ticker}` route. Public image hosts are used on demand and cached by SEC CIK; a missing image is represented as unavailable. This is broad retrieval capability, not a guarantee that every SEC filer has a published brand image. Logos identify current issuers and are not historical financial evidence.
+
+## Appearance control
+
+A sun/moon button beside the motion control switches the whole application between the original dark palette and an ivory light palette. Both retain self-hosted fonts, green accents and original wireframe artwork. Light mode uses darker green for readable text and chart series, while primary actions retain bright green fills. The palette covers information dialogs, company lookup, research controls, calendar, evidence, logs and charts. A saved local preference loads before styling paints; default remains dark. Restricted storage still allows switching for the current page. The control has a 44px target, action label and pressed state.

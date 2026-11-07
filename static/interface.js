@@ -87,6 +87,7 @@ let motionEnabled=!motionQuery.matches&&sessionStorage.getItem('receipts-motion'
 function resizeTerrain(){const r=terrain.getBoundingClientRect(),scale=Math.min(devicePixelRatio||1,1.5);terrainWidth=r.width;terrainHeight=r.height;terrain.width=Math.round(r.width*scale);terrain.height=Math.round(r.height*scale);terrainContext?.setTransform(scale,0,0,scale,0,0);drawTerrain();}
 function drawTerrain(){
  if(!terrainContext||!terrainWidth||!terrainHeight)return;
+ const light=document.documentElement.dataset.theme==='light';
  const ctx=terrainContext,w=terrainWidth,h=terrainHeight,columns=w<700?44:65,rows=w<700?30:43;
  ctx.clearRect(0,0,w,h);ctx.lineWidth=.65;
  const points=[];
@@ -102,12 +103,12 @@ function drawTerrain(){
  }
  for(let j=0;j<=rows;j++){
   const isAccent=j===Math.round(rows*.59);
-  ctx.strokeStyle=isAccent?'rgba(164,211,117,.29)':'rgba(125,139,115,.22)';ctx.lineWidth=isAccent?.9:.65;ctx.beginPath();
+  ctx.strokeStyle=isAccent?(light?'rgba(67,111,31,.34)':'rgba(164,211,117,.29)'):(light?'rgba(78,99,61,.20)':'rgba(125,139,115,.22)');ctx.lineWidth=isAccent?.9:.65;ctx.beginPath();
   for(let i=0;i<=columns;i++){const p=points[j][i];if(i===0)ctx.moveTo(...p);else ctx.lineTo(...p);}ctx.stroke();
  }
- ctx.strokeStyle='rgba(125,139,115,.22)';ctx.lineWidth=.65;
+ ctx.strokeStyle=light?'rgba(78,99,61,.20)':'rgba(125,139,115,.22)';ctx.lineWidth=.65;
  for(let i=0;i<=columns;i++){ctx.beginPath();for(let j=0;j<=rows;j++){const p=points[j][i];if(j===0)ctx.moveTo(...p);else ctx.lineTo(...p);}ctx.stroke();}
- const point=points[Math.round(rows*.59)][Math.round(columns*.77)];ctx.fillStyle='rgba(188,250,119,.85)';ctx.beginPath();ctx.arc(...point,2,0,Math.PI*2);ctx.fill();
+ const point=points[Math.round(rows*.59)][Math.round(columns*.77)];ctx.fillStyle=light?'#49801f':'rgba(188,250,119,.85)';ctx.beginPath();ctx.arc(...point,2,0,Math.PI*2);ctx.fill();
 }
 function terrainLoop(now){terrainFrame=0;if(!motionEnabled||document.hidden)return;if(now-lastFrame>50){terrainTime+=Math.min((now-lastFrame)/1000,.1);lastFrame=now;drawTerrain();}terrainFrame=requestAnimationFrame(terrainLoop);}
 function updateMotion(){
@@ -120,3 +121,5 @@ motionQuery.addEventListener('change',event=>{motionEnabled=!event.matches;updat
 document.addEventListener('visibilitychange',updateMotion);
 window.addEventListener('pointermove',event=>{if(!motionEnabled||event.pointerType==='touch')return;targetPointerX=event.clientX/innerWidth-.5;targetPointerY=event.clientY/innerHeight-.5;},{passive:true});
 window.addEventListener('resize',resizeTerrain);resizeTerrain();updateMotion();
+
+document.addEventListener('receipts-theme-change',drawTerrain);

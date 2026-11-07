@@ -1,0 +1,69 @@
+/* Both palettes retain the same typography, artwork and bright green accents. */
+:root{--accent:#bcfa77;--chart-one:#bcfa77;--chart-two:#e0e5dc;--chart-three:#80a8a0;--chart-shade:#14200f;--chart-cutoff:#99b77b}
+.footer-right{gap:10px}
+.theme-button{display:grid;place-items:center;width:44px;height:44px;border:1px solid #4b5344;border-radius:50%;background:#080b09bd;color:#c6d1bc}
+.theme-button:hover{border-color:var(--accent);color:var(--accent)}
+.theme-button svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round}
+.theme-moon{display:none}
+[data-theme=light] .theme-sun{display:none}
+[data-theme=light] .theme-moon{display:block}
+:root[data-theme=light]{color-scheme:light;--paper:#f1f3eb;--ink:#172011;--white:#fbfcf7;--muted:#536247;--line:#cad3bf;--green:#3e711c;--soft:#e1ebd6;--chart-one:#417b19;--chart-two:#3d505e;--chart-three:#876124;--chart-shade:#e4edd9;--chart-cutoff:#64834b}
+[data-theme=light] ::selection{background:var(--accent);color:#172011}
+[data-theme=light] .ambient,[data-theme=light] .font-loading{background:var(--paper)}
+[data-theme=light] .ambient-shade{background:radial-gradient(ellipse at 50% 39%,#f1f3eb00 10%,#f1f3eb44 58%,#f1f3ebcc 100%)}
+[data-theme=light] .grain{mix-blend-mode:multiply;opacity:.04}
+[data-theme=light] h1,[data-theme=light] .brand-wordmark{background-image:linear-gradient(180deg,#172011 0%,#172011 37%,transparent 37%,transparent 38%,#172011 38%,#172011 70%,transparent 70%,transparent 71%,#172011 71%);filter:none}
+[data-theme=light] .hero-description{color:#4f6044}
+[data-theme=light] .search-bar{background:#fbfcf7f2;border-color:#82ae5d;box-shadow:0 12px 40px #31451b0c}
+[data-theme=light] .search-bar:focus-within{border-color:#58892e;box-shadow:0 0 0 3px #bcfa7770,0 12px 40px #31451b0c}
+[data-theme=light] .search-bar textarea::placeholder,[data-theme=light] input::placeholder,[data-theme=light] textarea::placeholder,[data-theme=light] .inline-settings input::placeholder{color:#617254}
+[data-theme=light] .search-icon{stroke:#60774c}
+[data-theme=light] .search-submit{background:var(--accent);border-color:#74a249;color:#172011}
+[data-theme=light] .search-submit:hover{background:#cbff94}
+[data-theme=light] .case-card,[data-theme=light] .source-link,[data-theme=light] .motion-button,[data-theme=light] .theme-button,[data-theme=light] .text-button{background:#f8faf3d9;border-color:#a3b88f;color:var(--ink)}
+[data-theme=light] .case-card:hover,[data-theme=light] .source-link:hover,[data-theme=light] .motion-button:hover,[data-theme=light] .theme-button:hover,[data-theme=light] .text-button:hover{border-color:#619330;background:#bcfa7745;color:#305c16}
+[data-theme=light] .motion-bars i{background:#526d3e}
+[data-theme=light] .footer-sources,[data-theme=light] .example-label,[data-theme=light] .inline-settings>summary,[data-theme=light] .inline-settings #scope-caption{color:#536847}
+[data-theme=light] .inline-settings .lens-panel{background:linear-gradient(100deg,#e8eedff2,#f5f7efc9);border-color:#b5c7a3;border-top-color:#79a74f}
+[data-theme=light] .lens-heading,[data-theme=light] .inline-settings input,[data-theme=light] .selected-company,[data-theme=light] .company-option-name{color:var(--ink)}
+[data-theme=light] .lens-index,[data-theme=light] .inline-settings label,[data-theme=light] .inline-settings .field-hint,[data-theme=light] .lens-divider,[data-theme=light] .lens-divider span:last-child,[data-theme=light] .lens-foot,[data-theme=light] .chronology .date-role{color:#536847}
+[data-theme=light] .inline-settings input,[data-theme=light] .inline-settings .chronology input{border-color:#9eb38b}
+[data-theme=light] .time-node{background:var(--paper);border-color:#789a5b}
+[data-theme=light] .chronology:before{background:#a3ba8e}
+[data-theme=light] .chronology>.time-stop:nth-child(2) .time-node{background:var(--accent);border-color:#5f8b36;box-shadow:0 0 0 4px #bcfa7733}
+[data-theme=light] .peer-chip{background:#e6f0dc;border-color:#98b780;color:#29451b}
+[data-theme=light] .peer-remove,[data-theme=light] .date-trigger{color:#526d3e}
+[data-theme=light] .lens-preview{color:#29451b;border-color:#8cac73}
+[data-theme=light] .company-suggestions,[data-theme=light] .question-form .company-suggestions,[data-theme=light] .lens-calendar{background:#f8fbf2;border-color:#95b478;box-shadow:0 18px 50px #29401520;color:var(--ink);scrollbar-color:#9cb684 #f8fbf2}
+[data-theme=light] .company-option:hover,[data-theme=light] .company-option[aria-selected=true]{background:#e6f2da;border-color:#97bd72}
+[data-theme=light] .lookup-empty,[data-theme=light] .calendar-weekdays{color:#536847}
+[data-theme=light] .company-logo[data-logo-status=unavailable]{background:#e3ebd9;color:#4c643b;border-color:#a8bc95}
+[data-theme=light] .calendar-nav{border-color:#bdceb0}
+[data-theme=light] .calendar-day{color:var(--ink)}
+[data-theme=light] .calendar-day[aria-pressed=true]{background:var(--accent);color:#172011;border-color:#82a661}
+[data-theme=light] .question-prompt,[data-theme=light] .status{background:#eef5e6;color:#2b451b;border-color:#a5c18e}
+[data-theme=light] .form-notice,[data-theme=light] .status.error{background:#fff1df;color:#75451e;border-color:#c29a6a}
+[data-theme=light] .modal{background:#f7f9f1fa;border-color:#9bb584;box-shadow:0 25px 120px #23351233;scrollbar-color:#9bb584 transparent}
+[data-theme=light] .modal::backdrop{background:#303e2459}
+[data-theme=light] .modal-topline{background:#f7f9f1}
+[data-theme=light] .close-button{color:#405730;border-color:#afc09e}
+[data-theme=light] .info-tabs,[data-theme=light] .info-step,[data-theme=light] .source-row{border-color:var(--line)}
+[data-theme=light] .info-tabs button,[data-theme=light] .info-lead,[data-theme=light] .info-step p,[data-theme=light] .info-small,[data-theme=light] .source-row p,[data-theme=light] .modal-heading p{color:#536847}
+[data-theme=light] .info-tabs button[aria-pressed=true]{color:var(--green)}
+[data-theme=light] .primary{background:#bcfa7733}
+[data-theme=light] .primary:hover{background:var(--accent);color:#172011}
+/* Evidence and charts use the light palette too, including expanded records. */
+[data-theme=light] .finding p,[data-theme=light] .report-summary,[data-theme=light] .report-section p,[data-theme=light] .receipt-content p,[data-theme=light] .evidence-body{color:#405735}
+[data-theme=light] .number-card,[data-theme=light] .receipt-card,[data-theme=light] .chart-card,[data-theme=light] .macro-card,[data-theme=light] .evidence-card{background:#f8fbf2e8;border-color:#bbcdab}
+[data-theme=light] .metric-label,[data-theme=light] .number-card small,[data-theme=light] .coverage-note,[data-theme=light] .eyebrow,[data-theme=light] .detail-count,[data-theme=light] .chart-note,[data-theme=light] .chart-readout,[data-theme=light] .macro-card>span,[data-theme=light] .macro-card p,[data-theme=light] .limits,[data-theme=light] .phase,[data-theme=light] .trace-time,[data-theme=light] .muted,[data-theme=light] .empty,[data-theme=light] .evidence-body dt,[data-theme=light] .chart-settings>summary,[data-theme=light] .tab,[data-theme=light] .tab span,[data-theme=light] .replay-controls output{color:#536847}
+[data-theme=light] .receipt-content blockquote,[data-theme=light] .evidence-body blockquote{color:#29451b}
+[data-theme=light] .tab.active{color:var(--green)}
+[data-theme=light] input,[data-theme=light] textarea,[data-theme=light] select{background:#f8fbf2;color:var(--ink);border-color:#a6ba95}
+[data-theme=light] .search-bar textarea,[data-theme=light] .inline-settings input{background:none}
+[data-theme=light] label{color:#405735}
+[data-theme=light] .citation{background:#e9f4df;border-color:#9abb7f}
+[data-theme=light] .citation:hover{background:var(--accent);color:#172011}
+[data-theme=light] .legend button,[data-theme=light] .trace-agent{background:#e5efdb;border-color:#a6bf92}
+[data-theme=light] pre{background:#eaf0e2;border-color:#c1d1b3}
+[data-theme=light] .source-gap{border-color:#b69a70}
+[data-theme=light] .chart circle:focus{stroke:#172011}

@@ -515,7 +515,7 @@ Historical investigation supports due diligence. It does not establish fraud, ma
 
 The interface takes visual inspiration from the [Sage reference](https://www.siteofsites.co/websites/sage%C2%AE): a dark full-screen canvas, original animated wireframe, large futuristic wordmark and bright green accents. Questions submit directly from the main bar, with optional company, peer and date controls beneath it. About, How to use and Sources open native dialog panels. The results, evidence ledger, research log and chart use the same visual system. All research APIs and source validation remain in place.
 
-[DESIGN.md](DESIGN.md) records the reference observations, original implementation choices, locally hosted OFL fonts, responsive behavior and accessibility controls. The background is decorative geometry; it is not financial data. Background motion can be paused and honors reduced-motion preferences.
+[DESIGN.md](DESIGN.md) records the reference observations, original implementation choices, locally hosted OFL fonts, responsive behavior and accessibility controls. The background is decorative geometry; it is not financial data. Background motion can be paused and honors reduced-motion preferences. The adjacent sun/moon button switches between dark and ivory light palettes and remembers the choice in this browser. The saved theme is applied before the first paint; storage restrictions do not prevent switching.
 
 ### Company lookup and typography — November 7, 2026
 
