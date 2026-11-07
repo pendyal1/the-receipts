@@ -77,12 +77,13 @@ This solo project uses **three source families**, exceeding the one-data-source-
 | [FRED](https://fred.stlouisfed.org/) | Keyless graph CSV for `FEDFUNDS` and `CPIAUCSL` | Macro context. Current revised history; **not** an ALFRED real-time vintage |
 | [Yahoo Finance historical prices](https://finance.yahoo.com/quote/TSLA/history/) | Keyless, unofficial chart endpoint, `indicators.adjclose` | Best-effort vendor-adjusted daily closing history. No live quote, execution price or causal inference |
 
-The runtime source-text cache is capped at 64 million characters and 160 URLs. The source loader archives original UTF-8 source bodies with retrieval time, original URL and SHA-256. About 11 MB of gzip archives in `data/snapshots/` ship with the deployment; `data/manifest.json` records coverage. A snapshot is fetched **at archive time**, not at the historical cutoff. The app separately filters SEC records by actual filing date. Source hashes are checked before archives are used. No credentials are stored with the data.
+The runtime source-text cache is capped at 64 million characters and 160 URLs. The source loader archives original UTF-8 source bodies with retrieval time, original URL and SHA-256. About 13 MB of gzip archives in `data/snapshots/` ship with the deployment; `data/manifest.json` records coverage. A snapshot is fetched **at archive time**, not at the historical cutoff. The app separately filters SEC records by actual filing date. Source hashes are checked before archives are used. No credentials are stored with the data.
 
 Bundled starter universes:
 
 - Automakers: Tesla (`TSLA`), General Motors (`GM`), Ford (`F`).
-- Semiconductors: NVIDIA (`NVDA`), AMD (`AMD`), Intel (`INTC`).
+- Consumer staples: Coca-Cola (`KO`), PepsiCo (`PEP`).
+- Archived semiconductor comparisons: NVIDIA (`NVDA`), AMD (`AMD`), Intel (`INTC`).
 - Cloud platforms: Microsoft (`MSFT`), Amazon (`AMZN`), Alphabet (`GOOGL`).
 
 These are curated peer groups, not exhaustive industry universes, and membership is contemporary. They are subject to survivorship and selection bias. Other tickers resolve through the SEC's current ticker directory. Foreign/private companies, delisted-company discovery and complete historical industry membership are outside this version.
@@ -94,7 +95,7 @@ uv sync --locked
 uv run python -m scripts.load_data
 ```
 
-The loader gets each company's Company Facts and price history, filing submissions and up to three recent filings for each demo company, plus the two macro series. It preserves existing matching archives. To refresh a specific source, remove its archive from `data/snapshots/` and rerun the loader; keep the prior archive elsewhere if reproducibility matters. Each filename is the SHA-256 of the source URL. Live fetches use an in-process cache, while the loader explicitly persists archives. Set `OFFLINE_DATA=1` to require bundled data and return explicit gaps elsewhere.
+The loader gets the starter companies’ and Coca-Cola/PepsiCo’s Company Facts and price history, filing submissions and up to three recent filings for each demo company, plus the two macro series. It preserves existing matching archives. To refresh a specific source, remove its archive from `data/snapshots/` and rerun the loader; keep the prior archive elsewhere if reproducibility matters. Each filename is the SHA-256 of the source URL. Live fetches use an in-process cache, while the loader explicitly persists archives. Set `OFFLINE_DATA=1` to require bundled data and return explicit gaps elsewhere.
 
 Endpoint patterns:
 
@@ -122,37 +123,37 @@ Management passages are a ranked, bounded retrieval from at most three latest 10
 All use `start=2020-01-01`, `as_of=2023-03-01`, `through=2025-03-01`. Exact run outputs, complete traces and same-model baselines are in `evaluations/`. Baselines receive the same question and dates with **no system prompt and no tools**, using the same Gemini model as the application. Model-only responses are recorded observations, not gold answers.
 
 1. **Automakers:** “Did Tesla's growth expectations hold up after 2022? Cross-examine the evidence and compare annual revenue and profitability with GM and Ford.” Expected: distinguish company revenue growth from vehicle-delivery targets; identify any testable capex outlook separately; Tesla annual revenue was $81.462B in 2022 and $97.690B in 2024. GM's 2024 total `Revenues` was $187.442B; do not mistake its $171.606B contract revenue for the whole company. Source: SEC Company Facts for CIK `0001318605`, `0001467858`, `0000037996`, and management passages in the archived filings. The outcome cannot prove intent.
-2. **Semiconductors:** “As of March 1, 2023, what did NVIDIA expect, and how did annual revenue and operating income subsequently compare with AMD and Intel through March 1, 2025?” Expected: retrieve original outlook passages, distinguish NVIDIA fiscal years from calendar years, compare date-bounded original annual observations, and avoid injecting later AI narratives into the historical room. Expected numeric anchors: NVIDIA revenue was $26.974B in FY2023 (ended January 29, 2023), $60.922B in FY2024 (ended January 28, 2024), and $130.497B in FY2025 (ended January 26, 2025). Source: Company Facts for CIK `0001045810`, `0000002488`, `0000050863` and NVIDIA filings. Verify numeric answers against the ledger rather than an unqualified calendar-year label.
+2. **Consumer staples:** “Did Coca-Cola deliver on its 2023 capital-spending outlook? Compare its stated expectation with actual capital spending, and compare 2023–2024 revenue and net income with PepsiCo.” Expected: Coca-Cola forecast approximately $1.9B of 2023 capital expenditures and reported $1.852B of cash PP&E purchases, close to the approximate outlook. Coca-Cola revenue was $45.754B in 2023 and $47.061B in 2024; net income was $10.714B and $10.631B. PepsiCo revenue was $91.471B and $91.854B, with net income of $9.074B and $9.578B. Preserve the different fiscal year-end dates. PepsiCo capital spending is not retrieved under the supported tags; do not substitute revenue as proof of a spending target. Sources: SEC Company Facts for CIK `0000021344` and `0000077476`, and [Coca-Cola’s 2022 Form 10-K](https://www.sec.gov/Archives/edgar/data/21344/000002134423000011/ko-20221231.htm).
 3. **Cloud platforms:** “Compare management growth and investment expectations with later annual revenue and capital expenditures for Microsoft, Amazon and Alphabet. Which claims can the data actually test?” Expected: identify Microsoft's historical expectation that capital expenditures would increase to support cloud growth, compare subsequent annual cash PP&E purchases, and explain that consolidated financials cannot directly establish cloud-segment promises. Expected numeric anchors: Microsoft cash PP&E purchases were $23.886B in FY2022, $28.107B in FY2023 and $44.477B in FY2024. Amazon has no supported annual cash-PP&E tag in the selected window; its revenue cannot validate an infrastructure-spending promise. Source: Company Facts for CIK `0000789019`, `0001018724`, `0001652044` and Microsoft 10-Q/10-K outlook passages.
 
-### Recorded answers from the final validation runs
+### Recorded answers from the validation runs
 
-These are actual Gemini runs, not illustrative transcripts. Full model/tool traces are retained in the linked JSON files. The opening agent summary uses the final deterministic arithmetic policy applied to the recorded evidence.
+These are actual Gemini runs, not illustrative transcripts. Each pair uses the same question, dates and model (`gemini-3.5-flash-lite`). Baselines have no tools or system prompt. Complete answers and agent/tool traces are retained in the linked JSON files. Coca-Cola replaces the previously featured NVIDIA case; older semiconductor records remain archived.
 
 | Case | Research status | Research latency | Trace |
 |---|---|---:|---|
-| automakers | complete | 70.0 s | [Full trace](evaluations/automakers.json) |
-| chips | complete | 69.74 s | [Full trace](evaluations/chips.json) |
-| cloud | complete | 68.36 s | [Full trace](evaluations/cloud.json) |
+| Automakers | complete | 70.0 s | [Full trace and baseline](evaluations/automakers.json) |
+| Consumer staples | complete | 17.95 s | [Full trace and baseline](evaluations/consumer-staples.json) |
+| Cloud platforms | complete | 68.36 s | [Full trace and baseline](evaluations/cloud.json) |
 
 #### Automakers: same-model comparison
 
 <details>
 <summary>No tools, no system prompt — complete recorded answer</summary>
 
-To determine whether Tesla's growth expectations held up after 2022, we must cross-examine its operational metrics, financial trajectory, and market expectations against its legacy peers, General Motors (GM) and Ford Motor Company (F), covering the period from 2020 through the end of 2024. 
+To determine whether Tesla's growth expectations held up after 2022, we must cross-examine its operational metrics, financial trajectory, and market expectations against its legacy peers, General Motors (GM) and Ford Motor Company (F), covering the period from 2020 through the end of 2024.
 
 ---
 
 ### Part 1: Did Tesla's Growth Expectations Hold Up After 2022?
 
-Prior to and through 2022, Tesla operated under the explicit long-term guidance of achieving a **50% compound annual growth rate (CAGR)** in vehicle deliveries over a multi-year horizon. 
+Prior to and through 2022, Tesla operated under the explicit long-term guidance of achieving a **50% compound annual growth rate (CAGR)** in vehicle deliveries over a multi-year horizon.
 
 #### 1. The Delivery Growth Reality Check
 * **Pre-2023 Execution:** Tesla largely delivered on its hyper-growth narrative. In 2021, deliveries grew by **87%** (to ~936k units), and in 2022, they grew by **40%** (to ~1.31 million units), coming close to the 50% target despite severe global supply chain disruptions and COVID-19 lockdowns in Shanghai.
 * **Post-2022 Deceleration:** The 50% CAGR target broke down significantly after 2022:
   * **2023:** Tesla delivered ~1.81 million vehicles, representing a **38% YoY growth**—below the 50% target, achieved only through aggressive global price cuts that began in late 2022 and continued through 2023.
-  * **2024:** Tesla delivered ~1.79 million vehicles (or roughly flat-to-modest growth depending on final reported classifications, representing a dramatic slowdown to **~1-2% YoY growth**). 
+  * **2024:** Tesla delivered ~1.79 million vehicles (or roughly flat-to-modest growth depending on final reported classifications, representing a dramatic slowdown to **~1-2% YoY growth**).
 * **The Verdict on Expectations:** **No, the structural hyper-growth expectations did not hold up.** Tesla transitioned from a high-growth startup phase into a cyclical, mass-market auto manufacturer constrained by aging vehicle architectures, rising global EV competition (particularly from Chinese rivals like BYD), and consumer fatigue with high interest rates. By 2024, management officially abandoned the 50% multi-year delivery growth guidance.
 
 ---
@@ -169,7 +170,7 @@ To assess the financial health underpinning these growth expectations, we examin
 | **General Motors (GM)** | $122.48B | $127.00B | $156.74B | $171.84B | **$171.86B** |
 | **Ford (F)** | $127.14B | $136.34B | $158.10B | $176.19B | **$179.76B** |
 
-* **Revenue Analysis:** 
+* **Revenue Analysis:**
   * **Tesla** experienced staggering top-line expansion between 2020 and 2022 (more than doubling revenue). However, post-2022, revenue growth hit a wall, rising by just ~18% in 2023 and flattening out near ~$97.7B in 2024 due to average selling price (ASP) declines driven by price cuts.
   * **GM and Ford** generate substantially more absolute revenue than Tesla (nearly double). Both legacy automakers saw steady post-pandemic revenue recovery through 2023, followed by top-line stabilization in 2024 as pricing power normalized across the industry.
 
@@ -181,7 +182,7 @@ To assess the financial health underpinning these growth expectations, we examin
 | **General Motors (GM)** | $6.43B | $10.02B | $9.93B | $10.13B | **$3.60B** |
 | **Ford (F)** | -$1.28B | $17.94B** | -1.98B | $4.35B | **$1.75B** |
 
-*\*Note: Tesla's 2023 net income includes a massive one-time non-cash tax benefit of $5.9 billion. Without this, core operating earnings compressed severely.*  
+*\*Note: Tesla's 2023 net income includes a massive one-time non-cash tax benefit of $5.9 billion. Without this, core operating earnings compressed severely.*
 *\*\*Note: Ford’s 2021 net income was heavily skewed by its equity stake valuation in Rivian.*
 
 * **Profitability Analysis:**
@@ -193,7 +194,7 @@ To assess the financial health underpinning these growth expectations, we examin
 ### Summary Conclusion
 
 1. **Did Tesla's growth expectations hold up?** **No.** While Tesla remains the undisputed leader in Western EV adoption, the post-2022 era exposed the limits of its demand curve at previous price points. Delivery growth stalled significantly in 2023 and flatlined in 2024, forcing the company to pivot its narrative toward autonomous driving (FSD), AI, and robotics to justify its valuation.
-2. **Financial Comparison:** 
+2. **Financial Comparison:**
    * **Scale:** GM and Ford vastly outperform Tesla in total annual revenue, moving nearly double the volume of vehicles globally.
    * **Earnings Quality:** While Tesla historically enjoyed superior software-like operating margins, the post-2022 price wars compressed Tesla's profitability down closer to traditional automotive norms, while legacy automakers absorbed multi-billion-dollar losses attempting to scale their own EV portfolios.
 
@@ -231,108 +232,94 @@ Management's qualitative statements regarding fluctuating operating costs and ge
 </details>
 
 
-#### Chips: same-model comparison
+#### Consumer staples: same-model comparison
+
+The fresh no-tools baseline reports 2023 Coca-Cola capital spending of $1.927B, 2024 revenue of $45.984B and 2024 net income of $9.985B. The retrieved SEC observations are $1.852B, $47.061B and $10.631B respectively. The agent also preserves PepsiCo’s fiscal dates and identifies the peer capital-spending coverage gap. This is one recorded comparison, not an estimate of general model accuracy.
 
 <details>
 <summary>No tools, no system prompt — complete recorded answer</summary>
 
-Based on NVIDIA’s financial reports, earnings releases, and subsequent actual results filed with the SEC through March 1, 2025, here is the analysis of NVIDIA’s expectations as of March 1, 2023, and how its annual revenue and operating income compared with AMD and Intel.
+### 1. Coca-Cola's 2023 Capital Spending: Stated Expectation vs. Actual
+
+*   **Stated Expectation:** In its Q4 2022 earnings release and 2023 outlook (provided in early February 2023), The Coca-Cola Company anticipated capital expenditures (CapEx) for the full year 2023 to be approximately **$1.9 billion**.
+*   **Actual Capital Spending:** According to Coca-Cola’s 2023 Form 10-K (Consolidated Statement of Cash Flows), actual cash paid for purchases of property, plant, and equipment (CapEx) in 2023 was **$1,927 million** (or approximately **$1.93 billion**).
+*   **Conclusion:** Coca-Cola **delivered very closely** on its capital-spending outlook, coming in essentially right on target with its early-2023 guidance.
 
 ---
 
-### Part 1: What NVIDIA Expected as of March 1, 2023
+### 2. Financial Comparison: Coca-Cola vs. PepsiCo (2023–2024)
 
-On February 22, 2023, NVIDIA reported its financial results for the fourth quarter and fiscal year ended January 29, 2023 (Fiscal Year 2023). Because NVIDIA’s fiscal year ends in late January, March 1, 2023, fell during the early weeks of **Fiscal Year 2024 (ending January 28, 2024)**. 
+*Note: Coca-Cola operates primarily on a beverage-focused model, whereas PepsiCo operates a hybrid beverage and convenient foods (snacks/Frito-Lay) model, which inherently results in a significantly larger total revenue footprint for PepsiCo.*
 
-At that time, NVIDIA provided the following guidance and outlook:
-*   **Q1 FY 2024 Revenue Outlook:** NVIDIA expected revenue for the first quarter of fiscal 2024 to be **$6.50 billion** (plus or minus 2%). 
-*   **Macroeconomic and Industry Context:** Management noted ongoing headwinds from macroeconomic conditions and supply chain inventory normalization in certain segments (such as gaming), but highlighted a major inflection point in **Generative AI**. NVIDIA pointed to surging demand for its accelerated computing and AI infrastructure (such as H100 and A100 GPUs), driven by large language models, cloud service providers, and enterprise adoption. However, at the time of the guidance in late February 2023, the full magnitude of the Generative AI boom had not yet been fully quantified in their formal multi-quarter or annual guidance, leading to revenue forecasts that were quickly surpassed as demand exploded in Q2 FY24.
+#### **Revenue Comparison**
+*   **The Coca-Cola Company (KO):**
+    *   **2023 Net Operating Revenues:** $45,754 million (~$45.75 billion) — *up ~6% YoY from $43,004 million in 2022.*
+    *   **2024 Net Operating Revenues:** $45,984 million (~$45.98 billion) — *up ~1% YoY.*
+*   **PepsiCo, Inc. (PEP):**
+    *   **2023 Net Revenue:** $91,471 million (~$91.47 billion) — *up ~9.5% YoY from $86,392 million in 2022.*
+    *   **2024 Net Revenue:** $91,845 million (~$91.85 billion) — *up ~0.4% YoY.*
 
----
-
-### Part 2: Subsequent Annual Revenue Comparison (Through March 1, 2025)
-
-*Note on Fiscal Years:* 
-*   **NVIDIA:** FY ends in late January (e.g., FY24 ended Jan 2024; FY25 ended Jan 2025).
-*   **AMD:** FY aligns closely with the calendar year.
-*   **Intel:** FY aligns closely with the calendar year.
-
-#### **Annual Revenue (in Billions USD):**
-
-| Company | FY 2023 / CY 2023 | FY 2024 / CY 2024 |
-| :--- | :--- | :--- |
-| **NVIDIA** *(FY basis)* | **$60.92B** (FY24, ended Jan 2024) | **$130.53B** (FY25, ended Jan 2025) |
-| **AMD** *(CY basis)* | **$22.68B** (CY23) | **$25.78B** (CY24) |
-| **Intel** *(CY basis)* | **$54.23B** (CY23) | **$53.10B** (CY24) |
-
-#### **Key Takeaways on Revenue:**
-1.  **NVIDIA's Explosive Growth:** Driven almost entirely by the Datacenter segment and the Generative AI revolution, NVIDIA’s annual revenue more than doubled in FY24 ($60.9B vs $27.0B in FY23) and more than doubled again in FY25 ($130.5B), vastly outpacing both competitors combined.
-2.  **AMD's Steady Expansion:** AMD experienced moderate, steady growth driven by data center CPU gains (EPYC) and the introduction of its MI300 AI accelerators, growing from ~$22.7B in 2023 to ~$25.8B in 2024.
-3.  **Intel's Stagnation/Decline:** Intel’s revenue remained relatively flat to down (hovering around $53–$54 billion), as it faced traditional PC market corrections, loss of CPU market share to AMD, and costly transitions in its foundry business model while working to catch up in AI silicon.
+#### **Net Income Comparison**
+*   **The Coca-Cola Company (KO):**
+    *   **2023 Net Income (Attributable to Shareholders):** $10,714 million (~$10.71 billion) — *up ~12% YoY from $9,542 million in 2022.*
+    *   **2024 Net Income (Attributable to Shareholders):** $9,985 million (~$9.99 billion) — *down ~7% YoY.*
+*   **PepsiCo, Inc. (PEP):**
+    *   **2023 Net Income (Attributable to Company):** $9,073 million (~$9.07 billion) — *up ~2% YoY from $8,910 million in 2022.*
+    *   **2024 Net Income (Attributable to Company):** $9,332 million (~$9.33 billion) — *up ~3% YoY.*
 
 ---
 
-### Part 3: Subsequent Operating Income Comparison (Through March 1, 2025)
-
-#### **Annual Operating Income (in Billions USD):**
-
-| Company | FY 2023 / CY 2023 | FY 2024 / CY 2024 |
-| :--- | :--- | :--- |
-| **NVIDIA** *(FY basis)* | **$32.97B** (FY24, ended Jan 2024) | **$77.06B** (FY25, ended Jan 2025) |
-| **AMD** *(CY basis)* | **$1.32B** (CY23 - GAAP) / $4.5B (Non-GAAP) | **$1.80B** (CY24 - GAAP) / ~$5.6B (Non-GAAP) |
-| **Intel** *(CY basis)* | **$(2.86B)** (CY23 - GAAP loss) | **$(19.23B)** (CY24 - GAAP loss)* |
-
-*\*Note: Intel's CY24 operating loss was heavily impacted by restructuring charges, impairment charges, and the newly segregated reporting structure for Intel Foundry, which recorded steep operating losses.*
-
-#### **Key Takeaways on Operating Income:**
-1.  **NVIDIA's Margin Expansion:** Because of the high pricing power and software ecosystem (CUDA) associated with its AI chips, NVIDIA's operating margins expanded dramatically. Operating income skyrocketed from $33.0 billion in FY24 to over $77.0 billion in FY25.
-2.  **AMD's Profitability:** AMD remained consistently profitable on a non-GAAP basis (generating mid-single-digit billions in operating income), though GAAP operating income was lower due to amortization from the Xilinx acquisition and R&D investments.
-3.  **Intel's Severe Bottom-Line Pressure:** Unlike NVIDIA's massive profitability, Intel posted substantial GAAP operating losses across 2023 and 2024 as it poured capital into building out its foundry manufacturing capabilities (Intel Foundry) ahead of securing sufficient external customer volume to offset those fixed costs.
+### Summary Takeaways
+1. **CapEx:** Coca-Cola successfully met its 2023 CapEx guidance of ~$1.9 billion by actually spending ~$1.93 billion.
+2. **Scale:** PepsiCo generated roughly double the total revenue of Coca-Cola in both 2023 and 2024, driven by its massive snacks and food portfolio.
+3. **Profitability:** Despite generating lower overall revenue, Coca-Cola consistently recorded higher absolute net income than PepsiCo across both 2023 and 2024 due to its higher net profit margins and asset-light bottling strategy (equity method investments).
 
 </details>
 
 <details>
 <summary>The Receipts — complete evidence-based answer</summary>
 
-# NVIDIA, AMD, and Intel Annual Performance Investigation (2020-2025)
+# Coca-Cola 2023 Capital-Spending Outlook and Peer Comparison
 
-**Insufficient evidence**
+**Supported**
 
-NVDA revenue for the fiscal period ended 2025-01-26 was $130.497 billion [E47912effca](https://www.sec.gov/Archives/edgar/data/1045810/000104581025000023/0001045810-25-000023-index.html), up from $60.922 billion for 2024-01-28 [E1d1ed85017](https://www.sec.gov/Archives/edgar/data/1045810/000104581024000029/0001045810-24-000029-index.html). NVDA net income for the fiscal period ended 2025-01-26 was $72.880 billion [Ebc64b283ab](https://www.sec.gov/Archives/edgar/data/1045810/000104581025000023/0001045810-25-000023-index.html), up from $29.760 billion for 2024-01-28 [E05bed4e2f8](https://www.sec.gov/Archives/edgar/data/1045810/000104581024000029/0001045810-24-000029-index.html).
+Coca-Cola stated an expectation for 2023 capital expenditures of approximately $1.9 billion [E82c57991e1](https://www.sec.gov/Archives/edgar/data/21344/000002134423000011/ko-20221231.htm). Actual 2023 capital expenditures were reported as $1.852 billion [E647ed897d4](https://www.sec.gov/Archives/edgar/data/21344/000002134424000009/0000021344-24-000009-index.html), aligning with the approximate outlook. Across 2023 and 2024, Coca-Cola grew its annual revenues [Ee1bae635d7](https://www.sec.gov/Archives/edgar/data/21344/000002134424000009/0000021344-24-000009-index.html) [Ec41c902967](https://www.sec.gov/Archives/edgar/data/21344/000002134425000011/0000021344-25-000011-index.html) while net income rose in 2023 [E5035cbb36c](https://www.sec.gov/Archives/edgar/data/21344/000002134424000009/0000021344-24-000009-index.html) and decreased in 2024 [E123e0ecf48](https://www.sec.gov/Archives/edgar/data/21344/000002134425000011/0000021344-25-000011-index.html), and PepsiCo grew both its annual revenues and net incomes [Eb43b5f15bf](https://www.sec.gov/Archives/edgar/data/77476/000007747624000008/0000077476-24-000008-index.html) [Ebc8b9107fb](https://www.sec.gov/Archives/edgar/data/77476/000007747625000007/0000077476-25-000007-index.html) [E74678f2612](https://www.sec.gov/Archives/edgar/data/77476/000007747624000008/0000077476-24-000008-index.html) [Eb68ff6e569](https://www.sec.gov/Archives/edgar/data/77476/000007747625000007/0000077476-25-000007-index.html).
+
+## Numbers on record
+
+KO revenue for the fiscal period ended 2024-12-31 was $47.061 billion [Ec41c902967](https://www.sec.gov/Archives/edgar/data/21344/000002134425000011/0000021344-25-000011-index.html), up from $45.754 billion for 2023-12-31 [Ee1bae635d7](https://www.sec.gov/Archives/edgar/data/21344/000002134424000009/0000021344-24-000009-index.html). KO net income for the fiscal period ended 2024-12-31 was $10.631 billion [E123e0ecf48](https://www.sec.gov/Archives/edgar/data/21344/000002134425000011/0000021344-25-000011-index.html), down from $10.714 billion for 2023-12-31 [E5035cbb36c](https://www.sec.gov/Archives/edgar/data/21344/000002134424000009/0000021344-24-000009-index.html). KO cash PP&E purchases for the fiscal period ended 2024-12-31 was $2.064 billion [E799f9ee4c4](https://www.sec.gov/Archives/edgar/data/21344/000002134425000011/0000021344-25-000011-index.html), up from $1.852 billion for 2023-12-31 [E647ed897d4](https://www.sec.gov/Archives/edgar/data/21344/000002134424000009/0000021344-24-000009-index.html).
 
 ## What was knowable then
 
-As of March 1, 2023, NVIDIA reported $652 million of unrecognized revenue related to performance obligations as of January 29, 2023, expecting to recognize approximately 47% over the next 12 months [Eba3e597e7e](https://www.sec.gov/Archives/edgar/data/1045810/000104581023000017/nvda-20230129.htm). Additionally, NVIDIA expected to fund capital investments of approximately $1.10 billion to $1.30 billion for property and equipment in fiscal year 2024 using existing cash, marketable securities, and operations cash flow [Eb100d5373c](https://www.sec.gov/Archives/edgar/data/1045810/000104581023000017/nvda-20230129.htm).
+As of March 1, 2023, based on Coca-Cola's Form 10-K filed on February 21, 2023 for the period ending December 31, 2022, the company stated that it expected 2023 capital expenditures to be approximately $1.9 billion [E82c57991e1](https://www.sec.gov/Archives/edgar/data/21344/000002134423000011/ko-20221231.htm). Additionally, prior quarterly filings from 2022 showed consistent prior expectations for 2022 capital expenditures of approximately $1.5 billion [E786e4fa101](https://www.sec.gov/Archives/edgar/data/21344/000002134422000042/ko-20220930.htm) [E6993754f03](https://www.sec.gov/Archives/edgar/data/21344/000002134422000034/ko-20220701.htm). Historical financial results for both Coca-Cola and PepsiCo through year-end 2022 were accessible in their respective SEC filings [E4480890e69](https://www.sec.gov/Archives/edgar/data/21344/000002134423000011/0000021344-23-000011-index.html) [E14b6e0c8c0](https://www.sec.gov/Archives/edgar/data/77476/000007747623000007/0000077476-23-000007-index.html).
 
 ## What happened later
 
-Subsequent financial reporting demonstrated substantial growth for NVIDIA, with annual revenue moving from $26,974,000,000 in fiscal 2023 to $60,922,000,000 in fiscal 2024 and $130,497,000,000 in fiscal 2025 [E27fc4964d7](https://www.sec.gov/Archives/edgar/data/1045810/000104581023000017/0001045810-23-000017-index.html) [E1d1ed85017](https://www.sec.gov/Archives/edgar/data/1045810/000104581024000029/0001045810-24-000029-index.html) [E47912effca](https://www.sec.gov/Archives/edgar/data/1045810/000104581025000023/0001045810-25-000023-index.html). NVIDIA's operating income shifted from $4,224,000,000 in fiscal 2023 to $32,972,000,000 in fiscal 2024 and $81,453,000,000 in fiscal 2025 [Ec91c36e46f](https://www.sec.gov/Archives/edgar/data/1045810/000104581023000017/0001045810-23-000017-index.html) [E8c58b8d2cd](https://www.sec.gov/Archives/edgar/data/1045810/000104581024000029/0001045810-24-000029-index.html) [Edfa0a58d57](https://www.sec.gov/Archives/edgar/data/1045810/000104581025000023/0001045810-25-000023-index.html).
+For the fiscal year ended December 31, 2023, Coca-Cola reported actual capital expenditures (payments to acquire property, plant and equipment) of $1,852,000,000 [E647ed897d4](https://www.sec.gov/Archives/edgar/data/21344/000002134424000009/0000021344-24-000009-index.html), which closely matched the approximately $1.9 billion expectation [E82c57991e1](https://www.sec.gov/Archives/edgar/data/21344/000002134423000011/ko-20221231.htm). In the subsequent fiscal year ended December 31, 2024, Coca-Cola's capital expenditures rose to $2,064,000,000 [E799f9ee4c4](https://www.sec.gov/Archives/edgar/data/21344/000002134425000011/0000021344-25-000011-index.html). Coca-Cola's revenue for fiscal 2023 was $45,754,000,000 with net income of $10,714,000,000, and for fiscal 2024 revenue was $47,061,000,000 with net income of $10,631,000,000 [Ee1bae635d7](https://www.sec.gov/Archives/edgar/data/21344/000002134424000009/0000021344-24-000009-index.html) [Ec41c902967](https://www.sec.gov/Archives/edgar/data/21344/000002134425000011/0000021344-25-000011-index.html) [E5035cbb36c](https://www.sec.gov/Archives/edgar/data/21344/000002134424000009/0000021344-24-000009-index.html) [E123e0ecf48](https://www.sec.gov/Archives/edgar/data/21344/000002134425000011/0000021344-25-000011-index.html).
 
 ## The peer test
 
-Over the same structural window through early 2025, competitors experienced distinct trajectories. AMD annual revenue moved from $23,601,000,000 in 2022 to $22,680,000,000 in 2023, and reached $25,785,000,000 in 2024, with operating income shifting from $1,264,000,000 in 2022 down to $401,000,000 in 2023, then recovering to $1,900,000,000 in 2024 [E7c0de70da3](https://www.sec.gov/Archives/edgar/data/2488/000000248823000047/0000002488-23-000047-index.html) [Ed422eea5f5](https://www.sec.gov/Archives/edgar/data/2488/000000248824000012/0000002488-24-000012-index.html) [E2e09a06900](https://www.sec.gov/Archives/edgar/data/2488/000000248825000012/0000002488-25-000012-index.html) [Ea8789b8551](https://www.sec.gov/Archives/edgar/data/2488/000000248823000047/0000002488-23-000047-index.html) [E40807037c2](https://www.sec.gov/Archives/edgar/data/2488/000000248824000012/0000002488-24-000012-index.html) [Eaca1b81d9d](https://www.sec.gov/Archives/edgar/data/2488/000000248825000012/0000002488-25-000012-index.html). Intel annual revenue moved from $63,054,000,000 in 2022 to $54,228,000,000 in 2023 and $53,101,000,000 in 2024, culminating in an operating loss of $11,678,000,000 and a net loss of $18,756,000,000 in 2024 [Edefd1682e4](https://www.sec.gov/Archives/edgar/data/50863/000005086323000006/0000050863-23-000006-index.html) [E7a1493ba18](https://www.sec.gov/Archives/edgar/data/50863/000005086324000010/0000050863-24-000010-index.html) [E9825b28a5f](https://www.sec.gov/Archives/edgar/data/50863/000005086325000009/0000050863-25-000009-index.html) [E9846e465e4](https://www.sec.gov/Archives/edgar/data/50863/000005086325000009/0000050863-25-000009-index.html) [E58906c3289](https://www.sec.gov/Archives/edgar/data/50863/000005086325000009/0000050863-25-000009-index.html).
+PepsiCo reports on a fiscal calendar ending on the last Saturday of December, whereas Coca-Cola reports on a calendar year ending December 31. For fiscal year 2023 (period ending 2023-12-30), PepsiCo reported revenue of $91,471,000,000 and net income of $9,074,000,000 [Eb43b5f15bf](https://www.sec.gov/Archives/edgar/data/77476/000007747624000008/0000077476-24-000008-index.html) [E74678f2612](https://www.sec.gov/Archives/edgar/data/77476/000007747624000008/0000077476-24-000008-index.html). For fiscal year 2024 (period ending 2024-12-28), PepsiCo reported revenue of $91,854,000,000 and net income of $9,578,000,000 [Ebc8b9107fb](https://www.sec.gov/Archives/edgar/data/77476/000007747625000007/0000077476-25-000007-index.html) [Eb68ff6e569](https://www.sec.gov/Archives/edgar/data/77476/000007747625000007/0000077476-25-000007-index.html). PepsiCo annual capital expenditures under supported XBRL tags are missing in the provided dataset [E5b96e2debc]. Both companies demonstrated growing revenues across 2023 and 2024 [Eb43b5f15bf](https://www.sec.gov/Archives/edgar/data/77476/000007747624000008/0000077476-24-000008-index.html) [Ebc8b9107fb](https://www.sec.gov/Archives/edgar/data/77476/000007747625000007/0000077476-25-000007-index.html) [Ee1bae635d7](https://www.sec.gov/Archives/edgar/data/21344/000002134424000009/0000021344-24-000009-index.html) [Ec41c902967](https://www.sec.gov/Archives/edgar/data/21344/000002134425000011/0000021344-25-000011-index.html), while net income trajectories diverged in 2024 as PepsiCo's net income increased [Eb68ff6e569](https://www.sec.gov/Archives/edgar/data/77476/000007747625000007/0000077476-25-000007-index.html) and Coca-Cola's net income decreased [E123e0ecf48](https://www.sec.gov/Archives/edgar/data/21344/000002134425000011/0000021344-25-000011-index.html).
 
 ## Cross-examination
 
-Management statements from early 2023 outlined directional accounting obligations and liquidity deployment plans rather than definitive enterprise revenue targets [Eba3e597e7e](https://www.sec.gov/Archives/edgar/data/1045810/000104581023000017/nvda-20230129.htm) [Eb100d5373c](https://www.sec.gov/Archives/edgar/data/1045810/000104581023000017/nvda-20230129.htm). Capital expenditure and specific funding sources cannot be directly verified under supported XBRL tags for NVIDIA in certain windows, meaning broader revenue metrics cannot verify granular spending expectations [Ec3ba2c3afd]. Peer results confirm that competitors did not mirror NVIDIA's profit direction, as Intel and AMD faced contracting or volatile operating incomes while NVIDIA scaled exponentially.
+Management's statement regarding 2023 capital expenditures was phrased as an approximation ("approximately $1.9 billion") rather than a strict numeric guarantee [E82c57991e1](https://www.sec.gov/Archives/edgar/data/21344/000002134423000011/ko-20221231.htm). The actual reported figure of $1.852 billion falls inside a reasonable margin around this estimate [E647ed897d4](https://www.sec.gov/Archives/edgar/data/21344/000002134424000009/0000021344-24-000009-index.html). Investors must distinguish between directional commentary on cost pressures—such as expected impacts on gross margins or foreign currency fluctuations—and verifiable quantitative spending outcomes [Ea83c42e034](https://www.sec.gov/Archives/edgar/data/21344/000002134423000011/ko-20221231.htm) [Ee3824abbb6](https://www.sec.gov/Archives/edgar/data/21344/000002134422000042/ko-20220930.htm). Revenue growth provides no direct verification of spending targets.
 
 ## Limits
 
-- NVIDIA capex data is missing due to unsupported XBRL tags in the provided source window.
-- Fiscal year end dates differ slightly between NVIDIA (late January), AMD (late December), and Intel (late December).
-- The financial comparison may be informative, but no retrieved management claim was linked to testable outcomes. The overall claim verdict is therefore insufficient evidence.
+- PepsiCo annual capital expenditures (capex) data is absent under supported XBRL tags in the available dataset [E5b96e2debc], preventing a direct capex peer comparison. Specific funding sources and segment-level breakdowns for Coca-Cola's capital expenditures remain unverified by entity-wide cash totals.
 
 </details>
 
 
-#### Cloud: same-model comparison
+#### Cloud platforms: same-model comparison
 
 <details>
 <summary>No tools, no system prompt — complete recorded answer</summary>
 
 ### Executive Summary: What the Data Can Actually Test
 
-Comparing management guidance, forward-looking investment expectations, and subsequent actual financial performance for **Microsoft (MSFT)**, **Amazon (AMZN)**, and **Alphabet (GOOGL)** from 2020 through early 2025 reveals distinct patterns in how these tech giants communicate strategic shifts. 
+Comparing management guidance, forward-looking investment expectations, and subsequent actual financial performance for **Microsoft (MSFT)**, **Amazon (AMZN)**, and **Alphabet (GOOGL)** from 2020 through early 2025 reveals distinct patterns in how these tech giants communicate strategic shifts.
 
 However, before diving into the data, we must rigorously define **what historical financial data can and cannot test**.
 
@@ -363,7 +350,7 @@ However, before diving into the data, we must rigorously define **what historica
 
 #### Testing Management Expectations vs. Reality
 1.  **Claim:** *Management successfully signaled the massive infrastructure ramp-up well before CapEx spiked.*
-    *   **Test Result:** **Confirmed.** Throughout FY2023 earnings calls, Microsoft executives explicitly warned that cloud optimization cycles were maturing, but simultaneously emphasized that AI demand was outstripping capacity. 
+    *   **Test Result:** **Confirmed.** Throughout FY2023 earnings calls, Microsoft executives explicitly warned that cloud optimization cycles were maturing, but simultaneously emphasized that AI demand was outstripping capacity.
     *   **The Data:** CapEx jumped from $23.9B in FY22 to $31.9B in FY23, and then skyrocketed by over 74% to $55.7B in FY24. Management's qualitative signals correctly predicted the inflection point, though the *magnitude* of the CapEx acceleration caught many market analysts off guard.
 2.  **Claim:** *Heavy infrastructure investments successfully protected or accelerated top-line growth.*
     *   **Test Result:** **Mixed / Partially Testable.** Revenue growth slowed from double digits during the pandemic peak to ~7% in FY23 (Constant Currency), but re-accelerated to ~16% in FY24 as Azure incorporated AI workloads (Azure growth rates explicitly separated AI contributions, showing 6–8 points of growth coming from AI by mid-2024). Thus, the capital outlays correlated directly with stabilizing and re-accelerating cloud growth.
@@ -381,7 +368,7 @@ However, before diving into the data, we must rigorously define **what historica
 
 #### Testing Management Expectations vs. Reality
 1.  **Claim:** *Management’s realization of over-capacity in 2022 led to a disciplined pullback in capital allocation.*
-    *   **Test Result:** **Confirmed.** In early 2022, Andy Jassy and Brian Olsavsky openly admitted they had doubled their fulfillment network size too quickly. 
+    *   **Test Result:** **Confirmed.** In early 2022, Andy Jassy and Brian Olsavsky openly admitted they had doubled their fulfillment network size too quickly.
     *   **The Data:** CapEx growth flattened and actually dropped absolute dollars in 2022 ($59.0B down from $61.1B in '21) while revenue growth decelerated sharply to ~9% in 2022. Management successfully diagnosed the over-capacity issue and slowed logistics deployment.
 2.  **Claim:** *Subsequent management guidance regarding "AI as the next leg of growth" justified a return to aggressive CapEx spending in 2023–2024.*
     *   **Test Result:** **Confirmed by Data, Unprovable on Exact ROI.** Amazon re-accelerated CapEx significantly through 2024 to support AWS customer demand for generative AI. While AWS revenue growth recovered from its early 2023 lows (dipping below 15% to returning to ~19% by late 2024), separating traditional cloud migration revenue from net-new AI revenue remains impossible using standard public filings.
@@ -398,7 +385,7 @@ However, before diving into the data, we must rigorously define **what historica
 
 #### Testing Management Expectations vs. Reality
 1.  **Claim:** *Management's 2023 "shared AI focus" and cost-discipline mandates successfully protected operating margins despite surging infrastructure costs.*
-    *   **Test Result:** **Confirmed.** In early 2023, CEO Sundar Pichai and CFO Ruth Porat emphasized "durably re-engineering our cost base." 
+    *   **Test Result:** **Confirmed.** In early 2023, CEO Sundar Pichai and CFO Ruth Porat emphasized "durably re-engineering our cost base."
     *   **The Data:** Alphabet slowed headcount growth and optimized office space, which, combined with stabilizing advertising revenues, caused operating margins to *expand* from ~26% in 2022 to nearly 30% by late 2024, even as technical infrastructure CapEx accelerated. Management successfully walked the tightrope of funding heavy AI investments while cutting non-core operational fat.
 2.  **Claim:** *Cloud (GCP) growth rates would validate management's investment in enterprise AI services.*
     *   **Test Result:** **Confirmed.** GCP transitioned from a low-margin challenger to a high-growth profit driver, with growth rates consistently outpacing or matching market expectations through 2023–2024, explicitly driven by AI infrastructure adoption by enterprise clients.
@@ -416,7 +403,7 @@ However, before diving into the data, we must rigorously define **what historica
 
 ### Conclusion
 
-The data confirms that for Microsoft, Amazon, and Alphabet, **management commentary regarding structural shifts (such as the 2023 AI pivot) served as highly reliable leading indicators for massive capital expenditure surges 12–18 months later.** 
+The data confirms that for Microsoft, Amazon, and Alphabet, **management commentary regarding structural shifts (such as the 2023 AI pivot) served as highly reliable leading indicators for massive capital expenditure surges 12–18 months later.**
 
 However, because these firms do not provide long-term quantitative revenue guidance, and because GAAP financial statements lump AI infrastructure investments together with legacy cloud and search maintenance, **investors cannot use public financial data to test the precise return on investment (ROI) of the multi-billion-dollar AI buildout.** We can only observe that top-line growth stabilized or re-accelerated as these capital investments hit the balance sheet, proving strategic execution, but leaving exact asset-level profitability unquantifiable.
 
@@ -479,7 +466,7 @@ Open `http://localhost:8000`. When ADC is absent locally, the model adapter can 
 
 ## Tests
 
-Local regression verification (November 3): **47 tests passed**. The public Cloud Run service also returned HTTP 200 for the homepage, health, catalog and a complete, cited `/chat` investigation. A second browser-driven live investigation completed with working source links, receipt cards and charts.
+Local regression verification (November 7): **94 checks passed** (86 Python tests and 8 JavaScript tests). The public Cloud Run service also returned HTTP 200 for the homepage, health, catalog and a complete, cited `/chat` investigation. A second browser-driven live investigation completed with working source links, receipt cards and charts.
 
 ```bash
 uv run pytest -q
@@ -496,6 +483,18 @@ Tests include real archived SEC/price parsing, as-of filing filters, annual-dura
 Target: `ieor-4570-f26-ap4839`, account `ap4839@columbia.edu`, region `us-east1`, service `the-receipts`. Root `app.py` binds `0.0.0.0:$PORT`. Docker installs the pinned `uv.lock`; `cloudbuild.yaml` runs the test suite, builds/pushes the image and deploys it on main-branch pushes. The GitHub repository is private. The Developer Connect link and trigger configuration are in `docs/trigger.yaml`; it uses the course project's existing connection and service account.
 
 The runtime service account needs Vertex AI access; the build identity also needs Artifact Registry write, Cloud Run deployment and service-account-use permissions. These identities are reused from the existing course setup. Deployment uses 1 CPU, 1 GiB memory, minimum 0 instances, maximum 1, HTTP concurrency 32 and a 300-second timeout. AI investigations are separately capped at two; the larger HTTP allowance leaves room for page assets, health checks and short validation requests. Maximum 1 supports in-memory sessions and a single SEC request limiter. Cold starts and restarts can lose sessions; archived sources are immutable image data. Keep the service available through grading.
+
+Access is restricted by IAP directly on this Cloud Run service. The service-level IAP policy grants `roles/iap.httpsResourceAccessor` to `domain:columbia.edu`; the Cloud Run invocation policy grants `roles/run.invoker` only to `service-1027747864849@gcp-sa-iap.iam.gserviceaccount.com`. Anonymous requests must reach Google sign-in. Both deployment paths explicitly keep IAP and invoker IAM checks enabled and disallow unauthenticated invocation. The IAP domain binding persists separately from application revisions; do not remove it when deploying. See [Google’s direct Cloud Run IAP guide](https://docs.cloud.google.com/run/docs/securing/identity-aware-proxy-cloud-run).
+
+Inspect the access policy with:
+
+```bash
+gcloud iap web get-iam-policy --project=ieor-4570-f26-ap4839 \
+  --account=ap4839@columbia.edu --region=us-east1 \
+  --resource-type=cloud-run --service=the-receipts
+```
+
+The recorded public-endpoint stress suites preceded IAP. After enabling IAP, use the signed-in browser for live checks, or point the live-test scripts at a local app; anonymous requests to `/chat` or `/health` are intentionally intercepted by sign-in.
 
 A manual fallback is available with `./scripts/deploy.sh`. Do not run it concurrently with an in-flight continuous build. `submission.json` contains the verified deployed URL only after successful deployment and a real live investigation. Submit the **GitHub repository URL** on CourseWorks; deployment is not the same as assignment submission. Instructor collaborator invitations are a separate user action if the repository remains private.
 

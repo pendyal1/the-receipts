@@ -59,8 +59,21 @@
       "financials": 25,
       "prices": 1297,
       "claims": 10
+    },
+    {
+      "ticker": "KO",
+      "financials": 25,
+      "prices": 1297,
+      "claims": 10
+    },
+    {
+      "ticker": "PEP",
+      "financials": 20,
+      "prices": 1297,
+      "claims": 10
     }
   ],
-  "archive_files": 66,
-  "notes": "Unmodified UTF-8 source bodies with SHA-256, original URL and retrieval timestamp. Public historical data; archived at build time, not known at historical dates."
+  "archive_files": 78,
+  "notes": "Unmodified UTF-8 source bodies with SHA-256, original URL and retrieval timestamp. Public historical data; archived at build time, not known at historical dates.",
+  "consumer_staples_added_at": "2026-11-07T23:43:15.087329+00:00"
 }

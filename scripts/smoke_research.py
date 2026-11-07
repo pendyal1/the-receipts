@@ -8,7 +8,7 @@ from receipts.research import Investigator
 
 CASES = [
     ('automakers', ['TSLA', 'GM', 'F'], "Did Tesla's growth expectations hold up after 2022? Cross-examine the evidence and compare annual revenue and profitability with GM and Ford."),
-    ('chips', ['NVDA', 'AMD', 'INTC'], 'As of March 1, 2023, what did NVIDIA expect, and how did annual revenue and operating income subsequently compare with AMD and Intel through March 1, 2025?'),
+    ('consumer-staples', ['KO', 'PEP'], 'Did Coca-Cola deliver on its 2023 capital-spending outlook? Compare its stated expectation with actual capital spending, and compare 2023–2024 revenue and net income with PepsiCo.'),
     ('cloud', ['MSFT', 'AMZN', 'GOOGL'], 'Compare management growth and investment expectations with later annual revenue and capital expenditures for Microsoft, Amazon and Alphabet. Which claims can the data actually test?'),
 ]
 

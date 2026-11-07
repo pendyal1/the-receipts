@@ -1,4 +1,4 @@
-"""Archive real public sources for the three reproducible demo cases."""
+"""Archive real public sources for the featured cases and archived starter industries."""
 import json
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
@@ -28,7 +28,7 @@ def load(ticker, primary=False):
 if __name__ == '__main__':
     results = []
     with ThreadPoolExecutor(max_workers=3) as pool:
-        jobs = [pool.submit(load, t, True) for group in INDUSTRIES.values() for i, t in enumerate(group)]
+        jobs = [pool.submit(load, t, True) for group in [*INDUSTRIES.values(), ['KO', 'PEP']] for t in group]
         for future in as_completed(jobs):
             result = future.result()
             results.append(result)
