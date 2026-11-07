@@ -271,8 +271,17 @@ class Investigator:
             plan = self.model_call(ledger, 'Lead', 'plan', LEAD_PLAN,
                 {'question': question, 'explicit_scope': explicit_scope, 'previous_scope': previous_scope,
                  'previous_question': previous_question, 'industry_map': INDUSTRIES, 'verified_companies': companies}, deadline)
-            if plan.get('clarification'):
-                return {'response': str(plan['clarification']), 'tool_calls': ledger.traces,
+            clarification = str(plan.get('clarification') or '')
+            ready_tasks = all(str(plan.get('tasks', {}).get(agent, '')).strip() for agent in ('Claims', 'Financials', 'Peers', 'Context'))
+            supported_part = re.search(r'\bannual\b.{0,50}\b(?:revenue|income|cash|capital|profit)', message, re.I)
+            progress_note = re.search(r'will (?:be )?(?:research|compare|investigat)|can (?:still )?(?:research|compare|investigat)', clarification, re.I)
+            decision_needed = re.search(r'\?|\b(?:which|please|clarify|choose|confirm)\b', clarification, re.I)
+            if clarification and ready_tasks and supported_part and progress_note and not decision_needed and (explicit_scope or previous_scope):
+                investigation['limits'].append(clarification)
+                ledger.trace('Lead', 'continue_supported_research', {}, {'limitation_note': clarification, 'reason': 'A complete research plan and dated scope exist; the note does not ask for a user decision.'})
+                clarification = ''
+            if clarification:
+                return {'response': clarification, 'tool_calls': ledger.traces,
                         'investigation': {**investigation, 'status': 'clarification'}}
             if not explicit_scope and not previous_scope and not explicit_date_roles(message):
                 return {'response': 'Which research start date, historical knowledge cutoff, and later outcome cutoff should I use? For example: start 2020-01-01, as of 2023-03-01, outcomes through 2025-03-01.',
@@ -340,6 +349,15 @@ class Investigator:
                      'quantitative_range_checks': range_checks, 'financial_changes': changes,
                      'instruction': 'Remove unsupported claims and use only existing IDs. Every factual paragraph needs citations.'}, deadline)
                 report, citation_errors = validate_report(repair, ledger.evidence, investigation['scope'])
+            if citation_errors and not any(r.get('kind') in ('financial', 'claim') for r in ledger.evidence.values()):
+                # No company evidence exists to interpret. Report the actual
+                # retrieval limits deterministically rather than letting a
+                # malformed AI draft turn an honest coverage answer into failure.
+                report = coverage_summary(ledger.evidence, investigation['scope'])
+                report, citation_errors = validate_report(report, ledger.evidence, investigation['scope'])
+                investigation['report_kind'] = 'coverage_summary'
+                investigation['limits'].append('The AI draft could not be verified. The displayed report is a deterministic source-coverage summary, not a financial assessment.')
+                ledger.trace('Writer', 'finalize_coverage_summary', {}, {'basis': 'No management passages or annual financial observations were retrieved', 'report': report})
             if citation_errors:
                 raise ModelError('The report did not pass evidence-reference validation. Collected sources remain available; no unverified report was published.')
             report['summary'] = calculated_summary(ledger.evidence, scope.tickers[0]) or report['summary']
@@ -389,10 +407,10 @@ def validate_report(raw, evidence, scope=None):
     for text in texts:
         ids = re.findall(r'\[(E[a-zA-Z0-9]+)\]', text)
         if allowed and not ids and text not in scope_only_texts:
-            errors.append('A factual summary or section is missing evidence citations.')
+            errors.append('This summary or section needs citations to existing ledger IDs. If it describes missing data, cite the relevant source_gap IDs. Revise this text: ' + text)
         if any(eid not in evidence for eid in ids):
             errors.append('Unknown or unavailable evidence citation.')
-        if any(evidence.get(eid, {}).get('kind') == 'source_gap' for eid in ids) and not re.search(r'missing|unavailable|not available|not provided|unprovided|cannot|untest|not testable|lack|limited|incomplete|unpopulated|not retrieved|not captured|not returned|not represented|not found|not covered|not present|absen|(?:source|coverage|disclosure) gap|unsupported|no (?:annual|matching|historical|financial|management|company|peer|records|data|coverage)|\bno\b[^.!?]{0,100}\b(?:retrieved|provided|present|available|found)\b', text, re.I):
+        if any(evidence.get(eid, {}).get('kind') == 'source_gap' for eid in ids) and not re.search(r'\b(?:neither|none|without)\b|missing|unavailable|not available|not provided|unprovided|cannot|untest|not testable|lack|limited|incomplete|unpopulated|not retrieved|not captured|not returned|not represented|not found|not covered|not present|absen|(?:source|coverage|disclosure) gap|unsupported|no (?:annual|matching|historical|financial|management|company|peer|records|data|coverage)|\bno\b[^.!?]{0,100}\b(?:retrieved|provided|present|available|found)\b', text, re.I):
             errors.append('A coverage-gap reference can only support missing evidence. If this is a coverage limitation, use the explicit wording "not available under the supported tags/search"; otherwise remove the unsupported gap citation. Revise this text: ' + text)
         if re.search(r'https?://', text):
             errors.append('Writer must use evidence IDs, not generated URLs.')
@@ -452,6 +470,24 @@ def validate_report(raw, evidence, scope=None):
     if not allowed and report['verdict'] != 'insufficient evidence':
         errors.append('No usable evidence: verdict must be insufficient evidence.')
     return report, list(dict.fromkeys(errors))
+
+
+def coverage_summary(evidence, scope):
+    gaps = [(eid, r) for eid, r in evidence.items() if r.get('kind') == 'source_gap']
+    def references(phase):
+        matches = [eid for eid, r in gaps if r.get('phase') == phase]
+        return ' '.join(f'[{eid}]' for eid in (matches or [eid for eid, _ in gaps])[:3])
+    known, later = references('known_then'), references('later_results')
+    companies = ', '.join(scope['tickers'])
+    return {'title': 'Insufficient company evidence in this window', 'verdict': 'insufficient evidence',
+        'summary': f'No management passages or supported annual financial observations were retrieved for {companies} in the selected window. This is a coverage limit; it does not establish that filings or results do not exist. {known}',
+        'sections': [
+            {'title': 'What was knowable then', 'text': f'No matching company claims or supported annual observations were retrieved by the historical cutoff {scope["as_of"]}. {known}'},
+            {'title': 'What happened later', 'text': f'No supported annual company outcomes were retrieved through {scope["through"]}. {later}'},
+            {'title': 'The peer test', 'text': f'No comparable annual company outcomes are available under the supported tags in this window. {later}'},
+            {'title': 'Cross-examination', 'text': f'The retrieved company evidence cannot test management forecasts or establish intent. Market and macro context cannot substitute for missing company disclosures. {known}'}],
+        'receipts': [], 'limits': ['The AI draft could not be verified; this is a deterministic summary of source coverage only.',
+            'The adapters cover a bounded filing search and selected annual US GAAP USD tags. IFRS, other forms, quarterly results and company-specific tags may fall outside this coverage.']}
 
 
 def validate_peer_directions(text, evidence, scope):

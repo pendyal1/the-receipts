@@ -279,6 +279,8 @@ def test_no_specific_outlook_was_retrieved_is_a_valid_gap_explanation():
     assert not validate_report(raw,{'Egap':{'kind':'source_gap'}})[1]
     raw['summary']='Ford capex metrics remain unpopulated under supported tags, creating a disclosure gap [Egap].'
     assert not validate_report(raw,{'Egap':{'kind':'source_gap'}})[1]
+    raw['summary']='Neither company provided supported annual capex metrics for comparison [Egap].'
+    assert not validate_report(raw,{'Egap':{'kind':'source_gap'}})[1]
 
 
 def test_not_testable_gap_is_an_explanation_not_a_financial_outcome():
@@ -420,3 +422,48 @@ def test_mixed_peer_profit_directions_cannot_be_called_uniform_expansion():
     assert validate_peer_directions('Entity-wide revenue and net income growth at GM and Ford do not verify capex.',evidence,scope)
     assert not validate_peer_directions('Profit directions diverged: Tesla and GM declined while Ford increased.',evidence,scope)
     assert not validate_peer_directions('Net income growth across peers between 2020 and 2024 requires a separate historical comparison.',evidence,scope)
+
+
+def test_empty_company_coverage_has_a_sourced_explicit_fallback():
+    from receipts.research import coverage_summary
+    evidence={'Eg1':{'kind':'source_gap','phase':'known_then','ticker':'TSM'},
+              'Eg2':{'kind':'source_gap','phase':'later_results','ticker':'TSM'},
+              'Em':{'kind':'macro','phase':'hindsight_context'}}
+    scope=dict(SCOPE,tickers=['TSM'])
+    report,errors=validate_report(coverage_summary(evidence,scope),evidence,scope)
+    assert not errors
+    assert report['verdict']=='insufficient evidence'
+    assert report['receipts']==[]
+    assert 'deterministic' in report['limits'][0]
+    assert '[Em]' not in json.dumps(report)
+
+
+def test_empty_company_evidence_does_not_publish_a_fabricated_ai_draft():
+    class NoCompanyData(FakeSources):
+        def financials(self,*args):return []
+        def passages(self,*args,**kwargs):return []
+    class BadWriter(FakeModel):
+        def generate(self,system,payload,**kwargs):
+            if 'You are Writer.' in system:
+                return {'title':'Bad draft','verdict':'supported','summary':'Invented [Efabricated]',
+                        'sections':[{'title':'Evidence','text':'Invented [Efabricated]'}],'receipts':[],'limits':[]}
+            return super().generate(system,payload,**kwargs)
+    result=Investigator(NoCompanyData(),BadWriter()).run('Compare',dict(SCOPE,tickers=['TSM']))
+    inv=result['investigation']
+    assert inv['status']=='complete' and inv['report_kind']=='coverage_summary'
+    assert inv['report']['verdict']=='insufficient evidence'
+    assert 'Efabricated' not in result['response']
+    assert any(t['name']=='finalize_coverage_summary' for t in result['tool_calls'])
+
+
+def test_planner_limitation_announcement_does_not_stop_supported_research():
+    class ProgressNote(FakeModel):
+        def generate(self,system,payload,**kwargs):
+            result=super().generate(system,payload,**kwargs)
+            if 'You are Lead.' in system:
+                result.update(clarification='Intent cannot be proven, but the annual revenue comparison will be researched.',
+                              tasks={a:'Compare the supported annual financials' for a in ('Claims','Financials','Peers','Context')})
+            return result
+    result=Investigator(FakeSources(),ProgressNote()).run('Compare annual revenue and explain whether intent is provable.',SCOPE)
+    assert result['investigation']['status']=='complete'
+    assert any(t['name']=='continue_supported_research' for t in result['tool_calls'])
