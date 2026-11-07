@@ -50,3 +50,15 @@ def test_access_errors_are_not_retried():
     with pytest.raises(ModelError, match='No access'):
         Investigator(None, model).model_call(Ledger(), 'Lead', 'plan', '', {}, time.monotonic()+10)
     assert model.calls == 1
+
+
+@pytest.mark.parametrize('status',[401,403,429,500,503])
+def test_provider_failure_is_explicit_and_does_not_leak_response_body(monkeypatch,status):
+    class Response:
+        status_code=status
+        def json(self):return {'private':'provider diagnostics must not be exposed'}
+    monkeypatch.setattr('receipts.model.requests.post',lambda *a,**k:Response())
+    monkeypatch.setattr(Gemini,'token',lambda self:'test-token')
+    with pytest.raises(ModelError,match=f'HTTP {status}') as exc:
+        Gemini().generate('system',{})
+    assert 'private' not in str(exc.value) and 'test-token' not in str(exc.value)

@@ -271,3 +271,132 @@ def test_source_gap_can_explain_absent_annual_observations():
     raw={'verdict':'insufficient evidence','summary':'No annual USD revenue observation was available [Egap].',
          'sections':[{'title':'Cross-examination','text':'A source gap prevents verification [Egap].'}]}
     assert not validate_report(raw,{'Egap':{'kind':'source_gap'}})[1]
+
+
+def test_no_specific_outlook_was_retrieved_is_a_valid_gap_explanation():
+    raw={'verdict':'insufficient evidence','summary':'No specific management outlook passages were retrieved [Egap].',
+         'sections':[{'title':'Evidence','text':'An unprovided management statement cannot be tested [Egap].'}]}
+    assert not validate_report(raw,{'Egap':{'kind':'source_gap'}})[1]
+
+
+def test_not_testable_gap_is_an_explanation_not_a_financial_outcome():
+    evidence={'Ec':{'kind':'claim','phase':'known_then','ticker':'AMZN'},'Egap':{'kind':'source_gap'}}
+    raw={'verdict':'insufficient evidence','summary':'No matching outcome is available [Egap].',
+         'sections':[{'title':'Evidence','text':'Outlook [Ec] cannot be tested [Egap].'}],
+         'receipts':[{'claim_id':'Ec','assessment':'not testable','outcome_ids':['Egap'],'explanation':'Spending is missing.'}]}
+    report,errors=validate_report(raw,evidence)
+    assert not errors
+    assert report['receipts'][0]['outcome_ids']==[]
+    assert '[Egap]' in report['receipts'][0]['explanation']
+    raw['receipts'][0]['assessment']='supported'
+    assert any('financial observations' in e for e in validate_report(raw,evidence)[1])
+
+
+@pytest.mark.parametrize('field', ['explanation','limits'])
+def test_visible_explanations_and_limits_cannot_invent_references(field):
+    evidence={'Ec':{'kind':'claim','phase':'known_then','ticker':'TSLA'}}
+    raw={'verdict':'insufficient evidence','summary':'Claim [Ec].',
+         'sections':[{'title':'Evidence','text':'Outlook [Ec].'}],
+         'receipts':[{'claim_id':'Ec','outcome_ids':[],'assessment':'not testable','explanation':'No data.'}]}
+    if field=='limits':raw['limits']=['Unsupported [Efabricated].']
+    else:raw['receipts'][0]['explanation']='Unsupported [Efabricated].'
+    assert 'Unknown or unavailable evidence citation.' in validate_report(raw,evidence)[1]
+
+
+def test_explicit_forecast_year_does_not_accept_a_different_year_outcome():
+    from receipts.research import claim_test_candidates
+    evidence={'Ec':{'kind':'claim','ticker':'TSLA','filed':'2023-01-31',
+                    'excerpt':'We expect capital expenditures between $6 and $8 billion in 2023.'}}
+    for year in (2023,2024):
+        evidence['E'+str(year)]={'kind':'financial','ticker':'TSLA','metric':'capex','period_end':f'{year}-12-31'}
+    assert claim_test_candidates(evidence)['Ec']['allowed_outcome_ids']==['E2023']
+
+
+@pytest.mark.parametrize('excerpt,metric',[
+    ('We expect data center revenue to grow in 2024.','revenue'),
+    ('We expect international sales to grow in 2024.','revenue'),
+    ('We expect operating income margins to expand in 2024.','operating_income'),
+    ('We anticipate the changes will positively impact 2023 operating income by approximately $1 billion.','operating_income'),
+])
+def test_component_forecasts_cannot_be_tested_by_entity_wide_totals(excerpt,metric):
+    from receipts.research import claim_test_candidates
+    evidence={'Ec':{'kind':'claim','ticker':'TSLA','filed':'2023-01-31','excerpt':excerpt},
+              'Ef':{'kind':'financial','ticker':'TSLA','metric':metric,'period_end':'2024-12-31'}}
+    assert claim_test_candidates(evidence)['Ec']['allowed_outcome_ids']==[]
+
+
+def test_writer_schema_only_allows_financial_outcome_ids():
+    from receipts.research import writer_schema
+    schema=writer_schema(['Ec'],['Ef'])
+    assert schema['properties']['receipts']['items']['properties']['outcome_ids']['items']['enum']==['Ef']
+
+
+@pytest.mark.parametrize('failure',[SourceError('Provider unavailable'),ValueError('bad date'),KeyError('facts'),TypeError('bad body')])
+def test_source_outage_or_malformed_provider_data_becomes_traceable_gap(failure):
+    from receipts.research import Ledger
+    class Broken(FakeSources):
+        def financials(self,*args):raise failure
+    ledger=Ledger()
+    result=Investigator(Broken(),FakeModel()).tool(ledger,'Financials','financials_then','TSLA',Scope.model_validate(SCOPE))
+    assert len(result)==1 and result[0]['kind']=='source_gap'
+    assert result[0]['phase']=='coverage_gap'
+    assert ledger.traces[0]['agent']=='Financials'
+    assert all(r['kind']!='financial' for r in ledger.evidence.values())
+
+
+def test_failed_writer_keeps_collected_evidence_without_publishing_a_report():
+    class BrokenWriter(FakeModel):
+        def generate(self,system,payload,**kwargs):
+            if 'You are Writer.' in system:raise ModelError('Model request timed out.')
+            return super().generate(system,payload,**kwargs)
+    result=Investigator(FakeSources(),BrokenWriter()).run('Compare',SCOPE)
+    assert result['investigation']['status']=='unavailable'
+    assert result['investigation']['report'] is None
+    assert any(r['kind']=='financial' for r in result['investigation']['evidence'])
+    assert 'timed out' in result['response']
+
+
+def test_unrepairable_fabrication_is_withheld_after_one_repair():
+    class Fabricating(FakeModel):
+        writer_calls=0
+        def generate(self,system,payload,**kwargs):
+            result=super().generate(system,payload,**kwargs)
+            if 'You are Writer.' in system:
+                self.writer_calls+=1
+                result['summary']='Invented result [Efabricated].'
+            return result
+    model=Fabricating();result=Investigator(FakeSources(),model).run('Compare',SCOPE)
+    assert result['investigation']['status']=='unavailable'
+    assert result['investigation']['report'] is None
+    assert model.writer_calls==3  # draft, evidence edit, one repair
+    assert sum(t['name']=='repair_citations' for t in result['tool_calls'])==1
+    assert 'Efabricated' not in result['response']
+
+
+def test_expired_budget_stops_before_another_model_call():
+    from receipts.research import Ledger
+    class MustNotRun:
+        def generate(self,*args,**kwargs):raise AssertionError('Called after deadline')
+    with pytest.raises(ModelError,match='research budget'):
+        Investigator(FakeSources(),MustNotRun()).model_call(Ledger(),'Lead','plan','',{},time.monotonic()-1)
+
+
+def test_unscoped_question_cannot_use_dates_invented_by_planner():
+    class GuessingPlanner(FakeModel):
+        def generate(self,system,payload,**kwargs):
+            if 'You are Lead.' in system:return {'clarification':'','scope':SCOPE,'tasks':{}}
+            return super().generate(system,payload,**kwargs)
+    result=Investigator(FakeSources(),GuessingPlanner()).run('Compare Tesla and GM revenue from 2020 through 2024.')
+    assert result['investigation']['status']=='clarification'
+    assert result['investigation']['evidence']==[]
+    assert [t['name'] for t in result['tool_calls']]==['plan']
+
+
+@pytest.mark.parametrize('question',[
+    'Start January 1, 2020; use a historical knowledge date of March 1, 2023 and outcomes through March 1, 2025.',
+    'History begins 2020-01-01, knowledge cutoff 2023-03-01, outcomes filed through 2025-03-01.',
+    'From 2020, as of 2023, through 2025.',
+])
+def test_explicit_date_roles_accept_supported_api_phrasings(question):
+    from receipts.research import explicit_date_roles
+    assert explicit_date_roles(question)

@@ -56,6 +56,19 @@ class Ledger:
                                 'elapsed_ms': round(1000 * (time.monotonic() - started)) if started else 0})
 
 
+def explicit_date_roles(message):
+    """The planner cannot invent missing date decisions in an unscoped request.
+
+    The UI supplies a validated explicit scope. Direct API requests must name
+    each date role, or inherit them from an existing investigation.
+    """
+    date_text = r'(?:\d{4}-\d{2}-\d{2}|(?:January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\b[^;.!?\n]{0,18}\b20\d{2}|\b20\d{2}\b)'
+    roles = [r'\b(?:start(?:ing)?|history begins|begin(?:ning)?|from|since)\b',
+             r'\b(?:as[ -]of|knowledge (?:date|cutoff)|historical (?:knowledge )?(?:date|cutoff)|viewpoint|known by)\b',
+             r'\b(?:through|until|outcome(?:s)? (?:date|cutoff|horizon)|outcomes? (?:filed )?by|results (?:filed )?by)\b']
+    return all(re.search(role + r'[^;.!?\n]{0,60}?' + date_text, message, re.I) for role in roles)
+
+
 def compact(record):
     entry = dict(record)
     if 'observations' in entry:
@@ -92,7 +105,9 @@ Write an investigation using only the supplied ledger and research findings. Ret
 Include all four sections, exactly once, and cover every scoped company whose data was retrieved. In The peer test, compare the same metric with explicit fiscal period-end dates (YYYY-MM-DD), using the latest available annual periods through the outcome cutoff for EVERY scoped company. Do not stop at the pre-as_of baseline when later outcomes are present. Explain differing fiscal calendars and missing metrics. In Cross-examination, distinguish a supported observation from a verified management forecast. Do not claim peers mirrored each other when their profit directions differ. For compound outlook passages, test a numerical capex component separately from unobservable funding sources.
 Use quantitative_range_checks as the arithmetic authority when available: an actual above the quoted upper bound is ABOVE the outlook range, not broadly supported or within range. An approximate forecast is not a guarantee; state the deviation without inferring intent.
 A receipt must follow claim_test_candidates: use only its allowed_outcome_ids. A forecast requires at least one matched financial period ending AFTER the claim's filed date. Revenue growth CANNOT verify spending expectations; periods preceding a statement cannot verify its future outlook. If there are no eligible outcomes, mark not testable and explicitly state that the data cannot answer that part of the question. Do not convert a spending claim into a revenue target or use historical deceleration as proof of a later forecast.
+For a not-testable receipt, outcome_ids must be empty when no matching financial outcome exists. Coverage-gap IDs belong in the explanation, never outcome_ids. A company's rising expenditure does not imply you retrieved an expenditure forecast from that company. Attribute expectations only to the exact company and component in the cited management passage; another company's outlook is not evidence for it.
 An assertion that liquidity or operating cash flows will be sufficient to fund commitments is not verified by positive operating cash flow alone. Mark that sufficiency assertion not testable. A compound passage may separately support a capital-expenditure component only when claim_test_candidates permits the matching capex outcomes. Never substitute cash-flow observations for that component. Keep every scoped company in the final comparison, including companies with missing metrics.
+A source_gap describes the adapter's missing coverage, not proof that a company never disclosed a figure or outlook. Say "not retrieved under the supported tags/search" rather than "not disclosed".
 Do not invent quotes. Do not generate URLs: cite IDs only; the server resolves source URLs. Use no factual claims unsupported by citations. Missing sources must lower the confidence of the answer; never manufacture a complete case. A quantitative promise with no same-scope metric must be not testable. Distinguish hypothesis from observation. Verdict describes evidence against the investigated claim, not company quality, honesty, future performance or an investment recommendation. Include a specific question an investor should ask next. Do not score honesty, assign blame or claim causation from correlation."""
 
 
@@ -166,8 +181,9 @@ class Investigator:
                 records = [{'kind': 'source_gap', 'ticker': ticker, 'error': 'No matching records in the date-bounded source.'}]
             added = ledger.add(records, phase)
             result = [compact(record) for record in added]
-        except SourceError as exc:
-            result = [compact(x) for x in ledger.add([{'kind': 'source_gap', 'ticker': ticker, 'error': str(exc)}], 'coverage_gap')]
+        except (SourceError, ValueError, KeyError, TypeError) as exc:
+            error = str(exc) if isinstance(exc, SourceError) else 'The source returned malformed records. No data was substituted.'
+            result = [compact(x) for x in ledger.add([{'kind': 'source_gap', 'ticker': ticker, 'error': error}], 'coverage_gap')]
         ledger.trace(agent, name, args, result, started)
         return result
 
@@ -258,6 +274,9 @@ class Investigator:
             if plan.get('clarification'):
                 return {'response': str(plan['clarification']), 'tool_calls': ledger.traces,
                         'investigation': {**investigation, 'status': 'clarification'}}
+            if not explicit_scope and not previous_scope and not explicit_date_roles(message):
+                return {'response': 'Which research start date, historical knowledge cutoff, and later outcome cutoff should I use? For example: start 2020-01-01, as of 2023-03-01, outcomes through 2025-03-01.',
+                        'tool_calls': ledger.traces, 'investigation': {**investigation, 'status': 'clarification'}}
             try:
                 scope = Scope.model_validate(explicit_scope or plan.get('scope'))
             except Exception:
@@ -373,7 +392,7 @@ def validate_report(raw, evidence, scope=None):
             errors.append('A factual summary or section is missing evidence citations.')
         if any(eid not in evidence for eid in ids):
             errors.append('Unknown or unavailable evidence citation.')
-        if any(evidence.get(eid, {}).get('kind') == 'source_gap' for eid in ids) and not re.search(r'missing|unavailable|not available|not provided|cannot|untest|not testable|lack|limited|not found|not covered|not present|absen|(?:source|coverage) gap|unsupported|no (?:annual|matching|historical|financial|management|company|peer|records|data|coverage)', text, re.I):
+        if any(evidence.get(eid, {}).get('kind') == 'source_gap' for eid in ids) and not re.search(r'missing|unavailable|not available|not provided|unprovided|cannot|untest|not testable|lack|limited|incomplete|not found|not covered|not present|absen|(?:source|coverage) gap|unsupported|no (?:annual|matching|historical|financial|management|company|peer|records|data|coverage)|\bno\b[^.!?]{0,100}\b(?:retrieved|provided|present|available|found)\b', text, re.I):
             errors.append('A coverage-gap reference can only support a statement about missing or unavailable evidence.')
         if re.search(r'https?://', text):
             errors.append('Writer must use evidence IDs, not generated URLs.')
@@ -382,6 +401,14 @@ def validate_report(raw, evidence, scope=None):
             continue
         claim = evidence.get(receipt.get('claim_id'), {})
         outcomes = receipt.get('outcome_ids', [])
+        explanation = normalize_citations(str(receipt.get('explanation', ''))[:1800])
+        # A gap explains why a claim is untestable; it is never an outcome.
+        if receipt.get('assessment') == 'not testable' and isinstance(outcomes, list):
+            gaps = [eid for eid in outcomes if evidence.get(eid, {}).get('kind') == 'source_gap']
+            outcomes = [eid for eid in outcomes if eid not in gaps]
+            for eid in gaps:
+                if f'[{eid}]' not in explanation:
+                    explanation += f' Missing outcome evidence [{eid}].'
         if claim.get('kind') != 'claim' or claim.get('phase') != 'known_then':
             errors.append('Receipt must cite an actual known-then management passage.')
             continue
@@ -398,7 +425,6 @@ def validate_report(raw, evidence, scope=None):
         if assessment == 'supported' and any(c['claim_id'] == receipt['claim_id'] and c['outcome_id'] in outcomes and c['relation'] != 'within quoted range' for c in quantitative_range_checks(evidence)):
             errors.append('A cited capital-spending outcome is outside its quoted forecast range; it cannot be classified supported. State the range deviation.')
             continue
-        explanation = str(receipt.get('explanation', ''))[:1800]
         if assessment != 'not testable' and outcomes:
             candidate = claim_test_candidates(evidence).get(receipt['claim_id'], {})
             allowed_outcomes = candidate.get('allowed_outcome_ids', [])
@@ -411,6 +437,13 @@ def validate_report(raw, evidence, scope=None):
             report['limits'].append('A management-claim assessment was conservatively marked not testable because no outcome references were supplied.')
         report['receipts'].append({'claim_id': receipt['claim_id'], 'outcome_ids': outcomes,
                                   'assessment': assessment, 'explanation': explanation})
+    # Explanations and limits are visible to users too: validate their references.
+    for text in [r['explanation'] for r in report['receipts']] + report['limits']:
+        ids = re.findall(r'\[(E[a-zA-Z0-9]+)\]', text)
+        if any(eid not in evidence for eid in ids):
+            errors.append('Unknown or unavailable evidence citation.')
+        if re.search(r'https?://', text):
+            errors.append('Writer must use evidence IDs, not generated URLs.')
     if report['verdict'] != 'insufficient evidence' and not any(r['assessment'] != 'not testable' for r in report['receipts']):
         report['verdict'] = 'insufficient evidence'
         report['limits'].append('The financial comparison may be informative, but no retrieved management claim was linked to testable outcomes. The overall claim verdict is therefore insufficient evidence.')
@@ -443,7 +476,7 @@ def writer_schema(claims, facts):
             'receipts': {'type': 'ARRAY', 'maxItems': 6 if claims else 0, 'items': {'type': 'OBJECT',
                 'required': ['claim_id', 'outcome_ids', 'assessment', 'explanation'], 'properties': {
                     'claim_id': {'type': 'STRING', 'enum': claims or ['NO_CLAIMS_AVAILABLE']},
-                    'outcome_ids': {'type': 'ARRAY', 'items': {'type': 'STRING'}, 'maxItems': 8 if facts else 0},
+                    'outcome_ids': {'type': 'ARRAY', 'items': {'type': 'STRING', 'enum': facts or ['NO_FINANCIAL_OUTCOMES_AVAILABLE']}, 'maxItems': 8 if facts else 0},
                     'assessment': {'type': 'STRING', 'enum': ['supported', 'mixed', 'contradicted', 'not testable']}, 'explanation': string}}},
             'limits': {'type': 'ARRAY', 'items': string}}}
 
@@ -457,11 +490,17 @@ def claim_test_candidates(evidence):
         sentences = re.split(r'(?<=[.!?])\s+(?=[A-Z0-9$])', claim.get('excerpt', ''))
         forward = [s for s in sentences if re.search(r'\bexpect|\banticipat|\bintend|\bplan(?:s|ned|ning)?\b|\bforecast|\bwill\b|\bbelieve|\bwe\s+(?:currently\s+)?project\b', s, re.I)]
         text = (forward[0] if forward else '').lower()
+        years = {int(y) for y in re.findall(r'\b(?:in|for|during|fiscal(?: year)?|calendar(?: year)?)\s+(20\d{2})\b', text)}
+        if years and re.search(r'each of the (?:next|following) two (?:fiscal )?years', text):
+            first = min(years)
+            years.update((first + 1, first + 2))
         metric = None
         if re.search(r'performance obligations|deferred revenue|unearned revenue|contract liabilit|recogniz|backlog|depreciation|traffic acquisition|income tax|\btac\b', text):
             reason = 'The specific obligation, expense or accounting component is not in the supported metric set.'
         elif re.search(r'\bsufficient\b|\bliquidity\b', text):
             reason = 'Liquidity sufficiency requires matching commitments and available funding, not a single annual cash-flow or spending metric.'
+        elif re.search(r'\bmargin|per share|\beps\b|incremental|positively impact|negatively impact', text):
+            reason = 'A ratio, per-share amount or incremental component cannot be tested by an entity-wide annual total.'
         elif re.search(r'capital expenditure|property (?:and|, plant and) equipment|capital investment', text):
             metric, reason = 'capex', 'Cash PP&E purchases may test only the capital-spending component; funding sources or segment allocations remain unverified.'
         elif re.search(r'operating income', text):
@@ -473,13 +512,18 @@ def claim_test_candidates(evidence):
         elif re.search(r'(?:spend|invest|infrastructure|cost|expense)', text):
             reason = 'The spending/investment scope is not explicitly matched to cash PP&E; revenue is not a substitute.'
         elif re.search(r'\brevenue|\bsales', text):
-            metric, reason = 'revenue', 'Revenue may test entity-wide directional growth, not segments or an exact operating target.'
+            if re.search(r'\bsegment|data center|datacenter|cloud|automotive|advertising|subscription|services|product|store|international', text):
+                reason = 'The revenue expectation concerns a segment, product or geography; entity-wide revenue cannot verify it.'
+            else:
+                metric, reason = 'revenue', 'Revenue may test entity-wide directional growth, not segments or an exact operating target.'
         else:
             reason = 'No directly comparable supported financial metric was identified.'
         allowed = [key for key, record in evidence.items() if metric
                    and record.get('kind') == 'financial' and record.get('ticker') == claim.get('ticker')
-                   and record.get('metric') == metric and record.get('period_end', '') > claim.get('filed', '9999')]
+                   and record.get('metric') == metric and record.get('period_end', '') > claim.get('filed', '9999')
+                   and (not years or int(record.get('period_end', '0000')[:4]) in years)]
         candidates[eid] = {'metric': metric, 'allowed_outcome_ids': allowed,
+                           'explicit_outcome_years': sorted(years),
                            'boundary': reason, 'testable_component_available': bool(allowed)}
     return candidates
 
