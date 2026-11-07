@@ -8,3 +8,5 @@ __pycache__
 .cache
 docs/screenshots
 evaluations
+
+docs/design
