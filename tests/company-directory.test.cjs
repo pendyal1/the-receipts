@@ -50,6 +50,9 @@ test('lowercase tickers work in questions while ordinary financial words do not 
  assert.deepEqual(symbols('Compare tsla with nvda'),['TSLA','NVDA']);
  assert.deepEqual(symbols('How did NVIDIA benefit from AI demand and cash flow?'),['NVDA']);
  assert.deepEqual(symbols('Compare $AI and TSLA'),['AI','TSLA']);
+ const source=require('node:fs').readFileSync(require('node:path').join(__dirname,'../static/app.js'),'utf8');
+ const example=source.match(/'Consumer staples':\{tickers:'KO, PEP',question:'([^']+)'/)[1];
+ assert.deepEqual(directory.prepareQuestion(example).companies.map(c=>c.ticker),['KO','PEP']);
 });
 test('custom dates reject impossible, future and out-of-coverage dates',()=>{
  assert.ok(LensDates.validISO('2024-02-29','2026-11-07'));
