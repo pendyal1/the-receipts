@@ -9,21 +9,23 @@ from contextlib import contextmanager
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import FileResponse, JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 from receipts.config import INDUSTRIES, COMPANIES, MODEL
 from receipts.model import Gemini
 from receipts.research import Investigator, Ledger, Scope
-from receipts.sources import Sources
+from receipts.sources import Sources, bundled_company_directory
+from receipts.logos import Logos, LogoBusy
 
 ROOT = Path(__file__).parent
 app = FastAPI(title='The Receipts', version='0.1.0')
 app.mount('/static', StaticFiles(directory=ROOT / 'static'), name='static')
 sources = Sources(offline=os.getenv('OFFLINE_DATA') == '1')
+logos = Logos(sources)
 model = Gemini()
 investigator = Investigator(sources, model)
 capacity = threading.BoundedSemaphore(2)
@@ -127,7 +129,8 @@ async def unexpected_error(request, exc):
 async def headers(request, call_next):
     response = await call_next(request)
     response.headers.update({'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'no-referrer',
-        'Cache-Control': 'no-store', 'Content-Security-Policy': "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'"})
+        'Content-Security-Policy': "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'"})
+    response.headers.setdefault('Cache-Control', 'no-store')
     return response
 
 
@@ -147,6 +150,27 @@ def catalog():
     return {'industries': INDUSTRIES, 'companies': {t: v[0] for t, v in COMPANIES.items()},
             'limits': {'companies': 3, 'research_rounds': 2, 'researcher_turns': 3,
                        'deadline_seconds': 240, 'sessions': 'In memory; expire after 30 minutes idle or service restart.'}}
+
+
+@app.get('/company-logo/{ticker}')
+def company_logo(ticker: str, request: Request):
+    company = bundled_company_directory().get(ticker.upper())
+    if not company:
+        return Response(status_code=204, headers={'X-Logo-Status': 'unavailable', 'Cache-Control': 'public, max-age=900'})
+    asset = logos.local_asset(company)
+    if asset:
+        return FileResponse(asset, headers={'X-Logo-Status': 'available', 'Cache-Control': 'public, max-age=86400'})
+    try:
+        logo = logos.get(company)
+    except LogoBusy:
+        return Response(status_code=503, headers={'Retry-After': '1', 'Cache-Control': 'no-store'})
+    if not logo:
+        return Response(status_code=204, headers={'X-Logo-Status': 'unavailable', 'Cache-Control': 'public, max-age=900'})
+    headers = {'ETag': logo.etag, 'X-Logo-Status': 'available', 'X-Logo-Source': logo.source,
+               'Cache-Control': 'public, max-age=86400'}
+    if request.headers.get('if-none-match') == logo.etag:
+        return Response(status_code=304, headers=headers)
+    return Response(logo.body, media_type=logo.media_type, headers=headers)
 
 
 @app.post('/chat', response_model=ChatResponse)

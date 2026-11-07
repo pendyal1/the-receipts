@@ -9,7 +9,7 @@
 ## Use the application
 
 1. Ask a historical financial question in the main bar, naming the company and any peers.
-2. Press **Enter** or the green submit button to investigate directly. **Shift+Enter** adds a line. Optional company, peer and date controls sit beneath the bar; the date summary shows the default historical scope.
+2. Press **Enter** or the green submit button to investigate directly. **Shift+Enter** adds a line. The optional **Research lens** controls sit beneath the bar; the date summary shows the default historical scope.
 3. Optionally open **Compare companies or change dates** to add up to two peers, adjust the three dates, or browse source data without an AI answer. The bundled examples use **2020-01-01 / 2023-03-01 / 2025-03-01**.
 4. Results open with a short finding and key financial figures. Expand claim checks, performance charts, the full report, market context or limitations only when needed.
 5. Select a numbered citation to inspect its source. **Sources** and **Research log** preserve the evidence ledger and full agent/tool trace. **Download** exports the complete case as JSON.
@@ -519,11 +519,11 @@ The interface takes visual inspiration from the [Sage reference](https://www.sit
 
 ### Company lookup and typography — November 7, 2026
 
-Body text and controls use self-hosted Roboto; the Michroma wordmark is preserved. The main search and investigation company field share a keyboard-accessible company picker. Name/ticker prefixes, aliases (Google, Facebook), common spelling errors and share-class punctuation are supported. Arrow keys move through matches, Enter selects and Escape dismisses. Full research questions remain supported. No external autocomplete or paid logo API is used.
+Body text and controls use self-hosted Sora; Orbitron is used for the wordmark and navigation. The user chose these free alternatives to Sage’s licensed typefaces. No generic or browser-font fallback stack is declared. The main search and investigation company field share a keyboard-accessible company picker. Name/ticker prefixes, aliases (Google, Facebook), common spelling errors and share-class punctuation are supported. Arrow keys move through matches, Enter selects and Escape dismisses. Full research questions remain supported. No external autocomplete or paid logo API is used.
 
 `static/companies.json` contains 10,409 entries from the SEC ticker directory, with its source URL, retrieval timestamp and original-response SHA-256. It is a dated lookup snapshot, not a guarantee of historical filing or metric coverage. Both the picker and the research adapter use these SEC ticker/CIK identities; unknown tickers still attempt live SEC resolution. To update the directory, retain the curated display names/aliases/logo paths while replacing ticker/CIK rows from the source URL and recording the new retrieval timestamp and hash.
 
-Twenty-six ticker entries have bundled brand images; other matches display ticker initials. Asset origins are recorded in `static/logos/SOURCES.json`, including company-site favicons and selected Simple Icons 11.15.0 marks. The Simple Icons license and font OFL licenses are bundled beside their assets. Logos identify companies and do not imply affiliation. All lookup assets are served locally, so typing a company never contacts a third-party logo service.
+Twenty-six ticker entries have bundled brand images. Every SEC-directory ticker can additionally request an issuer logo on demand; share classes reuse the SEC CIK identity. Some filers have no published image, and those remain visibly unavailable. Asset origins are recorded in `static/logos/SOURCES.json`, including company-site favicons and selected Simple Icons 11.15.0 marks. The Simple Icons license and font OFL licenses are bundled beside their assets. Logos identify companies and do not imply affiliation. Browsers request logo assets only from this app. The server retrieves keyless public image assets from Financial Modeling Prep’s image-stock CDN or CompaniesMarketCap’s image directory. No financial-data API subscription, key, or paid logo service is used. Only SEC-verified symbols can reach fixed image hosts, redirects are refused, bodies are size/type bounded, and tiny PNG placeholders are rejected. Successful images cache for 24 hours and missing images for 15 minutes, with an in-memory ceiling of 512 entries / 12 MB. These are current brand identifiers, not financial evidence or historical branding claims.
 
 Run `node --test tests/company-directory.test.cjs` for lookup regressions and `uv run pytest -q` for the API/data suite. Both run before automatic deployment.
 
@@ -533,3 +533,10 @@ Run `node --test tests/company-directory.test.cjs` for lookup regressions and `u
 The setup dialog has been removed. The main bar accepts a multiline question and starts research directly; company names, ticker aliases, and up to two named peers are resolved locally. Optional controls show the existing historical defaults (2020-01-01 start, 2023-03-01 knowledge cutoff, 2025-03-01 outcome cutoff) before submission. They do not infer new historical cutoffs from a fiscal year mentioned in a question. The Lead still clarifies explicit date/scope conflicts.
 
 A company-only search offers specific questions instead of starting broad research. A question without a company asks for the missing company inline. Invalid dates, duplicate peers and oversized comparisons are blocked before a research request. Featured cases fill an editable question; the user submits it when ready. The question stays intact throughout research and failures. No additional model call is used to prepare the form. Regression checks cover these decisions as well as ordinary words such as “AI” and “cash” that must not become unintended peers.
+
+
+### Research lens and font verification — November 7, 2026
+
+The context disclosure is now a flat timeline with subject lookup, removable branded peer chips and a custom calendar. Manual ISO dates are validated for real calendar dates, coverage starts in 2012, and future cutoffs are rejected. Validation messages use the app’s own typography. The search textarea no longer inherits a bottom margin; the text box and submit button share a vertical center.
+
+Orbitron and Sora variable font files and their OFL licenses are bundled. `static/fonts.js` checks actual face loading before revealing text; a vector-only retry control is shown if font loading fails. Old Roboto/Michroma files and system font stacks have been removed. Glyph-based decorative stars/orbits are vectors, and chart labels explicitly use Sora. Sage’s exact Necosmic/TT Firs Neue files are not shipped.

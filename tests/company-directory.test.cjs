@@ -3,6 +3,7 @@ const {test}=require('node:test');
 const {Directory}=require('../static/company-directory.js');
 const {companies}=require('../static/companies.json');
 const directory=new Directory(companies);
+const LensDates=require('../static/research-lens.js');
 const symbols=text=>directory.mentions(text).map(c=>c.ticker);
 
 test('tickers, aliases and share-class punctuation identify the actual company',()=>{
@@ -49,4 +50,10 @@ test('lowercase tickers work in questions while ordinary financial words do not 
  assert.deepEqual(symbols('Compare tsla with nvda'),['TSLA','NVDA']);
  assert.deepEqual(symbols('How did NVIDIA benefit from AI demand and cash flow?'),['NVDA']);
  assert.deepEqual(symbols('Compare $AI and TSLA'),['AI','TSLA']);
+});
+test('custom dates reject impossible, future and out-of-coverage dates',()=>{
+ assert.ok(LensDates.validISO('2024-02-29','2026-11-07'));
+ for(const date of ['2023-02-29','2024-02-30','2026-11-08','2011-12-31','2023-2-3',''])assert.equal(LensDates.validISO(date,'2026-11-07'),false,date);
+ assert.equal(LensDates.addDays('2024-02-28',1),'2024-02-29');
+ assert.equal(LensDates.addDays('2023-12-31',1),'2024-01-01');
 });

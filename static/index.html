@@ -1,20 +1,21 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-font-state="loading">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#080a09">
 <title>The Receipts — The past has a paper trail.</title>
 <meta name="description" content="Historical financial intelligence. Search a company, cross-examine management claims, and follow the evidence to what happened next.">
 <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
-<link rel="preload" href="/static/fonts/Michroma-Regular.ttf" as="font" type="font/ttf" crossorigin>
-<link rel="preload" href="/static/fonts/Roboto.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="/static/fonts/Orbitron.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="/static/fonts/Sora.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="stylesheet" href="/static/style.css">
-<script src="/static/company-directory.js" defer></script><script src="/static/app.js" defer></script><script src="/static/company-lookup.js" defer></script><script src="/static/interface.js" defer></script>
+<script src="/static/fonts.js" defer></script><script src="/static/company-directory.js" defer></script><script src="/static/app.js" defer></script><script src="/static/company-lookup.js" defer></script><script src="/static/research-lens.js" defer></script><script src="/static/interface.js" defer></script>
 </head>
 <body>
+<div id="font-loading" class="font-loading" role="status" aria-label="Loading application fonts"><svg viewBox="0 0 36 40" aria-hidden="true"><path d="M6 4h24v32l-4-3-4 3-4-3-4 3-4-3-4 3V4Z"/><path d="M12 12h12M12 18h12M12 24h7"/></svg><button id="retry-fonts" type="button" aria-label="Retry loading the page" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7v5h-5M20 12a8 8 0 1 0-2 6"/></svg></button></div>
 <a class="skip-link" href="#desk">Skip to main content</a>
 <div class="ambient" aria-hidden="true"><canvas id="terrain"></canvas><div class="grain"></div><div class="ambient-shade"></div></div>
-<div class="shell">
+<div class="shell" id="app-shell" hidden>
 <header class="topbar">
 <a class="brand" href="/" aria-label="The Receipts home"><svg viewBox="0 0 36 40" aria-hidden="true"><path d="M6 4h24v32l-4-3-4 3-4-3-4 3-4-3-4 3V4Z"/><path d="M12 12h12M12 18h12M12 24h7"/></svg><span class="brand-wordmark">THE RECEIPTS</span></a>
 <nav class="header-links" aria-label="About the application"><button type="button" data-panel="about" aria-haspopup="dialog">About</button><button type="button" data-panel="how" aria-haspopup="dialog">How to use</button></nav>
@@ -23,7 +24,7 @@
 <section class="hero" id="home" aria-labelledby="hero-title">
 <div class="hero-content">
 <div class="hero-kicker"><span>PAST CLAIMS.</span><span>PRESENT EVIDENCE.</span></div>
-<h1 id="hero-title">THE RECEIPTS<span class="title-star" aria-hidden="true">✳</span></h1>
+<h1 id="hero-title">THE RECEIPTS<svg class="title-star" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1v22M1 12h22M4 4l16 16M4 20 16 4"/></svg></h1>
 <p class="hero-description">They made the claims.<br class="mobile-break"> You check the record.</p>
 <form id="research-form" class="question-form" novalidate>
 <div id="search-form" class="search-bar" role="search" aria-label="Ask a historical financial question">
@@ -36,11 +37,14 @@
 <input id="question" type="hidden" value="">
 <div id="form-notice" class="form-notice" role="alert" hidden></div>
 <div id="question-prompts" class="question-prompts" hidden></div>
-<details class="inline-settings" id="research-settings"><summary><span>Company, peers & dates</span><span id="scope-caption">2020–2025 · Known by Mar 1, 2023</span></summary><div class="settings-body">
-<div class="company-context-grid"><div><label for="tickers">COMPANY</label><div class="company-field"><input id="tickers" value="" placeholder="Detected from your question" maxlength="120" autocomplete="off" aria-describedby="company-help"><div id="research-company-suggestions" class="company-suggestions" role="listbox" aria-label="Matching research companies" hidden></div></div><div id="selected-company" class="selected-company" hidden></div><p id="company-help" class="field-hint">Choose a company here if your question doesn’t name one.</p></div>
-<div><label for="peers">COMPARE WITH <span class="optional">(optional)</span></label><input id="peers" value="" placeholder="Company names or tickers, e.g. GM, F" maxlength="240" aria-describedby="peers-help"><p id="peers-help" class="field-hint">Up to two peers. Companies named in your question are included automatically.</p></div></div>
-<div class="date-grid"><label for="start">History starts<input id="start" type="date" value="2020-01-01" min="2012-01-01" required></label><label for="asof">What was known by<input id="asof" type="date" value="2023-03-01" min="2012-01-01" required></label><label for="through">Follow results until<input id="through" type="date" value="2025-03-01" min="2012-01-01" required></label></div>
-<button id="preview" class="button secondary" type="button">Browse source data only</button>
+<details class="inline-settings" id="research-settings"><summary><span class="lens-toggle"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="6"/><path d="M10 0v5m0 10v5M0 10h5m10 0h5"/></svg>Research lens</span><span id="scope-caption">2020–2025 · Known by Mar 1, 2023</span></summary>
+<div class="lens-panel settings-body">
+<div class="lens-heading"><span>FRAME THE QUESTION</span><span class="lens-index" aria-hidden="true">[ OPTIONAL ]</span></div>
+<div class="company-context-grid"><div class="subject-control"><label for="tickers">01 / SUBJECT</label><div class="company-field"><input id="tickers" value="" placeholder="Detected from your question" maxlength="120" autocomplete="off" aria-describedby="company-help"><div id="research-company-suggestions" class="company-suggestions" role="listbox" aria-label="Matching research companies" hidden></div></div><div id="selected-company" class="selected-company" hidden></div><p id="company-help" class="field-hint">Name a company here if it isn’t in your question.</p></div>
+<div class="peer-control"><label for="peer-query">02 / ALONGSIDE</label><input id="peers" type="hidden" value=""><div id="peer-chips" class="peer-chips" role="list" aria-label="Comparison companies"></div><div class="company-field"><input id="peer-query" placeholder="Add a company to compare" maxlength="120" autocomplete="off" aria-describedby="peers-help"><div id="peer-suggestions" class="company-suggestions" role="listbox" aria-label="Matching peer companies" hidden></div></div><p id="peers-help" class="field-hint">Up to two peers. Named companies are detected automatically.</p></div></div>
+<div class="lens-divider"><span>THE TIMELINE</span><span aria-hidden="true">THEN / NOW</span></div>
+<div class="date-grid chronology"><div class="time-stop"><span class="time-node" aria-hidden="true"></span><label class="date-role" for="start">History begins</label><div class="date-entry"><input id="start" type="text" inputmode="numeric" value="2020-01-01" placeholder="YYYY-MM-DD" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" maxlength="10" min="2012-01-01" autocomplete="off" required><button type="button" class="date-trigger" data-calendar-for="start" aria-label="Choose history begins date" aria-haspopup="dialog" aria-expanded="false"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="4" width="14" height="13" rx="1"/><path d="M3 8h14M7 2v4m6-4v4M7 11h2m2 0h2m-6 3h2"/></svg></button></div></div><div class="time-stop"><span class="time-node" aria-hidden="true"></span><label class="date-role" for="asof">Freeze the record</label><div class="date-entry"><input id="asof" type="text" inputmode="numeric" value="2023-03-01" placeholder="YYYY-MM-DD" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" maxlength="10" min="2012-01-01" autocomplete="off" required><button type="button" class="date-trigger" data-calendar-for="asof" aria-label="Choose freeze the record date" aria-haspopup="dialog" aria-expanded="false"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="4" width="14" height="13" rx="1"/><path d="M3 8h14M7 2v4m6-4v4M7 11h2m2 0h2m-6 3h2"/></svg></button></div></div><div class="time-stop"><span class="time-node" aria-hidden="true"></span><label class="date-role" for="through">Reveal what followed</label><div class="date-entry"><input id="through" type="text" inputmode="numeric" value="2025-03-01" placeholder="YYYY-MM-DD" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" maxlength="10" min="2012-01-01" autocomplete="off" required><button type="button" class="date-trigger" data-calendar-for="through" aria-label="Choose reveal what followed date" aria-haspopup="dialog" aria-expanded="false"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="4" width="14" height="13" rx="1"/><path d="M3 8h14M7 2v4m6-4v4M7 11h2m2 0h2m-6 3h2"/></svg></button></div></div></div>
+<div class="lens-foot"><span>Follow the claim through time.</span><button id="preview" class="lens-preview" type="button">Browse the records <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></button></div>
 </div></details>
 </form>
 <span id="lookup-announcement" class="sr-only" role="status" aria-live="polite"></span>
@@ -64,7 +68,7 @@
 <section id="view-trace" class="view" hidden><h3>Research log</h3><p class="muted">The Lead plans the investigation, independent Researchers collect evidence, and the Writer checks and reports it. Open an entry to see its inputs and results.</p><div id="traces"></div></section>
 </section>
 </main>
-<footer class="site-footer"><div class="footer-left"><button type="button" class="source-link" data-panel="sources" aria-haspopup="dialog"><span class="source-orbit" aria-hidden="true">◎</span> Source</button><span class="footer-sources">SEC EDGAR / FRED / HISTORICAL PRICES</span></div><div class="footer-right"><button id="motion-toggle" class="motion-button" type="button" aria-label="Turn background motion off" aria-pressed="true"><span class="motion-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="sr-only">Background motion</span></button></div></footer>
+<footer class="site-footer"><div class="footer-left"><button type="button" class="source-link" data-panel="sources" aria-haspopup="dialog"><svg class="source-orbit" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6.5"/></svg> Source</button><span class="footer-sources">SEC EDGAR / FRED / HISTORICAL PRICES</span></div><div class="footer-right"><button id="motion-toggle" class="motion-button" type="button" aria-label="Turn background motion off" aria-pressed="true"><span class="motion-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="sr-only">Background motion</span></button></div></footer>
 </div>
 <dialog id="info-dialog" class="modal info-modal" aria-labelledby="info-title">
 <div class="modal-topline"><button class="close-button" type="button" data-close-dialog aria-label="Close information">×</button></div>
@@ -72,4 +76,5 @@
 <div id="info-content"></div>
 <button id="info-start" class="button primary" type="button">Ask a question</button>
 </dialog>
+<div id="lens-calendar" class="lens-calendar" role="dialog" aria-label="Choose a research date" hidden></div>
 </body></html>

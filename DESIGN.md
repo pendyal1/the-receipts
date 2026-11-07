@@ -6,7 +6,7 @@ Reference: [Sage on Site of Sites](https://www.siteofsites.co/websites/sage%C2%A
 
 The live page uses a near-black full-screen canvas, a large white futuristic wordmark, an animated gray wireframe surface, a centered rounded “Enter App” control, compact peripheral controls, and monochrome details. The wireframe crosses behind the central content. Small outlined/dashed capsules introduce the wordmark. These layout descriptions come from inspected pixels; spacing and geometry are visual estimates, not extracted exact coordinates.
 
-The original stylesheet (`https://sage.fantik.studio/assets/index-CDTW-d7f.css`) declares `NecroCosmic` for display type and `TTFirsNeueRegular` for body type. Its declared palette includes `#000`, `#fff`, and translucent white (`#fff6`, `#fffc`, `#ffffff40`, `#ffffff4d`, `#ffffff80`). Firecrawl supplied page text and metadata; branding fields and screenshots were not returned by the available connector. The screenshot was captured and inspected through the browser instead. No Sage production font or artwork is shipped in this application.
+The original stylesheet (`https://sage.fantik.studio/assets/index-CDTW-d7f.css`) declares `NecroCosmic` for display type and `TTFirsNeueRegular` for body type. Its declared palette includes `#000`, `#fff`, and translucent white (`#fff6`, `#fffc`, `#ffffff40`, `#ffffff4d`, `#ffffff80`). A fresh Firecrawl branding capture confirmed the display/body pairing. Font metadata identifies the display face as Necosmic Personal Use (the CSS calls it NecroCosmic). TT Firs Neue requires appropriate web-use rights; the user selected free alternatives. The reference screenshot was captured and inspected through the browser. No Sage production font or artwork is shipped in this application.
 
 ## Adaptation for The Receipts
 
@@ -20,11 +20,11 @@ Keep the spatial composition and dark material; replace the entry button with a 
 | Secondary text | `#949b93` / lighter olive-gray on dark panels |
 | Divider | `#30362f` |
 | Accent / focus | `#bcfa77` |
-| Display | Michroma, locally hosted, SIL Open Font License |
-| Body | Roboto variable, locally hosted, SIL Open Font License |
-| Technical labels | system monospace |
+| Display | Orbitron variable, locally hosted, SIL Open Font License |
+| Body | Sora variable, locally hosted, SIL Open Font License |
+| Technical labels | Sora, with tabular figures; no system font stack |
 
-Michroma preserves the futuristic wordmark; Roboto is the user's chosen body font. Files and licenses are in `static/fonts/`; sources are the official [Google Fonts Michroma directory](https://github.com/google/fonts/tree/main/ofl/michroma) and [Roboto directory](https://github.com/google/fonts/tree/main/ofl/roboto).
+After the user chose free self-hosted alternatives to Sage's licensed fonts, Orbitron became the display/navigation face and Sora the only reading/control/chart face. No generic or system-font fallbacks are declared. Text stays hidden behind an SVG loader until the Font Loading API confirms both faces. Files and OFL licenses are in `static/fonts/`; sources are the official [Orbitron](https://github.com/google/fonts/tree/main/ofl/orbitron) and [Sora](https://github.com/google/fonts/tree/main/ofl/sora) directories.
 
 ## Components and behavior
 
@@ -35,3 +35,9 @@ Michroma preserves the futuristic wordmark; Roboto is the user's chosen body fon
 - **Results:** collapse the landing into a dark research desk. Preserve real findings, financial cards, numbered citations, evidence ledger, research log, chart replay, exports, source-only previews and session reset. The chart palette and labels are adapted for the dark background.
 - **Motion:** restrained mesh movement and pointer parallax. Respect reduced-motion preferences, allow manual pause, and stop animation while the page is hidden.
 - **Responsive:** desktop composition adapts to a narrow single-column view; long dialogs scroll, financial cards stack, dates stack, and primary interactive targets remain at least 44px. Mobile behavior is an adaptation, not an assertion about Sage's uninspected mobile design.
+
+## Research lens refinement
+
+The optional context panel uses a continuous chronology, small green nodes, flat underline fields, issuer-logo peer chips and thin rules. Dates use a custom Sora calendar and validated ISO text entries; they do not open a browser calendar. The search textarea has no inherited bottom margin, and its box is centered on the submit button. Navigation explicitly uses Orbitron. New controls retain the question-first workflow.
+
+Logo lookup now covers any ticker in the SEC snapshot through the local `/company-logo/{ticker}` route. Public image hosts are used on demand and cached by SEC CIK; a missing image is represented as unavailable. This is broad retrieval capability, not a guarantee that every SEC filer has a published brand image. Logos identify current issuers and are not historical financial evidence.
