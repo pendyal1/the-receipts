@@ -456,12 +456,16 @@ def test_empty_company_evidence_does_not_publish_a_fabricated_ai_draft():
     assert any(t['name']=='finalize_coverage_summary' for t in result['tool_calls'])
 
 
-def test_planner_limitation_announcement_does_not_stop_supported_research():
+@pytest.mark.parametrize('note',[
+    'Intent cannot be proven, but the annual revenue comparison will be researched.',
+    'Unsupported operational metrics cannot be established, but the annual revenue comparison is investigated.',
+])
+def test_planner_limitation_announcement_does_not_stop_supported_research(note):
     class ProgressNote(FakeModel):
         def generate(self,system,payload,**kwargs):
             result=super().generate(system,payload,**kwargs)
             if 'You are Lead.' in system:
-                result.update(clarification='Intent cannot be proven, but the annual revenue comparison will be researched.',
+                result.update(clarification=note,
                               tasks={a:'Compare the supported annual financials' for a in ('Claims','Financials','Peers','Context')})
             return result
     result=Investigator(FakeSources(),ProgressNote()).run('Compare annual revenue and explain whether intent is provable.',SCOPE)

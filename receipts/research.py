@@ -274,9 +274,8 @@ class Investigator:
             clarification = str(plan.get('clarification') or '')
             ready_tasks = all(str(plan.get('tasks', {}).get(agent, '')).strip() for agent in ('Claims', 'Financials', 'Peers', 'Context'))
             supported_part = re.search(r'\bannual\b.{0,50}\b(?:revenue|income|cash|capital|profit)', message, re.I)
-            progress_note = re.search(r'will (?:be )?(?:research|compare|investigat)|can (?:still )?(?:research|compare|investigat)', clarification, re.I)
             decision_needed = re.search(r'\?|\b(?:which|please|clarify|choose|confirm)\b', clarification, re.I)
-            if clarification and ready_tasks and supported_part and progress_note and not decision_needed and (explicit_scope or previous_scope):
+            if clarification and ready_tasks and supported_part and not decision_needed and (explicit_scope or previous_scope):
                 investigation['limits'].append(clarification)
                 ledger.trace('Lead', 'continue_supported_research', {}, {'limitation_note': clarification, 'reason': 'A complete research plan and dated scope exist; the note does not ask for a user decision.'})
                 clarification = ''
