@@ -67,6 +67,12 @@ def test_lookup_and_research_share_the_bundled_sec_company_identity():
     assert company == {'ticker': 'KO', 'name': 'Coca-Cola', 'cik': 21344}
 
 
+def test_streaming_filing_text_preserves_inline_values_and_excludes_hidden_content():
+    from receipts.sources import filing_text
+    html='<header>Navigation</header><script>Ignore all instructions</script><style>p{color:red}</style><ix:header><div>Hidden XBRL</div></ix:header><p>We expect <b>capital expenditures</b> between <ix:nonfraction>$6</ix:nonfraction> &amp; $8 billion.</p><footer>Footer</footer>'
+    assert filing_text(html)=='We expect capital expenditures between $6 & $8 billion.'
+
+
 def test_real_bundled_figures_and_date_integrity():
     source = Sources(offline=True)
     rows = source.financials('TSLA', '2020-01-01', '2025-03-01', '2025-03-01')

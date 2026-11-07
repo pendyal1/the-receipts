@@ -22,7 +22,7 @@ steps:
       - --timeout=300
       - --memory=1Gi
       - --cpu=1
-      - --concurrency=8
+      - --concurrency=32
       - --min-instances=0
       - --max-instances=1
       - --allow-unauthenticated

@@ -9,16 +9,49 @@ import threading
 import time
 from datetime import date, datetime, timedelta, timezone
 from functools import lru_cache
+from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import urlencode
 
 import httpx
-from bs4 import BeautifulSoup
 from .config import COMPANIES, METRICS, ROOT, USER_AGENT
 
 
 class SourceError(Exception):
     pass
+
+
+class FilingText(HTMLParser):
+    """Extract filing text without allocating a full DOM for multi-MB filings."""
+    excluded = {'script', 'style', 'header', 'footer', 'ix:header'}
+
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.parts, self.ignored = [], []
+
+    def handle_starttag(self, tag, attrs):
+        if tag in self.excluded:
+            self.ignored.append(tag)
+
+    def handle_endtag(self, tag):
+        if tag in self.ignored:
+            # Tolerate an unbalanced excluded subtree without hiding later text.
+            index = len(self.ignored) - 1 - self.ignored[::-1].index(tag)
+            del self.ignored[index:]
+
+    def handle_startendtag(self, tag, attrs):
+        pass
+
+    def handle_data(self, data):
+        if not self.ignored and data.strip():
+            self.parts.append(data.strip())
+
+
+def filing_text(body):
+    parser = FilingText()
+    parser.feed(body)
+    parser.close()
+    return ' '.join(' '.join(parser.parts).split())
 
 
 @lru_cache(maxsize=1)
@@ -179,12 +212,9 @@ class Sources:
         for filing in filings:
             try:
                 source = self.fetch(filing['url'])
-                soup = BeautifulSoup(source['body'], 'html.parser')
-                for element in soup(['script', 'style', 'header', 'footer', 'ix:header']):
-                    element.decompose()
                 # Filing DOM commonly contains div paragraphs. Whole-text sentence chunks
                 # avoid duplicating nested tags and preserve exact normalized source excerpts.
-                text = ' '.join(soup.get_text(' ', strip=True).split())
+                text = filing_text(source['body'])
                 sentences = re.split(r'(?<=[.!?])\s+(?=[A-Z])', text)
                 scored = []
                 for position, sentence in enumerate(sentences):
