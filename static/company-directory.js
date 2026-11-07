@@ -19,6 +19,21 @@ const CompanyDirectory=(()=>{
    const symbol=this.symbols.get(canonical(text));if(symbol)return symbol;
    const term=normalize(text);return term?this.companies.find(c=>c.terms.includes(term)):undefined;
   }
+  prepareQuestion(text,{selected=null,company=null,peers=null}={}){
+   const question=String(text).trim();
+   if(!question)return {status:'empty',companies:[]};
+   const exact=selected||this.resolve(question);
+   const mentioned=exact?[exact]:this.mentions(question);
+   const resolve=value=>this.resolve(value)||(/^[A-Z][A-Z0-9.-]{0,9}$/.test(canonical(value))?{ticker:canonical(value),name:canonical(value)}:null);
+   const primary=company!==null?resolve(company):mentioned[0];
+   if(!primary)return {status:'needs_company',companies:[]};
+   const others=peers!==null?peers.split(',').map(t=>t.trim()).filter(Boolean).map(resolve):mentioned.filter(c=>c.ticker!==primary.ticker);
+   if(others.some(c=>!c))return {status:'invalid_peer',companies:[primary]};
+   const companies=[primary,...others];
+   if(companies.length>3)return {status:'too_many',companies};
+   if(new Set(companies.map(c=>c.ticker)).size!==companies.length)return {status:'duplicate',companies};
+   return {status:exact?'needs_question':'ready',companies};
+  }
   search(text,limit=6){
    const q=normalize(text),symbol=canonical(text);
    if(!q)return this.companies.filter(c=>c.featured).slice(0,limit);
@@ -47,10 +62,14 @@ const CompanyDirectory=(()=>{
   mentions(text){
    const found=[],input=String(text),normalized=' '+normalize(text)+' ';
    const escape=value=>value.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+   const common=new Set('a an ai all am an and any are as at be best both buy by can car cash cost data did do earn for from gain get go good grow had has help high hold hope how in is it its life low more move name net new next no not now of on one or out pay plan post rate read real risk same say see so team tech time true two up us view vs want we well what when why will work year'.split(' '));
+   const symbolMatch=c=>{
+    const pattern=escape(c.ticker).replace(/-/g,'[.-]');
+    const ordinary=common.has(c.ticker.toLowerCase());
+    return new RegExp('(?:^|[^A-Za-z0-9.-])'+(ordinary?'\\$':'\\$?')+'('+pattern+')(?=$|[^A-Za-z0-9.-])',c.ticker.length>1?'i':'').exec(input);
+   };
    for(const c of this.companies){
-    // Ordinary words such as "a", "on" and "it" must never become stock tickers.
-    const tickerPattern=escape(c.ticker).replace(/-/g,'[.-]');
-    const tickerMatch=new RegExp('(?:^|[^A-Za-z0-9.-])\\$?('+tickerPattern+')(?=$|[^A-Za-z0-9.-])').exec(input);
+    const tickerMatch=symbolMatch(c);
     let index=tickerMatch?tickerMatch.index:Infinity;
     for(const term of c.terms){
      if(term.length<3)continue;
@@ -62,9 +81,9 @@ const CompanyDirectory=(()=>{
    // The directory contains multiple share classes with the same company name.
    // Keep explicit ticker choices; otherwise prefer the first class shown in lookup.
    const result=[],seen=new Set();
-   const explicitCompanies=new Set(found.filter(item=>new RegExp('(?:^|[^A-Za-z0-9.-])\\$?'+escape(item.company.ticker).replace(/-/g,'[.-]')+'(?=$|[^A-Za-z0-9.-])').test(input)).map(item=>item.company.cik));
+   const explicitCompanies=new Set(found.filter(item=>symbolMatch(item.company)).map(item=>item.company.cik));
    for(const item of found.sort((a,b)=>a.index-b.index||a.company.order-b.company.order)){
-    const explicit=new RegExp('(?:^|[^A-Za-z0-9.-])\\$?'+escape(item.company.ticker).replace(/-/g,'[.-]')+'(?=$|[^A-Za-z0-9.-])').test(input);
+    const explicit=Boolean(symbolMatch(item.company));
     if(!explicit&&explicitCompanies.has(item.company.cik))continue;
     const identity=explicit?item.company.ticker:String(item.company.cik||item.company.ticker);
     if(!seen.has(identity)){seen.add(identity);result.push(item.company);}

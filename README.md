@@ -8,8 +8,8 @@
 
 ## Use the application
 
-1. Choose a company by name from the suggestions, or enter another U.S. stock ticker.
-2. Enter your question and select **Investigate**. The visible date summary shows the historical scope.
+1. Ask a historical financial question in the main bar, naming the company and any peers.
+2. Press **Enter** or the green submit button to investigate directly. **Shift+Enter** adds a line. Optional company, peer and date controls sit beneath the bar; the date summary shows the default historical scope.
 3. Optionally open **Compare companies or change dates** to add up to two peers, adjust the three dates, or browse source data without an AI answer. The bundled examples use **2020-01-01 / 2023-03-01 / 2025-03-01**.
 4. Results open with a short finding and key financial figures. Expand claim checks, performance charts, the full report, market context or limitations only when needed.
 5. Select a numbered citation to inspect its source. **Sources** and **Research log** preserve the evidence ledger and full agent/tool trace. **Download** exports the complete case as JSON.
@@ -513,7 +513,7 @@ Historical investigation supports due diligence. It does not establish fraud, ma
 
 ## Interface redesign — November 7
 
-The interface takes visual inspiration from the [Sage reference](https://www.siteofsites.co/websites/sage%C2%AE): a dark full-screen canvas, original animated wireframe, large futuristic wordmark and bright green accents. Company/question search opens a focused research setup; About, How to use and Sources open native dialog panels. The results, evidence ledger, research log and chart use the same visual system. All research APIs and source validation remain in place.
+The interface takes visual inspiration from the [Sage reference](https://www.siteofsites.co/websites/sage%C2%AE): a dark full-screen canvas, original animated wireframe, large futuristic wordmark and bright green accents. Questions submit directly from the main bar, with optional company, peer and date controls beneath it. About, How to use and Sources open native dialog panels. The results, evidence ledger, research log and chart use the same visual system. All research APIs and source validation remain in place.
 
 [DESIGN.md](DESIGN.md) records the reference observations, original implementation choices, locally hosted OFL fonts, responsive behavior and accessibility controls. The background is decorative geometry; it is not financial data. Background motion can be paused and honors reduced-motion preferences.
 
@@ -526,3 +526,10 @@ Body text and controls use self-hosted Roboto; the Michroma wordmark is preserve
 Twenty-six ticker entries have bundled brand images; other matches display ticker initials. Asset origins are recorded in `static/logos/SOURCES.json`, including company-site favicons and selected Simple Icons 11.15.0 marks. The Simple Icons license and font OFL licenses are bundled beside their assets. Logos identify companies and do not imply affiliation. All lookup assets are served locally, so typing a company never contacts a third-party logo service.
 
 Run `node --test tests/company-directory.test.cjs` for lookup regressions and `uv run pytest -q` for the API/data suite. Both run before automatic deployment.
+
+
+### Direct questions — November 7, 2026
+
+The setup dialog has been removed. The main bar accepts a multiline question and starts research directly; company names, ticker aliases, and up to two named peers are resolved locally. Optional controls show the existing historical defaults (2020-01-01 start, 2023-03-01 knowledge cutoff, 2025-03-01 outcome cutoff) before submission. They do not infer new historical cutoffs from a fiscal year mentioned in a question. The Lead still clarifies explicit date/scope conflicts.
+
+A company-only search offers specific questions instead of starting broad research. A question without a company asks for the missing company inline. Invalid dates, duplicate peers and oversized comparisons are blocked before a research request. Featured cases fill an editable question; the user submits it when ready. The question stays intact throughout research and failures. No additional model call is used to prepare the form. Regression checks cover these decisions as well as ordinary words such as “AI” and “cash” that must not become unintended peers.

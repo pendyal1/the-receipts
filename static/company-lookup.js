@@ -39,15 +39,15 @@ function attachCompanyLookup(input,popup,{main=false}={}){
  function highlight(index){active=index;const options=popup.querySelectorAll('[role=option]');options.forEach((option,i)=>option.setAttribute('aria-selected',String(i===active)));if(options[active]){input.setAttribute('aria-activedescendant',options[active].id);options[active].scrollIntoView({block:'nearest'});}else input.removeAttribute('aria-activedescendant');}
  function choose(company){
   selected=company;rememberCompany(company);input.value=main?company.name:company.ticker;input.setCustomValidity('');close();
-  if(main){const icon=document.querySelector('.search-icon');icon.setAttribute('hidden','');$('search-company-logo').replaceChildren(companyLogo(company));$('search-company-logo').hidden=false;}
-  else{updateSelectedCompany();updateCompanyQuestion();updateScopeCaption();}
+  if(main){const icon=document.querySelector('.search-icon');icon.setAttribute('hidden','');$('search-company-logo').replaceChildren(companyLogo(company));$('search-company-logo').hidden=false;sizeQuestionInput();}
+  else{state.manualCompany=true;updateSelectedCompany();updateScopeCaption();}
   $('lookup-announcement').textContent=`Selected ${company.name}, ${company.ticker}.`;input.focus();
  }
  function refresh(){
   if(document.activeElement!==input||state.busy)return;
-  const query=input.value.trim();matches=companyDirectory.search(query);active=-1;popup.replaceChildren();
+  const query=input.value.trim();if(main&&!query){close();return;}matches=companyDirectory.search(query);active=-1;popup.replaceChildren();
   // Full research questions remain free text, without a distracting empty menu.
-  if(main&&query.length>70||main&&/[?]/.test(query)){close();return;}
+  if(main&&(query.length>70||/[?\n]/.test(query)||(!companyDirectory.resolve(query)&&/^(did|does|do|how|what|why|when|compare|was|were|is|are|has|have|can|could|should|would|will|show|check|explain|revisit|investigate|tell)\b/i.test(query)))){close();return;}
   for(const [index,company]of matches.entries()){
    const option=el('div',null,'company-option');option.id=popup.id+'-'+index;option.setAttribute('role','option');option.setAttribute('aria-selected','false');
    const label=el('span',null,'company-option-label');label.append(el('span',company.name,'company-option-name'),el('span',company.ticker,'company-option-ticker'));
@@ -56,12 +56,13 @@ function attachCompanyLookup(input,popup,{main=false}={}){
   if(!matches.length){const message=companyDirectoryLoaded?'No matching company. Try another name or U.S. ticker.':'Company directory is unavailable. You can still enter a U.S. ticker.';popup.append(el('div',message,'lookup-empty'));}
   popup.hidden=false;input.setAttribute('aria-expanded','true');input.removeAttribute('aria-activedescendant');
  }
- input.addEventListener('input',()=>{selected=null;input.setCustomValidity('');$('lookup-announcement').textContent='';if(main){document.querySelector('.search-icon').removeAttribute('hidden');$('search-company-logo').hidden=true;}else updateSelectedCompany();refresh();});
+ input.addEventListener('input',()=>{selected=null;input.setCustomValidity('');$('lookup-announcement').textContent='';if(main){document.querySelector('.search-icon').removeAttribute('hidden');$('search-company-logo').hidden=true;}else{state.manualCompany=Boolean(input.value.trim());updateSelectedCompany();}refresh();});
  input.addEventListener('focus',refresh);
  input.addEventListener('keydown',event=>{
   if(event.isComposing)return;
   if(event.key==='ArrowDown'||event.key==='ArrowUp'){event.preventDefault();if(popup.hidden)refresh();if(matches.length)highlight(active<0?(event.key==='ArrowDown'?0:matches.length-1):(active+(event.key==='ArrowDown'?1:-1)+matches.length)%matches.length);}
-  else if(event.key==='Enter'&&!popup.hidden&&active>=0){event.preventDefault();choose(matches[active]);}
+  else if(event.key==='Enter'&&!event.shiftKey&&!popup.hidden&&active>=0){event.preventDefault();choose(matches[active]);}
+  else if(main&&event.key==='Enter'&&!event.shiftKey){event.preventDefault();close();input.form.requestSubmit();}
   else if(event.key==='Escape'&&!popup.hidden){event.preventDefault();event.stopPropagation();close();}
   else if(event.key==='Tab')close();
  });
@@ -70,7 +71,6 @@ function attachCompanyLookup(input,popup,{main=false}={}){
  const control={refresh,close,getSelection:()=>selected&&input.value===(main?selected.name:selected.ticker)?selected:null};lookupControls.push(control);return control;
 }
 const mainCompanyLookup=attachCompanyLookup($('company-search'),$('company-suggestions'),{main:true});
-attachCompanyLookup($('tickers'),$('research-company-suggestions'));
-$('research-dialog').addEventListener('close',()=>lookupControls.forEach(control=>control.close()));
+const researchCompanyLookup=attachCompanyLookup($('tickers'),$('research-company-suggestions'));
 $('tickers').addEventListener('change',updateSelectedCompany);
 decorateCompanyCases();updateSelectedCompany();

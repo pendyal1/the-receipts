@@ -25,12 +25,23 @@
 <div class="hero-kicker"><span>PAST CLAIMS.</span><span>PRESENT EVIDENCE.</span></div>
 <h1 id="hero-title">THE RECEIPTS<span class="title-star" aria-hidden="true">✳</span></h1>
 <p class="hero-description">They made the claims.<br class="mobile-break"> You check the record.</p>
-<form id="search-form" class="search-bar" role="search" aria-label="Find a company to investigate">
+<form id="research-form" class="question-form" novalidate>
+<div id="search-form" class="search-bar" role="search" aria-label="Ask a historical financial question">
 <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg>
-<span id="search-company-logo" hidden></span><label class="sr-only" for="company-search">Company name, ticker, or research question</label>
-<input id="company-search" type="search" placeholder="Search a company, ticker, or ask a question." autocomplete="off" maxlength="8000" required>
-<button type="submit" class="search-submit" aria-label="Start a company investigation"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button>
+<span id="search-company-logo" hidden></span><label class="sr-only" for="company-search">Your research question</label>
+<textarea id="company-search" rows="1" placeholder="Did Tesla deliver on its 2023 promises?" autocomplete="off" maxlength="8000" required></textarea>
+<button id="investigate" type="submit" class="search-submit" aria-label="Investigate question"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button>
 <div id="company-suggestions" class="company-suggestions" role="listbox" aria-label="Matching companies" hidden></div>
+</div>
+<input id="question" type="hidden" value="">
+<div id="form-notice" class="form-notice" role="alert" hidden></div>
+<div id="question-prompts" class="question-prompts" hidden></div>
+<details class="inline-settings" id="research-settings"><summary><span>Company, peers & dates</span><span id="scope-caption">2020–2025 · Known by Mar 1, 2023</span></summary><div class="settings-body">
+<div class="company-context-grid"><div><label for="tickers">COMPANY</label><div class="company-field"><input id="tickers" value="" placeholder="Detected from your question" maxlength="120" autocomplete="off" aria-describedby="company-help"><div id="research-company-suggestions" class="company-suggestions" role="listbox" aria-label="Matching research companies" hidden></div></div><div id="selected-company" class="selected-company" hidden></div><p id="company-help" class="field-hint">Choose a company here if your question doesn’t name one.</p></div>
+<div><label for="peers">COMPARE WITH <span class="optional">(optional)</span></label><input id="peers" value="" placeholder="Company names or tickers, e.g. GM, F" maxlength="240" aria-describedby="peers-help"><p id="peers-help" class="field-hint">Up to two peers. Companies named in your question are included automatically.</p></div></div>
+<div class="date-grid"><label for="start">History starts<input id="start" type="date" value="2020-01-01" min="2012-01-01" required></label><label for="asof">What was known by<input id="asof" type="date" value="2023-03-01" min="2012-01-01" required></label><label for="through">Follow results until<input id="through" type="date" value="2025-03-01" min="2012-01-01" required></label></div>
+<button id="preview" class="button secondary" type="button">Browse source data only</button>
+</div></details>
 </form>
 <span id="lookup-announcement" class="sr-only" role="status" aria-live="polite"></span>
 <div class="examples" id="case-library" aria-label="Example investigations"><span class="example-label">START WITH A CASE</span><button class="case-card" data-case="Automakers" type="button">Tesla</button><button class="case-card" data-case="Semiconductors" type="button">NVIDIA</button><button class="case-card" data-case="Cloud platforms" type="button">Cloud giants</button></div>
@@ -55,22 +66,10 @@
 </main>
 <footer class="site-footer"><div class="footer-left"><button type="button" class="source-link" data-panel="sources" aria-haspopup="dialog"><span class="source-orbit" aria-hidden="true">◎</span> Source</button><span class="footer-sources">SEC EDGAR / FRED / HISTORICAL PRICES</span></div><div class="footer-right"><button id="motion-toggle" class="motion-button" type="button" aria-label="Turn background motion off" aria-pressed="true"><span class="motion-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="sr-only">Background motion</span></button></div></footer>
 </div>
-<dialog id="research-dialog" class="modal research-modal" aria-labelledby="research-title">
-<div class="modal-topline"><span class="micro-label">THE RECEIPTS / NEW INVESTIGATION</span><button class="close-button" type="button" data-close-dialog aria-label="Close investigation settings">×</button></div>
-<div class="modal-heading"><span class="section-index">01 — OPEN A CASE</span><h2 id="research-title">Set the viewpoint.</h2><p>Choose what was known then.<br>Find out what happened next.</p></div>
-<form id="research-form">
-<div id="form-notice" class="form-notice" role="alert" hidden></div>
-<label for="tickers">COMPANY</label><div class="company-field"><input id="tickers" value="TSLA" placeholder="Company name or U.S. ticker" required maxlength="120" autocomplete="off" aria-describedby="company-help"><div id="research-company-suggestions" class="company-suggestions" role="listbox" aria-label="Matching research companies" hidden></div></div>
-<div id="selected-company" class="selected-company" hidden></div>
-<p id="company-help" class="field-hint">Search by name or ticker, then choose your company.</p>
-<label for="question">YOUR QUESTION</label><textarea id="question" rows="2" maxlength="8000" required placeholder="What would you like to understand?">Did Tesla deliver on its plans after 2022?</textarea>
-<details class="settings" id="research-settings"><summary>Peers & research dates</summary><div class="settings-body"><label for="peers">COMPARE WITH <span class="optional">(optional)</span></label><input id="peers" value="" placeholder="Up to two U.S. tickers, e.g. GM, F" maxlength="30" aria-describedby="peers-help"><p id="peers-help" class="field-hint">Leave blank to investigate one company.</p><div class="date-grid"><label for="start">History starts<input id="start" type="date" value="2020-01-01" min="2012-01-01" required></label><label for="asof">What was known by<input id="asof" type="date" value="2023-03-01" min="2012-01-01" required></label><label for="through">Follow results until<input id="through" type="date" value="2025-03-01" min="2012-01-01" required></label></div><p class="field-hint">Earlier statements are checked against results filed by the final date.</p><button id="preview" class="button secondary" type="button">Browse source data only</button></div></details>
-<div class="form-bottom"><span id="scope-caption" class="scope-caption">2020–2025 · Known by Mar 1, 2023</span><button id="investigate" class="button primary" type="submit">Investigate</button></div><p class="research-time">A proper investigation usually takes 1–3 minutes.</p>
-</form></dialog>
 <dialog id="info-dialog" class="modal info-modal" aria-labelledby="info-title">
 <div class="modal-topline"><button class="close-button" type="button" data-close-dialog aria-label="Close information">×</button></div>
 <nav class="info-tabs" aria-label="Application information"><button type="button" data-panel="about" aria-pressed="true">About</button><button type="button" data-panel="how" aria-pressed="false">How to use</button><button type="button" data-panel="sources" aria-pressed="false">Sources</button></nav>
 <div id="info-content"></div>
-<button id="info-start" class="button primary" type="button">Open an investigation</button>
+<button id="info-start" class="button primary" type="button">Ask a question</button>
 </dialog>
 </body></html>

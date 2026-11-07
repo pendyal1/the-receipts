@@ -28,3 +28,25 @@ test('search extends beyond featured examples and cannot exceed its result cap',
  assert.ok(directory.search('bank',6).length<=6);
  assert.ok(companies.length>1000);
 });
+test('question-first submission detects companies and asks for only the missing decision',()=>{
+ const plan=directory.prepareQuestion('Did Tesla outperform Ford and GM?');
+ assert.equal(plan.status,'ready');assert.deepEqual(plan.companies.map(c=>c.ticker),['TSLA','F','GM']);
+ assert.equal(directory.prepareQuestion('Did it deliver on its promises?').status,'needs_company');
+ assert.equal(directory.prepareQuestion('Tesla').status,'needs_question');
+ assert.equal(directory.prepareQuestion('   ').status,'empty');
+ const picked=directory.prepareQuestion('Alphabet',{selected:directory.resolve('GOOG')});
+ assert.equal(picked.companies[0].ticker,'GOOG');
+});
+test('optional company and peer choices preserve validation and never truncate extra peers',()=>{
+ assert.equal(directory.prepareQuestion('Did it deliver?',{company:'Tesla'}).status,'ready');
+ const plan=directory.prepareQuestion('Did Tesla deliver?',{peers:'General Motors, Ford'});
+ assert.deepEqual(plan.companies.map(c=>c.ticker),['TSLA','GM','F']);
+ assert.equal(directory.prepareQuestion('Did Tesla deliver?',{peers:'GM, F, NVIDIA'}).status,'too_many');
+ assert.equal(directory.prepareQuestion('Did Tesla deliver?',{peers:'TSLA'}).status,'duplicate');
+ assert.equal(directory.prepareQuestion('Did Tesla deliver?',{peers:'not a real company'}).status,'invalid_peer');
+});
+test('lowercase tickers work in questions while ordinary financial words do not become peers',()=>{
+ assert.deepEqual(symbols('Compare tsla with nvda'),['TSLA','NVDA']);
+ assert.deepEqual(symbols('How did NVIDIA benefit from AI demand and cash flow?'),['NVDA']);
+ assert.deepEqual(symbols('Compare $AI and TSLA'),['AI','TSLA']);
+});
