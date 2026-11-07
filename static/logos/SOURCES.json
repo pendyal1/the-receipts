@@ -1,0 +1,102 @@
+{
+  "TSLA": {
+    "url": "https://cdn.jsdelivr.net/npm/simple-icons@11.15.0/icons/tesla.svg",
+    "asset": "/static/logos/TSLA.svg"
+  },
+  "NVDA": {
+    "url": "https://www.nvidia.com/favicon.ico",
+    "asset": "/static/logos/NVDA.ico"
+  },
+  "MSFT": {
+    "url": "https://cdn.jsdelivr.net/npm/simple-icons@11.15.0/icons/microsoft.svg",
+    "asset": "/static/logos/MSFT.svg"
+  },
+  "AMZN": {
+    "url": "https://www.amazon.com/favicon.ico",
+    "asset": "/static/logos/AMZN.ico"
+  },
+  "GOOGL": {
+    "url": "https://cdn.jsdelivr.net/npm/simple-icons@11.15.0/icons/google.svg",
+    "asset": "/static/logos/GOOGL.svg"
+  },
+  "AAPL": {
+    "url": "https://www.apple.com/favicon.ico",
+    "asset": "/static/logos/AAPL.ico"
+  },
+  "META": {
+    "url": "https://www.meta.com/favicon.ico",
+    "asset": "/static/logos/META.ico"
+  },
+  "AMD": {
+    "url": "https://cdn.jsdelivr.net/npm/simple-icons@11.15.0/icons/amd.svg",
+    "asset": "/static/logos/AMD.svg"
+  },
+  "INTC": {
+    "url": "https://www.intel.com/favicon.ico",
+    "asset": "/static/logos/INTC.ico"
+  },
+  "GM": {
+    "url": "https://cdn.jsdelivr.net/npm/simple-icons@11.15.0/icons/generalmotors.svg",
+    "asset": "/static/logos/GM.svg"
+  },
+  "F": {
+    "url": "https://www.ford.com/favicon.ico",
+    "asset": "/static/logos/F.ico"
+  },
+  "NFLX": {
+    "url": "https://assets.nflxext.com/us/ffe/siteui/common/icons/nficon2016.ico",
+    "asset": "/static/logos/NFLX.ico"
+  },
+  "ORCL": {
+    "url": "https://www.oracle.com/favicon.ico",
+    "asset": "/static/logos/ORCL.ico"
+  },
+  "CRM": {
+    "url": "https://www.salesforce.com/favicon.ico",
+    "asset": "/static/logos/CRM.ico"
+  },
+  "JPM": {
+    "url": "https://www.jpmorganchase.com/favicon.ico",
+    "asset": "/static/logos/JPM.png"
+  },
+  "PLTR": {
+    "url": "https://www.palantir.com/favicon.ico",
+    "asset": "/static/logos/PLTR.ico"
+  },
+  "AVGO": {
+    "url": "https://cdn.jsdelivr.net/npm/simple-icons@11.15.0/icons/broadcom.svg",
+    "asset": "/static/logos/AVGO.svg"
+  },
+  "V": {
+    "url": "https://www.visa.com/favicon.ico",
+    "asset": "/static/logos/V.ico"
+  },
+  "KO": {
+    "url": "https://www.coca-colacompany.com/favicon.ico",
+    "asset": "/static/logos/KO.ico"
+  },
+  "DIS": {
+    "url": "https://thewaltdisneycompany.com/favicon.ico",
+    "asset": "/static/logos/DIS.ico"
+  },
+  "WMT": {
+    "url": "https://cdn.jsdelivr.net/npm/simple-icons@11.15.0/icons/walmart.svg",
+    "asset": "/static/logos/WMT.svg"
+  },
+  "UBER": {
+    "url": "https://www.uber.com/favicon.ico",
+    "asset": "/static/logos/UBER.ico"
+  },
+  "SPOT": {
+    "url": "https://www.spotify.com/favicon.ico",
+    "asset": "/static/logos/SPOT.ico"
+  },
+  "SHOP": {
+    "url": "https://www.shopify.com/favicon.ico",
+    "asset": "/static/logos/SHOP.ico"
+  },
+  "ADBE": {
+    "url": "https://www.adobe.com/favicon.ico",
+    "asset": "/static/logos/ADBE.ico"
+  }
+}

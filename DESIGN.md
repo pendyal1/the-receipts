@@ -21,15 +21,15 @@ Keep the spatial composition and dark material; replace the entry button with a 
 | Divider | `#30362f` |
 | Accent / focus | `#bcfa77` |
 | Display | Michroma, locally hosted, SIL Open Font License |
-| Body | Manrope variable, locally hosted, SIL Open Font License |
+| Body | Roboto variable, locally hosted, SIL Open Font License |
 | Technical labels | system monospace |
 
-Michroma and Manrope are implementation choices approximating the reference's futuristic/clean pairing. Files and licenses are in `static/fonts/`; sources are the official [Google Fonts Michroma directory](https://github.com/google/fonts/tree/main/ofl/michroma) and [Manrope directory](https://github.com/google/fonts/tree/main/ofl/manrope).
+Michroma preserves the futuristic wordmark; Roboto is the user's chosen body font. Files and licenses are in `static/fonts/`; sources are the official [Google Fonts Michroma directory](https://github.com/google/fonts/tree/main/ofl/michroma) and [Roboto directory](https://github.com/google/fonts/tree/main/ofl/roboto).
 
 ## Components and behavior
 
 - **Landing:** full viewport, large white wordmark, short introduction, centered search, three preset cases. The wireframe is original canvas geometry, not financial data. No stock photo or raster background is necessary.
-- **Search:** a company name, ticker or company-specific question opens a focused investigation dialog. Recognized companies and peers are prefilled; unfamiliar questions ask for a ticker. Questions remain editable. Research dates are visible before starting and adjustable in a disclosure.
+- **Search:** a company name or ticker opens branded suggestions from the dated SEC directory, with keyboard selection, aliases, typo suggestions and share-class identity. Company logos also appear in the preset cases; unavailable logos use ticker initials. Submitting a selected company or company-specific question opens a focused investigation dialog. Recognized companies and peers are prefilled; unfamiliar questions ask for a ticker. Questions remain editable. Research dates are visible before starting and adjustable in a disclosure.
 - **Navigation:** About, How to use, and Sources open one native dialog with switchable panels. Close button, Escape, backdrop dismissal and native focus containment are supported. External source links are explicit.
 - **Research:** the setup panel closes when valid research starts. Progress appears on the landing screen. Duplicate submissions are disabled. Invalid fields and dates keep the panel open with an explanation.
 - **Results:** collapse the landing into a dark research desk. Preserve real findings, financial cards, numbered citations, evidence ledger, research log, chart replay, exports, source-only previews and session reset. The chart palette and labels are adapted for the dark background.

@@ -516,3 +516,13 @@ Historical investigation supports due diligence. It does not establish fraud, ma
 The interface takes visual inspiration from the [Sage reference](https://www.siteofsites.co/websites/sage%C2%AE): a dark full-screen canvas, original animated wireframe, large futuristic wordmark and bright green accents. Company/question search opens a focused research setup; About, How to use and Sources open native dialog panels. The results, evidence ledger, research log and chart use the same visual system. All research APIs and source validation remain in place.
 
 [DESIGN.md](DESIGN.md) records the reference observations, original implementation choices, locally hosted OFL fonts, responsive behavior and accessibility controls. The background is decorative geometry; it is not financial data. Background motion can be paused and honors reduced-motion preferences.
+
+### Company lookup and typography — November 7, 2026
+
+Body text and controls use self-hosted Roboto; the Michroma wordmark is preserved. The main search and investigation company field share a keyboard-accessible company picker. Name/ticker prefixes, aliases (Google, Facebook), common spelling errors and share-class punctuation are supported. Arrow keys move through matches, Enter selects and Escape dismisses. Full research questions remain supported. No external autocomplete or paid logo API is used.
+
+`static/companies.json` contains 10,409 entries from the SEC ticker directory, with its source URL, retrieval timestamp and original-response SHA-256. It is a dated lookup snapshot, not a guarantee of historical filing or metric coverage. Both the picker and the research adapter use these SEC ticker/CIK identities; unknown tickers still attempt live SEC resolution. To update the directory, retain the curated display names/aliases/logo paths while replacing ticker/CIK rows from the source URL and recording the new retrieval timestamp and hash.
+
+Twenty-six ticker entries have bundled brand images; other matches display ticker initials. Asset origins are recorded in `static/logos/SOURCES.json`, including company-site favicons and selected Simple Icons 11.15.0 marks. The Simple Icons license and font OFL licenses are bundled beside their assets. Logos identify companies and do not imply affiliation. All lookup assets are served locally, so typing a company never contacts a third-party logo service.
+
+Run `node --test tests/company-directory.test.cjs` for lookup regressions and `uv run pytest -q` for the API/data suite. Both run before automatic deployment.

@@ -1,4 +1,7 @@
 steps:
+  - name: node:22-slim
+    entrypoint: node
+    args: ['--test', 'tests/company-directory.test.cjs']
   - name: python:3.12-slim
     entrypoint: sh
     args: ['-c', 'pip install --no-cache-dir uv==0.13.1 && uv sync --locked && uv run pytest -q']

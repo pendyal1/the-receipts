@@ -62,6 +62,11 @@ def test_offline_missing_source_explicit_failure(tmp_path):
         Sources(tmp_path, offline=True).fetch('https://data.sec.gov/not-bundled')
 
 
+def test_lookup_and_research_share_the_bundled_sec_company_identity():
+    company = Sources(offline=True).resolve('KO')
+    assert company == {'ticker': 'KO', 'name': 'Coca-Cola', 'cik': 21344}
+
+
 def test_real_bundled_figures_and_date_integrity():
     source = Sources(offline=True)
     rows = source.financials('TSLA', '2020-01-01', '2025-03-01', '2025-03-01')

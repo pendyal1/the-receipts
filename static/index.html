@@ -7,9 +7,9 @@
 <meta name="description" content="Historical financial intelligence. Search a company, cross-examine management claims, and follow the evidence to what happened next.">
 <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="/static/fonts/Michroma-Regular.ttf" as="font" type="font/ttf" crossorigin>
-<link rel="preload" href="/static/fonts/Manrope.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="/static/fonts/Roboto.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="stylesheet" href="/static/style.css">
-<script src="/static/app.js" defer></script><script src="/static/interface.js" defer></script>
+<script src="/static/company-directory.js" defer></script><script src="/static/app.js" defer></script><script src="/static/company-lookup.js" defer></script><script src="/static/interface.js" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#desk">Skip to main content</a>
@@ -27,10 +27,12 @@
 <p class="hero-description">They made the claims.<br class="mobile-break"> You check the record.</p>
 <form id="search-form" class="search-bar" role="search" aria-label="Find a company to investigate">
 <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg>
-<label class="sr-only" for="company-search">Company name, ticker, or research question</label>
-<input id="company-search" list="company-list" type="search" placeholder="Search a company. Follow the evidence." autocomplete="off" maxlength="8000" required>
+<span id="search-company-logo" hidden></span><label class="sr-only" for="company-search">Company name, ticker, or research question</label>
+<input id="company-search" type="search" placeholder="Search a company, ticker, or ask a question." autocomplete="off" maxlength="8000" required>
 <button type="submit" class="search-submit" aria-label="Start a company investigation"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button>
+<div id="company-suggestions" class="company-suggestions" role="listbox" aria-label="Matching companies" hidden></div>
 </form>
+<span id="lookup-announcement" class="sr-only" role="status" aria-live="polite"></span>
 <div class="examples" id="case-library" aria-label="Example investigations"><span class="example-label">START WITH A CASE</span><button class="case-card" data-case="Automakers" type="button">Tesla</button><button class="case-card" data-case="Semiconductors" type="button">NVIDIA</button><button class="case-card" data-case="Cloud platforms" type="button">Cloud giants</button></div>
 <div id="status" class="status" role="status" aria-live="polite" hidden></div>
 </div>
@@ -58,9 +60,9 @@
 <div class="modal-heading"><span class="section-index">01 — OPEN A CASE</span><h2 id="research-title">Set the viewpoint.</h2><p>Choose what was known then.<br>Find out what happened next.</p></div>
 <form id="research-form">
 <div id="form-notice" class="form-notice" role="alert" hidden></div>
-<label for="tickers">COMPANY</label><input id="tickers" list="company-list" value="Tesla" placeholder="Company name or U.S. ticker" required maxlength="40" autocomplete="off" aria-describedby="company-help">
-<datalist id="company-list"><option value="Tesla">TSLA</option><option value="General Motors">GM</option><option value="Ford">F</option><option value="NVIDIA">NVDA</option><option value="AMD">AMD</option><option value="Intel">INTC</option><option value="Microsoft">MSFT</option><option value="Amazon">AMZN</option><option value="Alphabet">GOOGL</option></datalist>
-<p id="company-help" class="field-hint">Use a U.S. ticker for a company outside the suggestions.</p>
+<label for="tickers">COMPANY</label><div class="company-field"><input id="tickers" value="TSLA" placeholder="Company name or U.S. ticker" required maxlength="120" autocomplete="off" aria-describedby="company-help"><div id="research-company-suggestions" class="company-suggestions" role="listbox" aria-label="Matching research companies" hidden></div></div>
+<div id="selected-company" class="selected-company" hidden></div>
+<p id="company-help" class="field-hint">Search by name or ticker, then choose your company.</p>
 <label for="question">YOUR QUESTION</label><textarea id="question" rows="2" maxlength="8000" required placeholder="What would you like to understand?">Did Tesla deliver on its plans after 2022?</textarea>
 <details class="settings" id="research-settings"><summary>Peers & research dates</summary><div class="settings-body"><label for="peers">COMPARE WITH <span class="optional">(optional)</span></label><input id="peers" value="" placeholder="Up to two U.S. tickers, e.g. GM, F" maxlength="30" aria-describedby="peers-help"><p id="peers-help" class="field-hint">Leave blank to investigate one company.</p><div class="date-grid"><label for="start">History starts<input id="start" type="date" value="2020-01-01" min="2012-01-01" required></label><label for="asof">What was known by<input id="asof" type="date" value="2023-03-01" min="2012-01-01" required></label><label for="through">Follow results until<input id="through" type="date" value="2025-03-01" min="2012-01-01" required></label></div><p class="field-hint">Earlier statements are checked against results filed by the final date.</p><button id="preview" class="button secondary" type="button">Browse source data only</button></div></details>
 <div class="form-bottom"><span id="scope-caption" class="scope-caption">2020–2025 · Known by Mar 1, 2023</span><button id="investigate" class="button primary" type="submit">Investigate</button></div><p class="research-time">A proper investigation usually takes 1–3 minutes.</p>

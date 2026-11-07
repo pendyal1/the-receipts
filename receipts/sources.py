@@ -8,6 +8,7 @@ import re
 import threading
 import time
 from datetime import date, datetime, timedelta, timezone
+from functools import lru_cache
 from pathlib import Path
 from urllib.parse import urlencode
 
@@ -18,6 +19,13 @@ from .config import COMPANIES, METRICS, ROOT, USER_AGENT
 
 class SourceError(Exception):
     pass
+
+
+@lru_cache(maxsize=1)
+def bundled_company_directory():
+    """The dated SEC lookup snapshot also avoids a separate directory request per ticker."""
+    path = ROOT / 'static' / 'companies.json'
+    return {row['ticker']: row for row in json.loads(path.read_text())['companies']}
 
 
 class Sources:
@@ -92,6 +100,9 @@ class Sources:
         if ticker in COMPANIES:
             name, cik = COMPANIES[ticker]
             return {'ticker': ticker, 'name': name, 'cik': cik}
+        company = bundled_company_directory().get(ticker)
+        if company:
+            return {'ticker': ticker, 'name': company['name'], 'cik': company['cik']}
         directory, _ = self.json('https://www.sec.gov/files/company_tickers.json')
         for company in directory.values():
             if company['ticker'].upper() == ticker:

@@ -10,6 +10,7 @@ function openResearch(){
  if(state.busy)return;
  if($('info-dialog').open)$('info-dialog').close();
  $('form-notice').hidden=true;
+ mainCompanyLookup.close();updateSelectedCompany();
  if(!$('research-dialog').open)$('research-dialog').showModal();
  if(!$('tickers').value)$('tickers').focus();else $('question').focus();
 }
@@ -25,35 +26,36 @@ document.querySelectorAll('[data-close-dialog]').forEach(button=>button.addEvent
 for(const dialog of document.querySelectorAll('dialog'))dialog.addEventListener('click',event=>{const r=dialog.getBoundingClientRect();if(event.target===dialog&&(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom))dialog.close();});
 $('info-start').addEventListener('click',()=>{if(state.busy){$('info-dialog').close();return;}openResearch();});
 
-const searchAliases={...names,AAPL:'Apple',META:'Meta',NFLX:'Netflix',AVGO:'Broadcom',PLTR:'Palantir',JPM:'JPMorgan','BRK-B':'Berkshire Hathaway',CRM:'Salesforce',ORCL:'Oracle',GOOG:'Google'};
 function searchCompanies(text){
- const matches=[];
- for(const [symbol,name]of Object.entries(searchAliases)){
-  const escaped=name.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
-  const nameMatch=new RegExp('\\b'+escaped+'\\b','i').exec(text);
-  const symbolMatch=new RegExp('\\b'+symbol.replace(/[.-]/g,'\\$&')+'\\b',symbol.length===1?'':'i').exec(text);
-  if(nameMatch||symbolMatch)matches.push({symbol,index:Math.min(nameMatch?.index??Infinity,symbolMatch?.index??Infinity)});
- }
- matches.sort((a,b)=>a.index-b.index);
- const symbols=[...new Set(matches.map(m=>m.symbol==='GOOG'?'GOOGL':m.symbol))];
- if(!symbols.length&&/^[a-z][a-z0-9.-]{0,9}$/i.test(text))symbols.push(text.toUpperCase());
- if(!symbols.length){const omitted=new Set(['AI','SEC','CEO','USD','CAPEX','THE','AND','FRED','GDP','US']);for(const m of text.matchAll(/\b[A-Z][A-Z0-9.-]{1,9}\b/g)){if(!omitted.has(m[0]))symbols.push(m[0]);}}
- return [...new Set(symbols)];
+ const exact=companyDirectory.resolve(text);
+ const companies=exact?[exact]:companyDirectory.mentions(text);
+ companies.forEach(rememberCompany);
+ if(companies.length)return companies.map(company=>company.ticker);
+ if(!companyDirectoryLoaded&&/^\$?[a-z][a-z0-9.-]{0,9}$/i.test(text))return [CompanyDirectory.canonical(text)];
+ return [];
 }
-$('search-form').addEventListener('submit',event=>{
+$('search-form').addEventListener('submit',async event=>{
  event.preventDefault();if(state.busy)return;
  const text=$('company-search').value.trim();
  if(!text){$('company-search').setCustomValidity('Enter a company name, ticker, or research question.');$('company-search').reportValidity();return;}
- const symbols=searchCompanies(text),primary=symbols[0],name=searchAliases[primary]||primary;
- $('tickers').value=primary?(names[primary]||primary):'';
+ await companyDirectoryReady;if(state.busy)return;
+ const exact=mainCompanyLookup.getSelection()||companyDirectory.resolve(text);
+ const symbols=exact?[rememberCompany(exact).ticker]:searchCompanies(text),primary=symbols[0];
+ if(!primary&&text.length<70&&!/[?]/.test(text)){
+  setStatus('Choose a matching company from the suggestions, or ask a question that names the company.');
+  mainCompanyLookup.refresh();$('company-search').focus();return;
+ }
+ mainCompanyLookup.close();$('status').hidden=true;
+ $('tickers').value=primary||'';
  $('peers').value=symbols.slice(1).join(', ');
- const justCompany=primary&&(text.toUpperCase()===primary||Object.entries(searchAliases).some(([symbol,label])=>(symbol==='GOOG'?'GOOGL':symbol)===primary&&(text.toLowerCase()===label.toLowerCase()||text.toUpperCase()===symbol)));
+ const name=names[primary]||primary;
+ const justCompany=Boolean(exact);
  const question=justCompany?`Did ${name} deliver on its plans after 2022?`:text;
- $('question').value=primary?question:text;
+ $('question').value=question;
  state.autoQuestion=justCompany?question:null;
  $('research-settings').open=symbols.length>1;
  updateScopeCaption();openResearch();
- if(!primary||symbols.length>3){$('form-notice').textContent=!primary?'Add the company’s U.S. stock ticker to continue.':'Choose up to three companies for this investigation.';$('form-notice').hidden=false;}
+ if(!primary||symbols.length>3){$('form-notice').textContent=!primary?'Choose the company you want to investigate.':'Choose up to three companies for this investigation.';$('form-notice').hidden=false;}
 });
 $('company-search').addEventListener('input',()=>$('company-search').setCustomValidity(''));
 
