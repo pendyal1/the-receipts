@@ -1,0 +1,50 @@
+{
+  "case": {
+    "id": "conflicting_company_scope",
+    "message": "Compare Apple and Microsoft revenue and profitability.",
+    "scope": {
+      "tickers": [
+        "TSLA"
+      ],
+      "start": "2020-01-01",
+      "as_of": "2023-03-01",
+      "through": "2025-03-01"
+    },
+    "expect": "clarification"
+  },
+  "tested_at": "2026-11-07T20:49:13.742618+00:00",
+  "http_status": 200,
+  "seconds": 1.13,
+  "data": {
+    "response": "The question explicitly names Apple and Microsoft, but the explicit scope is set for TSLA. Which scope do you intend? For example: Apple and Microsoft from start 2020-01-01, as_of 2023-03-01, through 2025-03-01.",
+    "session_id": "958ff969-855b-4b1c-bf17-240fa4c4bf3c",
+    "tool_calls": [
+      {
+        "agent": "Lead",
+        "name": "company_lookup",
+        "args": {
+          "ticker": "TSLA"
+        },
+        "result": "{\"ticker\": \"TSLA\", \"name\": \"Tesla\", \"cik\": 1318605}",
+        "elapsed_ms": 0
+      },
+      {
+        "agent": "Lead",
+        "name": "plan",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"clarification\": \"The question explicitly names Apple and Microsoft, but the explicit scope is set for TSLA. Which scope do you intend? For example: Apple and Microsoft from start 2020-01-01, as_of 2023-03-01, through 2025-03-01.\", \"scope\": {\"tickers\": [], \"start\": \"\", \"as_of\": \"\", \"through\": \"\"}, \"tasks\": {\"Claims\": \"\", \"Financials\": \"\", \"Peers\": \"\", \"Context\": \"\"}, \"focus\": \"\"}",
+        "elapsed_ms": 1017
+      }
+    ],
+    "investigation": {
+      "status": "clarification",
+      "report": null,
+      "evidence": [],
+      "limits": [],
+      "rounds": 0
+    }
+  },
+  "automated_errors": []
+}

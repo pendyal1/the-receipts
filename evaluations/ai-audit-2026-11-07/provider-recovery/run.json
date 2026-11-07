@@ -1,0 +1,12 @@
+{
+  "deployment": {
+    "status": "ok",
+    "model": "gemini-3.5-flash-lite",
+    "snapshot_files": 66,
+    "revision": "the-receipts-00025-tvm",
+    "commit": "591662a789ffdd25ab528eb7eac5929e98410e4b"
+  },
+  "prompts": 1,
+  "validation": [],
+  "failed": 0
+}

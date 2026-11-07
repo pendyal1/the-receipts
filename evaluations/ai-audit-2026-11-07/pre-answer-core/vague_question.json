@@ -1,0 +1,33 @@
+{
+  "case": {
+    "id": "vague_question",
+    "message": "Is it good?",
+    "expect": "clarification"
+  },
+  "tested_at": "2026-11-07T20:57:56.275762+00:00",
+  "http_status": 200,
+  "seconds": 1.12,
+  "data": {
+    "response": "Please specify the company, the historical knowledge date (as_of), and the outcome cutoff date (through) for your research, for example: ticker MSFT, start 2022-01-01, as_of 2023-01-01, through 2024-01-01.",
+    "session_id": "505560c6-ba7b-41fd-a485-496941d2e96a",
+    "tool_calls": [
+      {
+        "agent": "Lead",
+        "name": "plan",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"clarification\": \"Please specify the company, the historical knowledge date (as_of), and the outcome cutoff date (through) for your research, for example: ticker MSFT, start 2022-01-01, as_of 2023-01-01, through 2024-01-01.\", \"scope\": {\"tickers\": [], \"start\": \"\", \"as_of\": \"\", \"through\": \"\"}, \"tasks\": {\"Claims\": \"\", \"Financials\": \"\", \"Peers\": \"\", \"Context\": \"\"}}",
+        "elapsed_ms": 1012
+      }
+    ],
+    "investigation": {
+      "status": "clarification",
+      "report": null,
+      "evidence": [],
+      "limits": [],
+      "rounds": 0
+    }
+  },
+  "automated_errors": []
+}

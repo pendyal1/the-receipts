@@ -1,0 +1,50 @@
+{
+  "case": {
+    "id": "operational_and_intent_limits",
+    "message": "Tell me exactly how many vehicles Tesla delivered in 2024 and prove whether its CEO deliberately lied about the delivery target. Do the available data actually establish these things?",
+    "scope": {
+      "tickers": [
+        "TSLA"
+      ],
+      "start": "2020-01-01",
+      "as_of": "2023-03-01",
+      "through": "2025-03-01"
+    },
+    "expect": "limits"
+  },
+  "tested_at": "2026-11-07T20:57:58.976752+00:00",
+  "http_status": 200,
+  "seconds": 2.23,
+  "data": {
+    "response": "I cannot assess whether management deliberately lied or prove subjective intent, but I can research Tesla's 2024 vehicle deliveries and compare them to targets stated as of the historical knowledge date.",
+    "session_id": "fc80bf2b-2d14-4560-ab8b-08d24ab102ff",
+    "tool_calls": [
+      {
+        "agent": "Lead",
+        "name": "company_lookup",
+        "args": {
+          "ticker": "TSLA"
+        },
+        "result": "{\"ticker\": \"TSLA\", \"name\": \"Tesla\", \"cik\": 1318605}",
+        "elapsed_ms": 0
+      },
+      {
+        "agent": "Lead",
+        "name": "plan",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"clarification\": \"I cannot assess whether management deliberately lied or prove subjective intent, but I can research Tesla's 2024 vehicle deliveries and compare them to targets stated as of the historical knowledge date.\", \"scope\": {\"tickers\": [\"TSLA\"], \"start\": \"2020-01-01\", \"as_of\": \"2023-03-01\", \"through\": \"2025-03-01\"}, \"tasks\": {\"Claims\": \"Examine management delivery targets and statements regarding 2024 known as of 2023-03-01.\", \"Financials\": \"Gather actual 2024 vehicle delivery figures reported by Tesla.\", \"Peers\": \"Collect peer context if relevant for delivery metrics.\", \"Context\": \"Document macroeconomic or industry factors affecting delivery outcomes through 2025-03-01.\"}, \"focus\": \"Research Tesla 2024 vehicle deliveries and compare them against historical delivery targets known as of 2023-03-01.\"}",
+        "elapsed_ms": 2121
+      }
+    ],
+    "investigation": {
+      "status": "clarification",
+      "report": null,
+      "evidence": [],
+      "limits": [],
+      "rounds": 0
+    }
+  },
+  "automated_errors": []
+}

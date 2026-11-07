@@ -1,0 +1,50 @@
+{
+  "case": {
+    "id": "conflicting_company_scope",
+    "message": "Compare Apple and Microsoft revenue and profitability.",
+    "scope": {
+      "tickers": [
+        "TSLA"
+      ],
+      "start": "2020-01-01",
+      "as_of": "2023-03-01",
+      "through": "2025-03-01"
+    },
+    "expect": "clarification"
+  },
+  "tested_at": "2026-11-07T21:07:14.594215+00:00",
+  "http_status": 200,
+  "seconds": 1.0,
+  "data": {
+    "response": "The question explicitly asks to compare Apple and Microsoft, but the explicit scope contains Tesla (TSLA). Which company scope do you intend? For example: compare AAPL and MSFT from 2020-01-01 with as_of 2023-03-01 and through 2025-03-01.",
+    "session_id": "67018634-98a1-4dc3-8b34-1e8417b84415",
+    "tool_calls": [
+      {
+        "agent": "Lead",
+        "name": "company_lookup",
+        "args": {
+          "ticker": "TSLA"
+        },
+        "result": "{\"ticker\": \"TSLA\", \"name\": \"Tesla\", \"cik\": 1318605}",
+        "elapsed_ms": 0
+      },
+      {
+        "agent": "Lead",
+        "name": "plan",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"clarification\": \"The question explicitly asks to compare Apple and Microsoft, but the explicit scope contains Tesla (TSLA). Which company scope do you intend? For example: compare AAPL and MSFT from 2020-01-01 with as_of 2023-03-01 and through 2025-03-01.\", \"scope\": {\"tickers\": [], \"start\": \"\", \"as_of\": \"\", \"through\": \"\"}, \"tasks\": {\"Claims\": \"\", \"Financials\": \"\", \"Peers\": \"\", \"Context\": \"\"}}",
+        "elapsed_ms": 898
+      }
+    ],
+    "investigation": {
+      "status": "clarification",
+      "report": null,
+      "evidence": [],
+      "limits": [],
+      "rounds": 0
+    }
+  },
+  "automated_errors": []
+}

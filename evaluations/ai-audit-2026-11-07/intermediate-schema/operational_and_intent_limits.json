@@ -1,0 +1,50 @@
+{
+  "case": {
+    "id": "operational_and_intent_limits",
+    "message": "Tell me exactly how many vehicles Tesla delivered in 2024 and prove whether its CEO deliberately lied about the delivery target. Do the available data actually establish these things?",
+    "scope": {
+      "tickers": [
+        "TSLA"
+      ],
+      "start": "2020-01-01",
+      "as_of": "2023-03-01",
+      "through": "2025-03-01"
+    },
+    "expect": "limits"
+  },
+  "tested_at": "2026-11-07T20:39:18.294522+00:00",
+  "http_status": 200,
+  "seconds": 1.55,
+  "data": {
+    "response": "I can investigate Tesla's 2024 vehicle deliveries and compare them against prior management claims and known-then outlook, but I cannot determine or prove subjective intent such as whether a CEO deliberately lied.",
+    "session_id": "0b20fe8a-c869-48e5-ae86-a92310898863",
+    "tool_calls": [
+      {
+        "agent": "Lead",
+        "name": "company_lookup",
+        "args": {
+          "ticker": "TSLA"
+        },
+        "result": "{\"ticker\": \"TSLA\", \"name\": \"Tesla\", \"cik\": 1318605}",
+        "elapsed_ms": 0
+      },
+      {
+        "agent": "Lead",
+        "name": "plan",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"clarification\": \"I can investigate Tesla's 2024 vehicle deliveries and compare them against prior management claims and known-then outlook, but I cannot determine or prove subjective intent such as whether a CEO deliberately lied.\", \"scope\": {\"tickers\": [\"TSLA\"], \"start\": \"2020-01-01\", \"as_of\": \"2023-03-01\", \"through\": \"2025-03-01\"}, \"tasks\": {\"Claims\": \"Examine management delivery targets and guidance for 2024 available as of the baseline date and afterwards.\", \"Financials\": \"Gather reported vehicle delivery figures for 2024 and preceding periods.\", \"Peers\": \"Review industry context and comparable data if relevant.\", \"Context\": \"Establish macroeconomic and operational conditions relevant to Tesla's delivery performance through the period.\"}, \"focus\": \"Evaluate Tesla's 2024 vehicle delivery outcomes against prior management expectations.\"}",
+        "elapsed_ms": 1394
+      }
+    ],
+    "investigation": {
+      "status": "clarification",
+      "report": null,
+      "evidence": [],
+      "limits": [],
+      "rounds": 0
+    }
+  },
+  "automated_errors": []
+}

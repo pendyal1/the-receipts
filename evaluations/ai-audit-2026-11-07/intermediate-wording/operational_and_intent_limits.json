@@ -1,0 +1,50 @@
+{
+  "case": {
+    "id": "operational_and_intent_limits",
+    "message": "Tell me exactly how many vehicles Tesla delivered in 2024 and prove whether its CEO deliberately lied about the delivery target. Do the available data actually establish these things?",
+    "scope": {
+      "tickers": [
+        "TSLA"
+      ],
+      "start": "2020-01-01",
+      "as_of": "2023-03-01",
+      "through": "2025-03-01"
+    },
+    "expect": "limits"
+  },
+  "tested_at": "2026-11-07T20:49:12.613148+00:00",
+  "http_status": 200,
+  "seconds": 1.68,
+  "data": {
+    "response": "The available data can establish 2024 vehicle delivery numbers from reported figures, but cannot conclusively prove subjective intent or whether a statement was a deliberate lie. I will research the 2024 delivery figures and management claims up to the outcome cutoff.",
+    "session_id": "52b8b13e-11d7-43aa-8bfb-d2096e18cfa2",
+    "tool_calls": [
+      {
+        "agent": "Lead",
+        "name": "company_lookup",
+        "args": {
+          "ticker": "TSLA"
+        },
+        "result": "{\"ticker\": \"TSLA\", \"name\": \"Tesla\", \"cik\": 1318605}",
+        "elapsed_ms": 0
+      },
+      {
+        "agent": "Lead",
+        "name": "plan",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"clarification\": \"The available data can establish 2024 vehicle delivery numbers from reported figures, but cannot conclusively prove subjective intent or whether a statement was a deliberate lie. I will research the 2024 delivery figures and management claims up to the outcome cutoff.\", \"scope\": {\"tickers\": [\"TSLA\"], \"start\": \"2020-01-01\", \"as_of\": \"2023-03-01\", \"through\": \"2025-03-01\"}, \"tasks\": {\"Claims\": \"Examine management statements regarding vehicle delivery targets and operational guidance.\", \"Financials\": \"Retrieve actual 2024 vehicle delivery results reported by Tesla.\", \"Peers\": \"Gather relevant peer context on automotive deliveries if available.\", \"Context\": \"Analyze the known-then baseline against outcomes up through 2025-03-01.\"}, \"focus\": \"Research Tesla 2024 vehicle deliveries and evaluate testability of delivery targets versus outcomes.\"}",
+        "elapsed_ms": 1560
+      }
+    ],
+    "investigation": {
+      "status": "clarification",
+      "report": null,
+      "evidence": [],
+      "limits": [],
+      "rounds": 0
+    }
+  },
+  "automated_errors": []
+}

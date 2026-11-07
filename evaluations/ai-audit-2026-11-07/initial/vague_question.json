@@ -1,0 +1,33 @@
+{
+  "case": {
+    "id": "vague_question",
+    "message": "Is it good?",
+    "expect": "clarification"
+  },
+  "tested_at": "2026-11-07T20:28:37.098597+00:00",
+  "http_status": 200,
+  "seconds": 1.14,
+  "data": {
+    "response": "Please specify the company ticker and date range you would like to research. For example: AAPL, start: 2022-01-01, as_of: 2023-01-01, through: 2024-01-01.",
+    "session_id": "0321cf4b-1ff2-4267-9bd5-7f0d9c83bf4b",
+    "tool_calls": [
+      {
+        "agent": "Lead",
+        "name": "plan",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"clarification\": \"Please specify the company ticker and date range you would like to research. For example: AAPL, start: 2022-01-01, as_of: 2023-01-01, through: 2024-01-01.\", \"scope\": {\"tickers\": [], \"start\": \"\", \"as_of\": \"\", \"through\": \"\"}, \"tasks\": {\"Claims\": \"\", \"Financials\": \"\", \"Peers\": \"\", \"Context\": \"\"}, \"focus\": \"\"}",
+        "elapsed_ms": 911
+      }
+    ],
+    "investigation": {
+      "status": "clarification",
+      "report": null,
+      "evidence": [],
+      "limits": [],
+      "rounds": 0
+    }
+  },
+  "automated_errors": []
+}

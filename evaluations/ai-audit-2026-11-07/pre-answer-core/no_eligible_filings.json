@@ -1,0 +1,420 @@
+{
+  "case": {
+    "id": "no_eligible_filings",
+    "message": "Did Tesla meet its revenue expectations using only filings in the selected window?",
+    "scope": {
+      "tickers": [
+        "TSLA"
+      ],
+      "start": "2012-01-01",
+      "as_of": "2012-01-01",
+      "through": "2012-01-01"
+    },
+    "expect": "complete"
+  },
+  "tested_at": "2026-11-07T20:58:12.522411+00:00",
+  "http_status": 200,
+  "seconds": 12.39,
+  "data": {
+    "response": "# Tesla Revenue Expectations Investigation\n\n**Insufficient evidence**\n\nThere are no annual USD revenue observations or management expectations available in the source database for Tesla as of 2012-01-01 [E5a8d242b1b] [Ebeb6ffc39c]. Consequently, whether Tesla met its revenue expectations cannot be tested [E5a8d242b1b].\n\n## What was knowable then\n\nAs of 2012-01-01, no revenue expectations or related claims for Tesla were present in the source database [Ebeb6ffc39c]. Furthermore, no annual USD revenue observation was retrieved under supported XBRL tags for Tesla in this window [E5a8d242b1b].\n\n## What happened later\n\nLater results through the outcome cutoff also show no annual USD revenue observations under supported XBRL tags for Tesla [E85cefecf8d]. Financial data coverage remains absent for the designated metrics [E85cefecf8d].\n\n## The peer test\n\nOnly TSLA was selected. Add a peer company to compare results.\n\n## Cross-examination\n\nNo verifiable management forecasts or relevant revenue passages exist in the ledger to test against actual outcomes [Ebeb6ffc39c]. The absence of reported figures prevents any verification of historical management intent or performance [E5a8d242b1b].\n\n## Limits\n\n- No financial results or peer context available for TSLA in the specified window.\n- Adjusted-close price data for TSLA is missing as of 2012-01-01.\n- No annual USD revenue observation under supported XBRL tags in this window.",
+    "session_id": "7cbcb3e5-b7e0-4ba0-b578-4f691fc71774",
+    "tool_calls": [
+      {
+        "agent": "Lead",
+        "name": "company_lookup",
+        "args": {
+          "ticker": "TSLA"
+        },
+        "result": "{\"ticker\": \"TSLA\", \"name\": \"Tesla\", \"cik\": 1318605}",
+        "elapsed_ms": 0
+      },
+      {
+        "agent": "Lead",
+        "name": "plan",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"clarification\": \"\", \"scope\": {\"tickers\": [\"TSLA\"], \"start\": \"2012-01-01\", \"as_of\": \"2012-01-01\", \"through\": \"2012-01-01\"}, \"tasks\": {\"Claims\": \"Identify revenue expectations and management claims made by Tesla as of 2012-01-01.\", \"Financials\": \"Examine reported revenue figures within the specified window to evaluate performance against expectations.\", \"Peers\": \"Review any available peer group context related to revenue performance if mentioned in filings.\", \"Context\": \"Document the operational and reporting context for Tesla during the research window.\"}, \"focus\": \"Did Tesla meet its revenue expectations using only filings in the selected window?\"}",
+        "elapsed_ms": 3933
+      },
+      {
+        "agent": "Claims",
+        "name": "research_decision",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"calls\": [{\"tool\": \"claims\", \"ticker\": \"TSLA\"}], \"findings\": [], \"gaps\": []}",
+        "elapsed_ms": 871
+      },
+      {
+        "agent": "Financials",
+        "name": "research_decision",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"calls\": [{\"tool\": \"financials_then\", \"ticker\": \"TSLA\"}], \"findings\": [], \"gaps\": [\"Waiting for financials_then data for TSLA.\"]}",
+        "elapsed_ms": 995
+      },
+      {
+        "agent": "Peers",
+        "name": "research_decision",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"calls\": [{\"tool\": \"financials_later\", \"ticker\": \"TSLA\"}], \"findings\": [], \"gaps\": [\"Waiting for financials_later tool output for TSLA.\"]}",
+        "elapsed_ms": 1115
+      },
+      {
+        "agent": "Financials",
+        "name": "financials_then",
+        "args": {
+          "ticker": "TSLA",
+          "tickers": [
+            "TSLA"
+          ],
+          "start": "2012-01-01",
+          "as_of": "2012-01-01",
+          "through": "2012-01-01"
+        },
+        "result": "[{\"kind\": \"source_gap\", \"ticker\": \"TSLA\", \"metric\": \"revenue\", \"error\": \"No annual USD revenue observation under the supported XBRL tags in this window. Other metrics cannot verify this metric.\", \"id\": \"E5a8d242b1b\", \"phase\": \"known_then\"}, {\"kind\": \"source_gap\", \"ticker\": \"TSLA\", \"metric\": \"net_income\", \"error\": \"No annual USD net_income observation under the supported XBRL tags in this window. Other metrics cannot verify this metric.\", \"id\": \"Ecd08ee3f75\", \"phase\": \"known_then\"}, {\"kind\": \"source_gap\", \"ticker\": \"TSLA\", \"metric\": \"operating_income\", \"error\": \"No annual USD operating_income observation under the supported XBRL tags in this window. Other metrics cannot verify this metric.\", \"id\": \"E993240bf47\", \"phase\": \"known_then\"}, {\"kind\": \"source_gap\", \"ticker\": \"TSLA\", \"metric\": \"operating_cash_flow\", \"error\": \"No annual USD operating_cash_flow observation under the supported XBRL tags in this window. Other metrics cannot verify this metric.\", \"id\": \"E88d6166853\", \"phase\": \"known_then\"}, {\"kind\": \"source_gap\", \"ticker\": \"TSLA\", \"metric\": \"capex\", \"error\": \"No annual USD capex observation under the supported XBRL tags in this window. Other metrics cannot verify this metric.\", \"id\": \"E28fbb4236b\", \"phase\": \"known_then\"}]",
+        "elapsed_ms": 188
+      },
+      {
+        "agent": "Peers",
+        "name": "financials_later",
+        "args": {
+          "ticker": "TSLA",
+          "tickers": [
+            "TSLA"
+          ],
+          "start": "2012-01-01",
+          "as_of": "2012-01-01",
+          "through": "2012-01-01"
+        },
+        "result": "[{\"kind\": \"source_gap\", \"ticker\": \"TSLA\", \"metric\": \"revenue\", \"error\": \"No annual USD revenue observation under the supported XBRL tags in this window. Other metrics cannot verify this metric.\", \"id\": \"E85cefecf8d\", \"phase\": \"later_results\"}, {\"kind\": \"source_gap\", \"ticker\": \"TSLA\", \"metric\": \"net_income\", \"error\": \"No annual USD net_income observation under the supported XBRL tags in this window. Other metrics cannot verify this metric.\", \"id\": \"E83e55ed10b\", \"phase\": \"later_results\"}, {\"kind\": \"source_gap\", \"ticker\": \"TSLA\", \"metric\": \"operating_income\", \"error\": \"No annual USD operating_income observation under the supported XBRL tags in this window. Other metrics cannot verify this metric.\", \"id\": \"Ee23e67b107\", \"phase\": \"later_results\"}, {\"kind\": \"source_gap\", \"ticker\": \"TSLA\", \"metric\": \"operating_cash_flow\", \"error\": \"No annual USD operating_cash_flow observation under the supported XBRL tags in this window. Other metrics cannot verify this metric.\", \"id\": \"E8c3b79e56b\", \"phase\": \"later_results\"}, {\"kind\": \"source_gap\", \"ticker\": \"TSLA\", \"metric\": \"capex\", \"error\": \"No annual USD capex observation under the supported XBRL tags in this window. Other metrics cannot verify this metric.\", \"id\": \"E18793f8213\", \"phase\": \"later_results\"}]",
+        "elapsed_ms": 69
+      },
+      {
+        "agent": "Context",
+        "name": "research_decision",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"calls\": [{\"tool\": \"prices\", \"ticker\": \"TSLA\"}, {\"tool\": \"macro\", \"ticker\": \"TSLA\"}], \"findings\": [], \"gaps\": [\"Awaiting tool outputs for macro and prices data.\"]}",
+        "elapsed_ms": 1184
+      },
+      {
+        "agent": "Claims",
+        "name": "claims",
+        "args": {
+          "ticker": "TSLA",
+          "tickers": [
+            "TSLA"
+          ],
+          "start": "2012-01-01",
+          "as_of": "2012-01-01",
+          "through": "2012-01-01"
+        },
+        "result": "[{\"kind\": \"source_gap\", \"ticker\": \"TSLA\", \"error\": \"No matching records in the date-bounded source.\", \"id\": \"Ebeb6ffc39c\", \"phase\": \"known_then\"}]",
+        "elapsed_ms": 550
+      },
+      {
+        "agent": "Context",
+        "name": "prices",
+        "args": {
+          "ticker": "TSLA",
+          "tickers": [
+            "TSLA"
+          ],
+          "start": "2012-01-01",
+          "as_of": "2012-01-01",
+          "through": "2012-01-01"
+        },
+        "result": "[{\"kind\": \"source_gap\", \"ticker\": \"TSLA\", \"error\": \"Adjusted-close prices are missing; raw close was not substituted.\", \"id\": \"E1aa4fd0425\", \"phase\": \"coverage_gap\"}]",
+        "elapsed_ms": 330
+      },
+      {
+        "agent": "Context",
+        "name": "macro",
+        "args": {
+          "ticker": "TSLA",
+          "tickers": [
+            "TSLA"
+          ],
+          "start": "2012-01-01",
+          "as_of": "2012-01-01",
+          "through": "2012-01-01"
+        },
+        "result": "[{\"kind\": \"macro\", \"series\": \"FEDFUNDS\", \"label\": \"Effective federal funds rate\", \"unit\": \"percent\", \"url\": \"https://fred.stlouisfed.org/series/FEDFUNDS\", \"provenance\": {\"url\": \"https://fred.stlouisfed.org/graph/fredgraph.csv?id=FEDFUNDS&cosd=2012-01-01&coed=2012-01-01\", \"retrieved_at\": \"2026-11-07T20:58:06.361324+00:00\", \"sha256\": \"7578c24b6db42a9af291a05d597b75df49f979cb28d6790597f86939d32b463d\"}, \"scope\": \"Current revised historical series, NOT an as-of vintage. Excluded from the historical knowledge room.\", \"id\": \"E28ddfd0823\", \"phase\": \"hindsight_context\", \"observation_count\": 1, \"first\": {\"date\": \"2012-01-01\", \"value\": 0.08}, \"last\": {\"date\": \"2012-01-01\", \"value\": 0.08}}, {\"kind\": \"macro\", \"series\": \"CPIAUCSL\", \"label\": \"CPI, all urban consumers, seasonally adjusted\", \"unit\": \"index 1982–84=100\", \"url\": \"https://fred.stlouisfed.org/series/CPIAUCSL\", \"provenance\": {\"url\": \"https://fred.stlouisfed.org/graph/fredgraph.csv?id=CPIAUCSL&cosd=2012-01-01&coed=2012-01-01\", \"retrieved_at\": \"2026-11-07T20:58:06.614897+00:00\", \"sha256\": \"6f317b81f348db4c6156b7de0954efcc7864a6774e9f3ef176b47ede384b08e8\"}, \"scope\": \"Current revised historical series, NOT an as-of vintage. Excluded from the historical knowledge room.\", \"id\": \"Ea791d65da9\", \"phase\": \"hindsight_context\", \"observation_count\": 1, \"first\": {\"date\": \"2012-01-01\", \"value\": 227.842}, \"last\": {\"date\": \"2012-01-01\", \"value\": 227.842}}]",
+        "elapsed_ms": 804
+      },
+      {
+        "agent": "Peers",
+        "name": "research_decision",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"calls\": [], \"findings\": [{\"text\": \"No annual USD revenue observation under the supported XBRL tags for TSLA in this window.\", \"evidence_ids\": [\"E85cefecf8d\"]}], \"gaps\": [\"No financial results or peer context available for TSLA in the specified window.\"]}",
+        "elapsed_ms": 1139
+      },
+      {
+        "agent": "Financials",
+        "name": "research_decision",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"calls\": [{\"tool\": \"financials_later\", \"ticker\": \"TSLA\"}], \"findings\": [{\"text\": \"Financials_then for TSLA returned source gaps for revenue, net income, operating income, operating cash flow, and capex for the as_of date 2012-01-01.\", \"evidence_ids\": [\"E5a8d242b1b\", \"Ecd08ee3f75\", \"E993240bf47\", \"E88d6166853\", \"E28fbb4236b\"]}], \"gaps\": [\"No annual financial observations were available under the supported XBRL tags for TSLA as of 2012-01-01.\"]}",
+        "elapsed_ms": 1304
+      },
+      {
+        "agent": "Claims",
+        "name": "research_decision",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"calls\": [], \"findings\": [], \"gaps\": [\"No claims or revenue expectations available in the source database for TSLA as of 2012-01-01.\"]}",
+        "elapsed_ms": 1106
+      },
+      {
+        "agent": "Context",
+        "name": "research_decision",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"calls\": [], \"findings\": [{\"text\": \"Adjusted-close price data for TSLA is missing as of 2012-01-01, leaving a coverage gap.\", \"evidence_ids\": [\"E1aa4fd0425\"]}], \"gaps\": [\"TSLA historical price data as of 2012-01-01 is unavailable.\"]}",
+        "elapsed_ms": 1198
+      },
+      {
+        "agent": "Lead",
+        "name": "review_gaps",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"gap_tasks\": [], \"remaining_limits\": [\"No further research tasks required as evidence gap is explicit and tool limit reached.\"]}",
+        "elapsed_ms": 901
+      },
+      {
+        "agent": "Writer",
+        "name": "cross_examine_ranges",
+        "args": {},
+        "result": "{\"range_checks\": [], \"financial_changes\": []}",
+        "elapsed_ms": 0
+      },
+      {
+        "agent": "Writer",
+        "name": "write_report",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"title\": \"Tesla Revenue Expectations Investigation\", \"verdict\": \"insufficient evidence\", \"summary\": \"There are no annual USD revenue observations or management expectations available in the source database for Tesla as of 2012-01-01 [E5a8d242b1b] [Ebeb6ffc39c]. Consequently, whether Tesla met its revenue expectations cannot be tested [E5a8d242b1b].\", \"sections\": [{\"title\": \"What was knowable then\", \"text\": \"As of 2012-01-01, no revenue expectations or related claims for Tesla were present in the source database [Ebeb6ffc39c]. Furthermore, no annual USD revenue observation was retrieved under supported XBRL tags for Tesla in this window [E5a8d242b1b].\"}, {\"title\": \"What happened later\", \"text\": \"Later results through the outcome cutoff also show no annual USD revenue observations under supported XBRL tags for Tesla [E85cefecf8d]. Financial data coverage remains absent for the designated metrics [E85cefecf8d].\"}, {\"title\": \"The peer test\", \"text\": \"No peer context or comparative financial results were retrieved for Tesla in the specified window [E5a8d242b1b]. Peer revenue comparisons for the exact fiscal period-end dates cannot be performed due to missing coverage [E5a8d242b1b].\"}, {\"title\": \"Cross-examination\", \"text\": \"No verifiable management forecasts or relevant revenue passages exist in the ledger to test against actual outcomes [Ebeb6ffc39c]. The absence of reported figures prevents any verification of historical management intent or performance [E5a8d242b1b].\"}], \"receipts\": [], \"limits\": [\"No financial results or peer context available for TSLA in the specified window.\", \"Adjusted-close price data for TSLA is missing as of 2012-01-01.\", \"No annual USD revenue observation under supported XBRL tags in this window.\"]}",
+        "elapsed_ms": 1900
+      },
+      {
+        "agent": "Writer",
+        "name": "fact_check_report",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"title\": \"Tesla Revenue Expectations Investigation\", \"verdict\": \"insufficient evidence\", \"summary\": \"There are no annual USD revenue observations or management expectations available in the source database for Tesla as of 2012-01-01 [E5a8d242b1b] [Ebeb6ffc39c]. Consequently, whether Tesla met its revenue expectations cannot be tested [E5a8d242b1b].\", \"sections\": [{\"title\": \"What was knowable then\", \"text\": \"As of 2012-01-01, no revenue expectations or related claims for Tesla were present in the source database [Ebeb6ffc39c]. Furthermore, no annual USD revenue observation was retrieved under supported XBRL tags for Tesla in this window [E5a8d242b1b].\"}, {\"title\": \"What happened later\", \"text\": \"Later results through the outcome cutoff also show no annual USD revenue observations under supported XBRL tags for Tesla [E85cefecf8d]. Financial data coverage remains absent for the designated metrics [E85cefecf8d].\"}, {\"title\": \"The peer test\", \"text\": \"No peer context or comparative financial results were retrieved for Tesla in the specified window [E5a8d242b1b]. Peer revenue comparisons for the exact fiscal period-end dates cannot be performed due to missing coverage [E5a8d242b1b].\"}, {\"title\": \"Cross-examination\", \"text\": \"No verifiable management forecasts or relevant revenue passages exist in the ledger to test against actual outcomes [Ebeb6ffc39c]. The absence of reported figures prevents any verification of historical management intent or performance [E5a8d242b1b].\"}], \"receipts\": [], \"limits\": [\"No financial results or peer context available for TSLA in the specified window.\", \"Adjusted-close price data for TSLA is missing as of 2012-01-01.\", \"No annual USD revenue observation under supported XBRL tags in this window.\"]}",
+        "elapsed_ms": 1797
+      },
+      {
+        "agent": "Writer",
+        "name": "finalize_summary",
+        "args": {},
+        "result": "{\"basis\": \"Reported annual observations and arithmetic range checks\", \"summary\": \"There are no annual USD revenue observations or management expectations available in the source database for Tesla as of 2012-01-01 [E5a8d242b1b] [Ebeb6ffc39c]. Consequently, whether Tesla met its revenue expectations cannot be tested [E5a8d242b1b].\"}",
+        "elapsed_ms": 0
+      },
+      {
+        "agent": "Writer",
+        "name": "validate_evidence_references",
+        "args": {},
+        "result": "{\"passed\": true, \"semantic_entailment_verified\": false, \"final_verdict\": \"insufficient evidence\", \"limits\": [\"No financial results or peer context available for TSLA in the specified window.\", \"Adjusted-close price data for TSLA is missing as of 2012-01-01.\", \"No annual USD revenue observation under supported XBRL tags in this window.\"]}",
+        "elapsed_ms": 0
+      }
+    ],
+    "investigation": {
+      "status": "complete",
+      "report": {
+        "title": "Tesla Revenue Expectations Investigation",
+        "verdict": "insufficient evidence",
+        "summary": "There are no annual USD revenue observations or management expectations available in the source database for Tesla as of 2012-01-01 [E5a8d242b1b] [Ebeb6ffc39c]. Consequently, whether Tesla met its revenue expectations cannot be tested [E5a8d242b1b].",
+        "sections": [
+          {
+            "title": "What was knowable then",
+            "text": "As of 2012-01-01, no revenue expectations or related claims for Tesla were present in the source database [Ebeb6ffc39c]. Furthermore, no annual USD revenue observation was retrieved under supported XBRL tags for Tesla in this window [E5a8d242b1b]."
+          },
+          {
+            "title": "What happened later",
+            "text": "Later results through the outcome cutoff also show no annual USD revenue observations under supported XBRL tags for Tesla [E85cefecf8d]. Financial data coverage remains absent for the designated metrics [E85cefecf8d]."
+          },
+          {
+            "title": "The peer test",
+            "text": "Only TSLA was selected. Add a peer company to compare results."
+          },
+          {
+            "title": "Cross-examination",
+            "text": "No verifiable management forecasts or relevant revenue passages exist in the ledger to test against actual outcomes [Ebeb6ffc39c]. The absence of reported figures prevents any verification of historical management intent or performance [E5a8d242b1b]."
+          }
+        ],
+        "receipts": [],
+        "limits": [
+          "No financial results or peer context available for TSLA in the specified window.",
+          "Adjusted-close price data for TSLA is missing as of 2012-01-01.",
+          "No annual USD revenue observation under supported XBRL tags in this window."
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "source_gap",
+          "ticker": "TSLA",
+          "metric": "revenue",
+          "error": "No annual USD revenue observation under the supported XBRL tags in this window. Other metrics cannot verify this metric.",
+          "id": "E5a8d242b1b",
+          "phase": "known_then"
+        },
+        {
+          "kind": "source_gap",
+          "ticker": "TSLA",
+          "metric": "net_income",
+          "error": "No annual USD net_income observation under the supported XBRL tags in this window. Other metrics cannot verify this metric.",
+          "id": "Ecd08ee3f75",
+          "phase": "known_then"
+        },
+        {
+          "kind": "source_gap",
+          "ticker": "TSLA",
+          "metric": "operating_income",
+          "error": "No annual USD operating_income observation under the supported XBRL tags in this window. Other metrics cannot verify this metric.",
+          "id": "E993240bf47",
+          "phase": "known_then"
+        },
+        {
+          "kind": "source_gap",
+          "ticker": "TSLA",
+          "metric": "operating_cash_flow",
+          "error": "No annual USD operating_cash_flow observation under the supported XBRL tags in this window. Other metrics cannot verify this metric.",
+          "id": "E88d6166853",
+          "phase": "known_then"
+        },
+        {
+          "kind": "source_gap",
+          "ticker": "TSLA",
+          "metric": "capex",
+          "error": "No annual USD capex observation under the supported XBRL tags in this window. Other metrics cannot verify this metric.",
+          "id": "E28fbb4236b",
+          "phase": "known_then"
+        },
+        {
+          "kind": "source_gap",
+          "ticker": "TSLA",
+          "metric": "revenue",
+          "error": "No annual USD revenue observation under the supported XBRL tags in this window. Other metrics cannot verify this metric.",
+          "id": "E85cefecf8d",
+          "phase": "later_results"
+        },
+        {
+          "kind": "source_gap",
+          "ticker": "TSLA",
+          "metric": "net_income",
+          "error": "No annual USD net_income observation under the supported XBRL tags in this window. Other metrics cannot verify this metric.",
+          "id": "E83e55ed10b",
+          "phase": "later_results"
+        },
+        {
+          "kind": "source_gap",
+          "ticker": "TSLA",
+          "metric": "operating_income",
+          "error": "No annual USD operating_income observation under the supported XBRL tags in this window. Other metrics cannot verify this metric.",
+          "id": "Ee23e67b107",
+          "phase": "later_results"
+        },
+        {
+          "kind": "source_gap",
+          "ticker": "TSLA",
+          "metric": "operating_cash_flow",
+          "error": "No annual USD operating_cash_flow observation under the supported XBRL tags in this window. Other metrics cannot verify this metric.",
+          "id": "E8c3b79e56b",
+          "phase": "later_results"
+        },
+        {
+          "kind": "source_gap",
+          "ticker": "TSLA",
+          "metric": "capex",
+          "error": "No annual USD capex observation under the supported XBRL tags in this window. Other metrics cannot verify this metric.",
+          "id": "E18793f8213",
+          "phase": "later_results"
+        },
+        {
+          "kind": "source_gap",
+          "ticker": "TSLA",
+          "error": "No matching records in the date-bounded source.",
+          "id": "Ebeb6ffc39c",
+          "phase": "known_then"
+        },
+        {
+          "kind": "source_gap",
+          "ticker": "TSLA",
+          "error": "Adjusted-close prices are missing; raw close was not substituted.",
+          "id": "E1aa4fd0425",
+          "phase": "coverage_gap"
+        },
+        {
+          "kind": "macro",
+          "series": "FEDFUNDS",
+          "label": "Effective federal funds rate",
+          "unit": "percent",
+          "observations": [
+            {
+              "date": "2012-01-01",
+              "value": 0.08
+            }
+          ],
+          "url": "https://fred.stlouisfed.org/series/FEDFUNDS",
+          "provenance": {
+            "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=FEDFUNDS&cosd=2012-01-01&coed=2012-01-01",
+            "retrieved_at": "2026-11-07T20:58:06.361324+00:00",
+            "sha256": "7578c24b6db42a9af291a05d597b75df49f979cb28d6790597f86939d32b463d"
+          },
+          "scope": "Current revised historical series, NOT an as-of vintage. Excluded from the historical knowledge room.",
+          "id": "E28ddfd0823",
+          "phase": "hindsight_context"
+        },
+        {
+          "kind": "macro",
+          "series": "CPIAUCSL",
+          "label": "CPI, all urban consumers, seasonally adjusted",
+          "unit": "index 1982–84=100",
+          "observations": [
+            {
+              "date": "2012-01-01",
+              "value": 227.842
+            }
+          ],
+          "url": "https://fred.stlouisfed.org/series/CPIAUCSL",
+          "provenance": {
+            "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=CPIAUCSL&cosd=2012-01-01&coed=2012-01-01",
+            "retrieved_at": "2026-11-07T20:58:06.614897+00:00",
+            "sha256": "6f317b81f348db4c6156b7de0954efcc7864a6774e9f3ef176b47ede384b08e8"
+          },
+          "scope": "Current revised historical series, NOT an as-of vintage. Excluded from the historical knowledge room.",
+          "id": "Ea791d65da9",
+          "phase": "hindsight_context"
+        }
+      ],
+      "limits": [
+        "No further research tasks required as evidence gap is explicit and tool limit reached."
+      ],
+      "rounds": 1,
+      "scope": {
+        "tickers": [
+          "TSLA"
+        ],
+        "start": "2012-01-01",
+        "as_of": "2012-01-01",
+        "through": "2012-01-01"
+      }
+    }
+  },
+  "automated_errors": []
+}

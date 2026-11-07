@@ -1,0 +1,30 @@
+[
+  {
+    "case": "sessions",
+    "errors": []
+  },
+  {
+    "case": "no_eligible_filings",
+    "errors": []
+  },
+  {
+    "case": "chips_fiscal_dates",
+    "errors": []
+  },
+  {
+    "case": "cloud_missing_metric",
+    "errors": []
+  },
+  {
+    "case": "apple_live_sources",
+    "errors": []
+  },
+  {
+    "case": "tesla_spending",
+    "errors": []
+  },
+  {
+    "case": "scope_in_question",
+    "errors": []
+  }
+]

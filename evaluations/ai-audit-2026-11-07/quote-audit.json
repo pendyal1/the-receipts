@@ -1,0 +1,85 @@
+{
+  "checks": [
+    {
+      "id": "E730dbabced",
+      "ticker": "TSLA",
+      "filed": "2023-01-31",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/1318605/000095017023001409/tsla-20221231.htm",
+      "hash_matches": true,
+      "excerpt_found": true
+    },
+    {
+      "id": "E309c4ed784",
+      "ticker": "TSLA",
+      "filed": "2023-01-31",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/1318605/000095017023001409/tsla-20221231.htm",
+      "hash_matches": true,
+      "excerpt_found": true
+    },
+    {
+      "id": "E71c8fa637f",
+      "ticker": "TSLA",
+      "filed": "2023-01-31",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/1318605/000095017023001409/tsla-20221231.htm",
+      "hash_matches": true,
+      "excerpt_found": true
+    },
+    {
+      "id": "Ebd63825962",
+      "ticker": "TSLA",
+      "filed": "2023-01-31",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/1318605/000095017023001409/tsla-20221231.htm",
+      "hash_matches": true,
+      "excerpt_found": true
+    },
+    {
+      "id": "E580785fd2f",
+      "ticker": "TSLA",
+      "filed": "2022-10-24",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/1318605/000095017022019867/tsla-20220930.htm",
+      "hash_matches": true,
+      "excerpt_found": true
+    },
+    {
+      "id": "E48a453ba97",
+      "ticker": "TSLA",
+      "filed": "2022-10-24",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/1318605/000095017022019867/tsla-20220930.htm",
+      "hash_matches": true,
+      "excerpt_found": true
+    },
+    {
+      "id": "Ebea402f2cb",
+      "ticker": "TSLA",
+      "filed": "2022-10-24",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/1318605/000095017022019867/tsla-20220930.htm",
+      "hash_matches": true,
+      "excerpt_found": true
+    },
+    {
+      "id": "Eb62fd2d9af",
+      "ticker": "TSLA",
+      "filed": "2022-10-24",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/1318605/000095017022019867/tsla-20220930.htm",
+      "hash_matches": true,
+      "excerpt_found": true
+    },
+    {
+      "id": "E8a066b5484",
+      "ticker": "TSLA",
+      "filed": "2022-07-25",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/1318605/000095017022012936/tsla-20220630.htm",
+      "hash_matches": true,
+      "excerpt_found": true
+    },
+    {
+      "id": "Eb5627adbf5",
+      "ticker": "TSLA",
+      "filed": "2022-07-25",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/1318605/000095017022012936/tsla-20220630.htm",
+      "hash_matches": true,
+      "excerpt_found": true
+    }
+  ],
+  "passed": true
+}

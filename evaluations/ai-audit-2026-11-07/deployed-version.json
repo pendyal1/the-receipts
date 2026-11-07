@@ -1,0 +1,18 @@
+{
+  "verified_at": "2026-11-07T21:22:29.885337+00:00",
+  "health": {
+    "status": "ok",
+    "model": "gemini-3.5-flash-lite",
+    "snapshot_files": 66,
+    "revision": "the-receipts-00025-tvm",
+    "commit": "591662a789ffdd25ab528eb7eac5929e98410e4b"
+  },
+  "checks": [
+    {
+      "name": "the-receipts-main (ieor-4570-f26-ap4839)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://console.cloud.google.com/cloud-build/builds;region=us-east1/84918e8a-00e2-4416-aa0c-92f9493ad3d4?project=1027747864849"
+    }
+  ]
+}

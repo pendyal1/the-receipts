@@ -1,0 +1,50 @@
+{
+  "case": {
+    "id": "date_scope_conflict",
+    "expect": "clarification",
+    "scope": {
+      "tickers": [
+        "TSLA"
+      ],
+      "start": "2020-01-01",
+      "as_of": "2023-03-01",
+      "through": "2025-03-01"
+    },
+    "message": "Use a historical knowledge cutoff of January 1, 2025 instead of March 1, 2023, and investigate Tesla revenue."
+  },
+  "tested_at": "2026-11-07T20:52:26.194262+00:00",
+  "http_status": 200,
+  "seconds": 1.08,
+  "data": {
+    "response": "The user explicitly requested changing the historical knowledge cutoff to January 1, 2025, which differs from the explicit scope's as_of date of March 1, 2023. Do you intend to use start: 2020-01-01, as_of: 2025-01-01, and through: 2025-03-01 for TSLA?",
+    "session_id": "3c665305-f665-4f83-b668-0ef998b68c72",
+    "tool_calls": [
+      {
+        "agent": "Lead",
+        "name": "company_lookup",
+        "args": {
+          "ticker": "TSLA"
+        },
+        "result": "{\"ticker\": \"TSLA\", \"name\": \"Tesla\", \"cik\": 1318605}",
+        "elapsed_ms": 0
+      },
+      {
+        "agent": "Lead",
+        "name": "plan",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"clarification\": \"The user explicitly requested changing the historical knowledge cutoff to January 1, 2025, which differs from the explicit scope's as_of date of March 1, 2023. Do you intend to use start: 2020-01-01, as_of: 2025-01-01, and through: 2025-03-01 for TSLA?\", \"scope\": {\"tickers\": [], \"start\": \"\", \"as_of\": \"\", \"through\": \"\"}, \"tasks\": {\"Claims\": \"\", \"Financials\": \"\", \"Peers\": \"\", \"Context\": \"\"}}",
+        "elapsed_ms": 973
+      }
+    ],
+    "investigation": {
+      "status": "clarification",
+      "report": null,
+      "evidence": [],
+      "limits": [],
+      "rounds": 0
+    }
+  },
+  "automated_errors": []
+}

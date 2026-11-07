@@ -1,0 +1,94 @@
+{
+  "deployment": {
+    "status": "ok",
+    "model": "gemini-3.5-flash-lite",
+    "snapshot_files": 66,
+    "revision": "the-receipts-00022-x52",
+    "commit": "77ab65f98f10d7262c8c1aa169ef61236e47f431"
+  },
+  "burst": [
+    {
+      "request": 0,
+      "status": 200,
+      "seconds": 1.1,
+      "body": {
+        "response": "Please specify the company tickers, start date, historical knowledge cutoff date (as_of), and outcome cutoff date (through) for your research. For example: AAPL, 2022-01-01, 2023-01-01, 2024-01-01.",
+        "session_id": "1fae2f2a-495e-441c-a429-ee57bbe5960f",
+        "tool_calls": [
+          {
+            "agent": "Lead",
+            "name": "plan",
+            "args": {
+              "fresh_context": true
+            },
+            "result": "{\"clarification\": \"Please specify the company tickers, start date, historical knowledge cutoff date (as_of), and outcome cutoff date (through) for your research. For example: AAPL, 2022-01-01, 2023-01-01, 2024-01-01.\", \"scope\": {\"tickers\": [], \"start\": \"\", \"as_of\": \"\", \"through\": \"\"}, \"tasks\": {\"Claims\": \"\", \"Financials\": \"\", \"Peers\": \"\", \"Context\": \"\"}, \"focus\": \"\"}",
+            "elapsed_ms": 1006
+          }
+        ],
+        "investigation": {
+          "status": "clarification",
+          "report": null,
+          "evidence": [],
+          "limits": [],
+          "rounds": 0
+        }
+      }
+    },
+    {
+      "request": 1,
+      "status": 429,
+      "seconds": 1.11,
+      "body": {
+        "detail": "Two investigations are running. Please retry shortly."
+      }
+    },
+    {
+      "request": 2,
+      "status": 200,
+      "seconds": 2.27,
+      "body": {
+        "response": "Please specify the company tickers, start date, historical knowledge cutoff (as_of), and outcome cutoff (through) for your research. For example: tickers: [\"AAPL\"], start: \"2022-01-01\", as_of: \"2023-01-01\", through: \"2024-01-01\".",
+        "session_id": "b6d89614-86e0-4d4c-bad2-e3b79c089f47",
+        "tool_calls": [
+          {
+            "agent": "Lead",
+            "name": "plan",
+            "args": {
+              "fresh_context": true
+            },
+            "result": "{\"clarification\": \"Please specify the company tickers, start date, historical knowledge cutoff (as_of), and outcome cutoff (through) for your research. For example: tickers: [\\\"AAPL\\\"], start: \\\"2022-01-01\\\", as_of: \\\"2023-01-01\\\", through: \\\"2024-01-01\\\".\", \"scope\": {\"tickers\": [], \"start\": \"\", \"as_of\": \"\", \"through\": \"\"}, \"tasks\": {\"Claims\": \"\", \"Financials\": \"\", \"Peers\": \"\", \"Context\": \"\"}, \"focus\": \"\"}",
+            "elapsed_ms": 1110
+          }
+        ],
+        "investigation": {
+          "status": "clarification",
+          "report": null,
+          "evidence": [],
+          "limits": [],
+          "rounds": 0
+        }
+      }
+    },
+    {
+      "request": 3,
+      "status": 429,
+      "seconds": 1.12,
+      "body": {
+        "detail": "Two investigations are running. Please retry shortly."
+      }
+    },
+    {
+      "request": 4,
+      "status": 429,
+      "seconds": 1.12,
+      "body": {
+        "detail": "Two investigations are running. Please retry shortly."
+      }
+    }
+  ],
+  "health": {
+    "status": 200,
+    "seconds": 0.35
+  },
+  "passed": true
+}

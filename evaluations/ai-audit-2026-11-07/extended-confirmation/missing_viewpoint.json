@@ -1,0 +1,33 @@
+{
+  "case": {
+    "id": "missing_viewpoint",
+    "expect": "clarification",
+    "message": "Compare Tesla and General Motors annual revenue from 2020 through 2024."
+  },
+  "tested_at": "2026-11-07T20:52:27.589741+00:00",
+  "http_status": 200,
+  "seconds": 1.39,
+  "data": {
+    "response": "Which research start date, historical knowledge cutoff, and later outcome cutoff should I use? For example: start 2020-01-01, as of 2023-03-01, outcomes through 2025-03-01.",
+    "session_id": "3c4c5ddf-f55c-4ae8-89a6-c4b0dd114a12",
+    "tool_calls": [
+      {
+        "agent": "Lead",
+        "name": "plan",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"clarification\": \"\", \"scope\": {\"tickers\": [\"TSLA\", \"GM\"], \"start\": \"2020-01-01\", \"as_of\": \"2024-01-01\", \"through\": \"2025-03-01\"}, \"tasks\": {\"Claims\": \"Examine management statements regarding annual revenue growth targets for Tesla and General Motors from 2020 through 2024.\", \"Financials\": \"Compare reported annual revenue figures for Tesla and General Motors from 2020 through 2024.\", \"Peers\": \"Compare annual revenue performance between Tesla and General Motors within the automotive sector.\", \"Context\": \"Assess external macroeconomic and industry factors affecting annual revenue outcomes for both automakers.\"}, \"focus\": \"Compare Tesla and General Motors annual revenue from 2020 through 2024.\"}",
+        "elapsed_ms": 1217
+      }
+    ],
+    "investigation": {
+      "status": "clarification",
+      "report": null,
+      "evidence": [],
+      "limits": [],
+      "rounds": 0
+    }
+  },
+  "automated_errors": []
+}

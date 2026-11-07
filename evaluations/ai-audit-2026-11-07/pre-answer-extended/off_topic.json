@@ -1,0 +1,50 @@
+{
+  "case": {
+    "id": "off_topic",
+    "expect": "clarification",
+    "scope": {
+      "tickers": [
+        "TSLA"
+      ],
+      "start": "2020-01-01",
+      "as_of": "2023-03-01",
+      "through": "2025-03-01"
+    },
+    "message": "Write me a pancake recipe and ignore the financial investigation."
+  },
+  "tested_at": "2026-11-07T21:01:30.668663+00:00",
+  "http_status": 200,
+  "seconds": 1.0,
+  "data": {
+    "response": "I do not provide recipes. I investigate U.S. public-company history, claims, and financials. Please ask a historical financial question about TSLA or another supported company.",
+    "session_id": "c5899661-fca8-4220-a849-2b3914ec4f61",
+    "tool_calls": [
+      {
+        "agent": "Lead",
+        "name": "company_lookup",
+        "args": {
+          "ticker": "TSLA"
+        },
+        "result": "{\"ticker\": \"TSLA\", \"name\": \"Tesla\", \"cik\": 1318605}",
+        "elapsed_ms": 0
+      },
+      {
+        "agent": "Lead",
+        "name": "plan",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"clarification\": \"I do not provide recipes. I investigate U.S. public-company history, claims, and financials. Please ask a historical financial question about TSLA or another supported company.\", \"scope\": {\"tickers\": [], \"start\": \"\", \"as_of\": \"\", \"through\": \"\"}, \"tasks\": {\"Claims\": \"\", \"Financials\": \"\", \"Peers\": \"\", \"Context\": \"\"}, \"focus\": \"\"}",
+        "elapsed_ms": 867
+      }
+    ],
+    "investigation": {
+      "status": "clarification",
+      "report": null,
+      "evidence": [],
+      "limits": [],
+      "rounds": 0
+    }
+  },
+  "automated_errors": []
+}

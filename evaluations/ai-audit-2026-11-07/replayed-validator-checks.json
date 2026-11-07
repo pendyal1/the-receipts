@@ -1,0 +1,83 @@
+[
+  {
+    "case": "sessions",
+    "stages": [
+      {
+        "stage": "fact_check_report",
+        "errors": []
+      },
+      {
+        "stage": "repair_citations",
+        "errors": []
+      }
+    ]
+  },
+  {
+    "case": "no_eligible_filings",
+    "stages": [
+      {
+        "stage": "fact_check_report",
+        "errors": []
+      }
+    ]
+  },
+  {
+    "case": "chips_fiscal_dates",
+    "stages": [
+      {
+        "stage": "fact_check_report",
+        "errors": []
+      }
+    ]
+  },
+  {
+    "case": "cloud_missing_metric",
+    "stages": [
+      {
+        "stage": "fact_check_report",
+        "errors": []
+      },
+      {
+        "stage": "repair_citations",
+        "errors": []
+      }
+    ]
+  },
+  {
+    "case": "apple_live_sources",
+    "stages": [
+      {
+        "stage": "fact_check_report",
+        "errors": []
+      },
+      {
+        "stage": "repair_citations",
+        "errors": []
+      }
+    ]
+  },
+  {
+    "case": "tesla_spending",
+    "stages": [
+      {
+        "stage": "fact_check_report",
+        "errors": []
+      }
+    ]
+  },
+  {
+    "case": "scope_in_question",
+    "stages": [
+      {
+        "stage": "fact_check_report",
+        "errors": [
+          "Claim receipt Ebd63825962 uses a different metric or a period ending before the management statement. Allowed outcome IDs: []. Use only those IDs for the matching component, or mark not testable with no outcome_ids. Positive cash flow alone cannot verify liquidity sufficiency."
+        ]
+      },
+      {
+        "stage": "repair_citations",
+        "errors": []
+      }
+    ]
+  }
+]

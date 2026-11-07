@@ -1,0 +1,49 @@
+{
+  "burst": [
+    {
+      "request": 0,
+      "status": 429,
+      "seconds": 0.17,
+      "body": {
+        "detail": "Two investigations are running. Please retry shortly."
+      }
+    },
+    {
+      "request": 1,
+      "status": 429,
+      "seconds": 0.16,
+      "body": {
+        "detail": "Two investigations are running. Please retry shortly."
+      }
+    },
+    {
+      "request": 2,
+      "status": 429,
+      "seconds": 0.16,
+      "body": {
+        "detail": "Two investigations are running. Please retry shortly."
+      }
+    },
+    {
+      "request": 3,
+      "status": 429,
+      "seconds": 0.17,
+      "body": {
+        "detail": "Two investigations are running. Please retry shortly."
+      }
+    },
+    {
+      "request": 4,
+      "status": 429,
+      "seconds": 0.16,
+      "body": {
+        "detail": "Two investigations are running. Please retry shortly."
+      }
+    }
+  ],
+  "health": {
+    "status": 200,
+    "seconds": 0.1
+  },
+  "passed": true
+}

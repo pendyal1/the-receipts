@@ -1,0 +1,50 @@
+{
+  "case": {
+    "id": "date_scope_conflict",
+    "expect": "clarification",
+    "scope": {
+      "tickers": [
+        "TSLA"
+      ],
+      "start": "2020-01-01",
+      "as_of": "2023-03-01",
+      "through": "2025-03-01"
+    },
+    "message": "Use a historical knowledge cutoff of January 1, 2025 instead of March 1, 2023, and investigate Tesla revenue."
+  },
+  "tested_at": "2026-11-07T21:01:28.313789+00:00",
+  "http_status": 200,
+  "seconds": 11.79,
+  "data": {
+    "response": "You requested changing the historical knowledge cutoff to January 1, 2025, while the explicit scope specifies an as_of date of March 1, 2023. Which scope do you intend? For example, do you want start='2020-01-01', as_of='2025-01-01', and through='2025-03-01'?",
+    "session_id": "c9877da2-99ad-4349-b2fe-776f03ad8a97",
+    "tool_calls": [
+      {
+        "agent": "Lead",
+        "name": "company_lookup",
+        "args": {
+          "ticker": "TSLA"
+        },
+        "result": "{\"ticker\": \"TSLA\", \"name\": \"Tesla\", \"cik\": 1318605}",
+        "elapsed_ms": 0
+      },
+      {
+        "agent": "Lead",
+        "name": "plan",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"clarification\": \"You requested changing the historical knowledge cutoff to January 1, 2025, while the explicit scope specifies an as_of date of March 1, 2023. Which scope do you intend? For example, do you want start='2020-01-01', as_of='2025-01-01', and through='2025-03-01'?\", \"scope\": {\"tickers\": [], \"start\": \"\", \"as_of\": \"\", \"through\": \"\"}, \"tasks\": {\"Claims\": \"\", \"Financials\": \"\", \"Peers\": \"\", \"Context\": \"\"}}",
+        "elapsed_ms": 956
+      }
+    ],
+    "investigation": {
+      "status": "clarification",
+      "report": null,
+      "evidence": [],
+      "limits": [],
+      "rounds": 0
+    }
+  },
+  "automated_errors": []
+}

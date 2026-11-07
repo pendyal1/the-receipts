@@ -1,0 +1,33 @@
+{
+  "case": {
+    "id": "vague_question",
+    "message": "Is it good?",
+    "expect": "clarification"
+  },
+  "tested_at": "2026-11-07T21:07:09.928113+00:00",
+  "http_status": 200,
+  "seconds": 1.23,
+  "data": {
+    "response": "Please specify a company, start date, historical knowledge cutoff (as_of), and outcome cutoff (through). For example: Research TSLA from start=2022-01-01 with as_of=2023-01-01 through=2024-01-01.",
+    "session_id": "d3605941-cc05-49a0-8d3d-6a1ef2499b1f",
+    "tool_calls": [
+      {
+        "agent": "Lead",
+        "name": "plan",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"clarification\": \"Please specify a company, start date, historical knowledge cutoff (as_of), and outcome cutoff (through). For example: Research TSLA from start=2022-01-01 with as_of=2023-01-01 through=2024-01-01.\", \"scope\": {\"tickers\": [], \"start\": \"\", \"as_of\": \"\", \"through\": \"\"}, \"tasks\": {\"Claims\": \"\", \"Financials\": \"\", \"Peers\": \"\", \"Context\": \"\"}, \"focus\": \"\"}",
+        "elapsed_ms": 1084
+      }
+    ],
+    "investigation": {
+      "status": "clarification",
+      "report": null,
+      "evidence": [],
+      "limits": [],
+      "rounds": 0
+    }
+  },
+  "automated_errors": []
+}

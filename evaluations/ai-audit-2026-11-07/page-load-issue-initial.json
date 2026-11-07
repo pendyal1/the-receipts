@@ -1,0 +1,18 @@
+{
+  "deployment_commit": "adc0e05507a9fe0b8bf79a8439a336ca0e4b0850",
+  "browser_observation": "Reloading the homepage during two live investigations displayed only Rate exceeded.",
+  "followup_http_requests": [
+    {
+      "path": "/",
+      "status": 200,
+      "seconds": 16.18
+    },
+    {
+      "path": "/health",
+      "status": 200,
+      "seconds": 16.15
+    }
+  ],
+  "changes": "Streaming filing text extraction; HTTP concurrency increased from 8 to 32 while AI admission remains capped at two.",
+  "root_cause_limit": "Request saturation and parsing load were investigated; no Cloud Run diagnostic logs were available. The follow-up load test measures the resulting behavior."
+}

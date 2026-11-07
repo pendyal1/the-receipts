@@ -540,3 +540,8 @@ A company-only search offers specific questions instead of starting broad resear
 The context disclosure is now a flat timeline with subject lookup, removable branded peer chips and a custom calendar. Manual ISO dates are validated for real calendar dates, coverage starts in 2012, and future cutoffs are rejected. Validation messages use the app’s own typography. The search textarea no longer inherits a bottom margin; the text box and submit button share a vertical center.
 
 Orbitron and Sora variable font files and their OFL licenses are bundled. `static/fonts.js` checks actual face loading before revealing text; a vector-only retry control is shown if font loading fails. Old Roboto/Michroma files and system font stacks have been removed. Glyph-based decorative stars/orbits are vectors, and chart labels explicitly use Sora. Sage’s exact Necosmic/TT Firs Neue files are not shipped.
+
+
+## November 7 functional and stress audit
+
+The updated AI pipeline passed 24 real prompt cases, 26 invalid-input requests, five session checks and 94 local regression checks. Browser tests verified question-specific answers, exports, exact citation navigation and historical chart filtering. Failures, fixes, the observed upstream Vertex rate-limit event, and verified deployment details are recorded in [the full audit](evaluations/ai-audit-2026-11-07/README.md). The load fix retains two AI investigations while allowing 32 lightweight HTTP requests on the single Cloud Run instance.

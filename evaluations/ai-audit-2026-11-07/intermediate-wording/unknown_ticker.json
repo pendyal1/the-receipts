@@ -1,0 +1,49 @@
+{
+  "case": {
+    "id": "unknown_ticker",
+    "message": "Investigate the historical management claims and results for ZZZZX.",
+    "scope": {
+      "tickers": [
+        "ZZZZX"
+      ],
+      "start": "2020-01-01",
+      "as_of": "2023-03-01",
+      "through": "2025-03-01"
+    },
+    "expect": "unknown"
+  },
+  "tested_at": "2026-11-07T20:49:10.927332+00:00",
+  "http_status": 200,
+  "seconds": 0.34,
+  "data": {
+    "response": "I could not resolve ZZZZX from the SEC directory: ZZZZX was not found in the SEC ticker directory. Foreign/private companies are not covered. Check the ticker or choose a covered U.S. public company.",
+    "session_id": "fa583ead-ce35-4198-b3a3-c70d716d569d",
+    "tool_calls": [
+      {
+        "agent": "Lead",
+        "name": "company_lookup",
+        "args": {
+          "ticker": "ZZZZX"
+        },
+        "result": "[{\"kind\": \"source_gap\", \"ticker\": \"ZZZZX\", \"error\": \"ZZZZX was not found in the SEC ticker directory. Foreign/private companies are not covered.\", \"id\": \"E58f81489cb\", \"phase\": \"coverage_gap\"}]",
+        "elapsed_ms": 233
+      }
+    ],
+    "investigation": {
+      "status": "clarification",
+      "report": null,
+      "evidence": [
+        {
+          "kind": "source_gap",
+          "ticker": "ZZZZX",
+          "error": "ZZZZX was not found in the SEC ticker directory. Foreign/private companies are not covered.",
+          "id": "E58f81489cb",
+          "phase": "coverage_gap"
+        }
+      ],
+      "limits": [],
+      "rounds": 0
+    }
+  },
+  "automated_errors": []
+}

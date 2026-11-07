@@ -1,0 +1,33 @@
+{
+  "case": {
+    "id": "vague_question",
+    "message": "Is it good?",
+    "expect": "clarification"
+  },
+  "tested_at": "2026-11-07T20:43:04.269042+00:00",
+  "http_status": 200,
+  "seconds": 1.45,
+  "data": {
+    "response": "Please specify which company and historical time period you would like to research. For example: Research AAPL with start=2020-01-01, as_of=2023-01-01, and through=2024-01-01.",
+    "session_id": "a1f86fce-dd9a-4739-94a7-e73f79805778",
+    "tool_calls": [
+      {
+        "agent": "Lead",
+        "name": "plan",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"clarification\": \"Please specify which company and historical time period you would like to research. For example: Research AAPL with start=2020-01-01, as_of=2023-01-01, and through=2024-01-01.\", \"scope\": {\"tickers\": [], \"start\": \"\", \"as_of\": \"\", \"through\": \"\"}, \"tasks\": {\"Claims\": \"\", \"Financials\": \"\", \"Peers\": \"\", \"Context\": \"\"}, \"focus\": \"\"}",
+        "elapsed_ms": 1349
+      }
+    ],
+    "investigation": {
+      "status": "clarification",
+      "report": null,
+      "evidence": [],
+      "limits": [],
+      "rounds": 0
+    }
+  },
+  "automated_errors": []
+}

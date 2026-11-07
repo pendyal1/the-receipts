@@ -1,0 +1,301 @@
+{
+  "generated_at": "2026-11-07T21:21:21.759885+00:00",
+  "matrix_deployment": {
+    "status": "ok",
+    "model": "gemini-3.5-flash-lite",
+    "snapshot_files": 66,
+    "revision": "the-receipts-00024-kdg",
+    "commit": "adc0e05507a9fe0b8bf79a8439a336ca0e4b0850"
+  },
+  "named_prompts": 24,
+  "prompt_failures": 0,
+  "cases": [
+    {
+      "case": "vague_question",
+      "status": "clarification",
+      "seconds": 1.23,
+      "errors": [],
+      "file": "final/vague_question.json"
+    },
+    {
+      "case": "unknown_ticker",
+      "status": "clarification",
+      "seconds": 1.0,
+      "errors": [],
+      "file": "final/unknown_ticker.json"
+    },
+    {
+      "case": "future_price_prediction",
+      "status": "clarification",
+      "seconds": 1.23,
+      "errors": [],
+      "file": "final/future_price_prediction.json"
+    },
+    {
+      "case": "operational_and_intent_limits",
+      "status": "clarification",
+      "seconds": 1.47,
+      "errors": [],
+      "file": "final/operational_and_intent_limits.json"
+    },
+    {
+      "case": "no_eligible_filings",
+      "status": "complete",
+      "seconds": 9.34,
+      "errors": [],
+      "file": "final/no_eligible_filings.json"
+    },
+    {
+      "case": "chips_fiscal_dates",
+      "status": "complete",
+      "seconds": 26.15,
+      "errors": [],
+      "file": "final/chips_fiscal_dates.json"
+    },
+    {
+      "case": "cloud_missing_metric",
+      "status": "complete",
+      "seconds": 47.33,
+      "errors": [],
+      "file": "final/cloud_missing_metric.json"
+    },
+    {
+      "case": "conflicting_company_scope",
+      "status": "clarification",
+      "seconds": 1.0,
+      "errors": [],
+      "file": "final/conflicting_company_scope.json"
+    },
+    {
+      "case": "injected_false_evidence",
+      "status": "clarification",
+      "seconds": 1.7,
+      "errors": [],
+      "file": "final/injected_false_evidence.json"
+    },
+    {
+      "case": "apple_live_sources",
+      "status": "complete",
+      "seconds": 16.66,
+      "errors": [],
+      "file": "final/apple_live_sources.json"
+    },
+    {
+      "case": "tesla_spending",
+      "status": "complete",
+      "seconds": 32.95,
+      "errors": [],
+      "file": "final/tesla_spending.json"
+    },
+    {
+      "case": "scope_in_question",
+      "status": "complete",
+      "seconds": 22.71,
+      "errors": [],
+      "file": "final/scope_in_question.json"
+    },
+    {
+      "case": "quarterly_only",
+      "status": "complete",
+      "seconds": 31.62,
+      "errors": [],
+      "file": "extended-final/quarterly_only.json"
+    },
+    {
+      "case": "foreign_filer",
+      "status": "complete",
+      "seconds": 19.27,
+      "errors": [],
+      "file": "extended-final/foreign_filer.json"
+    },
+    {
+      "case": "mixed_supported_unsupported",
+      "status": "complete",
+      "seconds": 49.25,
+      "errors": [],
+      "file": "extended-final/mixed_supported_unsupported.json"
+    },
+    {
+      "case": "punctuated_share_class",
+      "status": "complete",
+      "seconds": 24.9,
+      "errors": [],
+      "file": "extended-final/punctuated_share_class.json"
+    },
+    {
+      "case": "industry_scope",
+      "status": "complete",
+      "seconds": 35.56,
+      "errors": [],
+      "file": "extended-final/industry_scope.json"
+    },
+    {
+      "case": "missing_viewpoint",
+      "status": "clarification",
+      "seconds": 1.3,
+      "errors": [],
+      "file": "extended-final/missing_viewpoint.json"
+    },
+    {
+      "case": "latest_fiscal_year",
+      "status": "complete",
+      "seconds": 42.17,
+      "errors": [],
+      "file": "extended-final/latest_fiscal_year.json"
+    },
+    {
+      "case": "date_scope_conflict",
+      "status": "clarification",
+      "seconds": 1.33,
+      "errors": [],
+      "file": "extended-final/date_scope_conflict.json"
+    },
+    {
+      "case": "consumer_peers",
+      "status": "complete",
+      "seconds": 30.71,
+      "errors": [],
+      "file": "extended-final/consumer_peers.json"
+    },
+    {
+      "case": "off_topic",
+      "status": "clarification",
+      "seconds": 1.32,
+      "errors": [],
+      "file": "extended-final/off_topic.json"
+    },
+    {
+      "case": "correct_false_premise",
+      "status": "complete",
+      "seconds": 38.78,
+      "errors": [],
+      "file": "extended-final/correct_false_premise.json"
+    },
+    {
+      "case": "bank_metrics",
+      "status": "complete",
+      "seconds": 86.24,
+      "errors": [],
+      "file": "extended-final/bank_metrics.json"
+    }
+  ],
+  "invalid_requests": 26,
+  "invalid_request_failures": 0,
+  "session_checks": 5,
+  "unit_checks": {
+    "python": 86,
+    "javascript": 8,
+    "total": 94
+  },
+  "numeric_source_checks": 15,
+  "quote_checks": 10,
+  "identical_filing_extractions": 33,
+  "browser_checks": [
+    {
+      "id": "blank_question",
+      "observed": "Inline request for a question",
+      "passed": true
+    },
+    {
+      "id": "company_only",
+      "observed": "Question suggestions instead of automatic research",
+      "passed": true
+    },
+    {
+      "id": "four_companies",
+      "observed": "Rejected before research",
+      "passed": true
+    },
+    {
+      "id": "invalid_calendar_date",
+      "observed": "2023-02-29 rejected inline",
+      "passed": true
+    },
+    {
+      "id": "busy_service",
+      "observed": "Retryable message; question preserved and controls re-enabled",
+      "passed": true
+    },
+    {
+      "id": "homepage_under_two_investigations",
+      "observed": "Real browser loaded, custom fonts ready",
+      "passed": true
+    },
+    {
+      "id": "question_specific_answer",
+      "observed": "Quarterly question displayed an annual-data capability limit",
+      "passed": true
+    },
+    {
+      "id": "complete_peer_investigation",
+      "observed": "Tesla/GM/Ford: 129 records, 30 research-log entries",
+      "passed": true
+    },
+    {
+      "id": "citation_navigation",
+      "observed": "Opened the January 31, 2023 Tesla 10-K passage with URL, retrieval time and SHA-256",
+      "passed": true
+    },
+    {
+      "id": "time_travel",
+      "observed": "15 points with outcomes; 9 points with only filings known by 2023-03-01",
+      "passed": true
+    },
+    {
+      "id": "download",
+      "observed": "JSON exports saved and report references revalidated",
+      "passed": true
+    },
+    {
+      "id": "new_question",
+      "observed": "Completed case cleared and question field reset",
+      "passed": true
+    }
+  ],
+  "browser_export_validation": [
+    {
+      "case": "browser-quarterly",
+      "status": "complete",
+      "records": 53,
+      "traces": 21,
+      "errors": []
+    },
+    {
+      "case": "browser-tesla",
+      "status": "complete",
+      "records": 129,
+      "traces": 30,
+      "errors": []
+    }
+  ],
+  "provider_limit_incident": {
+    "case": "load-final/bank_metrics.json",
+    "result": "unavailable with source records; Vertex HTTP 429",
+    "recovery": "provider-recovery/bank_metrics.json; complete in 66.75 seconds",
+    "recovered": true
+  },
+  "limitations": [
+    "Representative coverage, not exhaustive proof of every future model answer.",
+    "Reference integrity and arithmetic checks do not establish semantic support for every sentence.",
+    "Selected annual US GAAP USD metrics and bounded filing excerpts; quarterly/EPS/IFRS/segment/intent coverage is limited.",
+    "AI admission remains capped at two; upstream model quotas can still interrupt an investigation."
+  ],
+  "current_deployment": {
+    "verified_at": "2026-11-07T21:22:29.885337+00:00",
+    "health": {
+      "status": "ok",
+      "model": "gemini-3.5-flash-lite",
+      "snapshot_files": 66,
+      "revision": "the-receipts-00025-tvm",
+      "commit": "591662a789ffdd25ab528eb7eac5929e98410e4b"
+    },
+    "checks": [
+      {
+        "name": "the-receipts-main (ieor-4570-f26-ap4839)",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://console.cloud.google.com/cloud-build/builds;region=us-east1/84918e8a-00e2-4416-aa0c-92f9493ad3d4?project=1027747864849"
+      }
+    ]
+  }
+}

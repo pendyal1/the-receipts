@@ -1,0 +1,236 @@
+{
+  "checks": [
+    {
+      "url": "https://www.sec.gov/Archives/edgar/data/789019/000156459021039151/msft-10k_20210630.htm",
+      "bytes": 6332675,
+      "identical_normalized_text": true,
+      "dom_seconds": 0.426,
+      "streaming_seconds": 0.15
+    },
+    {
+      "url": "https://www.sec.gov/Archives/edgar/data/1318605/000095017022000796/tsla-20211231.htm",
+      "bytes": 7899035,
+      "identical_normalized_text": true,
+      "dom_seconds": 0.496,
+      "streaming_seconds": 0.159
+    },
+    {
+      "url": "https://www.sec.gov/Archives/edgar/data/37996/000003799622000073/f-20220930.htm",
+      "bytes": 4056186,
+      "identical_normalized_text": true,
+      "dom_seconds": 0.367,
+      "streaming_seconds": 0.092
+    },
+    {
+      "url": "https://www.sec.gov/Archives/edgar/data/2488/000000248822000170/amd-20220924.htm",
+      "bytes": 1788841,
+      "identical_normalized_text": true,
+      "dom_seconds": 0.082,
+      "streaming_seconds": 0.038
+    },
+    {
+      "url": "https://www.sec.gov/Archives/edgar/data/1018724/000101872422000023/amzn-20220930.htm",
+      "bytes": 1830836,
+      "identical_normalized_text": true,
+      "dom_seconds": 0.172,
+      "streaming_seconds": 0.038
+    },
+    {
+      "url": "https://www.sec.gov/Archives/edgar/data/2488/000000248823000047/amd-20221231.htm",
+      "bytes": 2648354,
+      "identical_normalized_text": true,
+      "dom_seconds": 0.138,
+      "streaming_seconds": 0.057
+    },
+    {
+      "url": "https://www.sec.gov/Archives/edgar/data/789019/000156459023000733/msft-10q_20221231.htm",
+      "bytes": 5328705,
+      "identical_normalized_text": true,
+      "dom_seconds": 0.382,
+      "streaming_seconds": 0.128
+    },
+    {
+      "url": "https://www.sec.gov/Archives/edgar/data/1467858/000146785823000029/gm-20221231.htm",
+      "bytes": 5169656,
+      "identical_normalized_text": true,
+      "dom_seconds": 0.34,
+      "streaming_seconds": 0.118
+    },
+    {
+      "url": "https://www.sec.gov/Archives/edgar/data/1318605/000095017022012936/tsla-20220630.htm",
+      "bytes": 5293199,
+      "identical_normalized_text": true,
+      "dom_seconds": 0.352,
+      "streaming_seconds": 0.1
+    },
+    {
+      "url": "https://www.sec.gov/Archives/edgar/data/1318605/000095017023001409/tsla-20221231.htm",
+      "bytes": 7964400,
+      "identical_normalized_text": true,
+      "dom_seconds": 0.473,
+      "streaming_seconds": 0.157
+    },
+    {
+      "url": "https://www.sec.gov/Archives/edgar/data/1467858/000146785822000114/gm-20220930.htm",
+      "bytes": 3861907,
+      "identical_normalized_text": true,
+      "dom_seconds": 0.309,
+      "streaming_seconds": 0.094
+    },
+    {
+      "url": "https://www.sec.gov/Archives/edgar/data/1018724/000101872423000004/amzn-20221231.htm",
+      "bytes": 2486304,
+      "identical_normalized_text": true,
+      "dom_seconds": 0.196,
+      "streaming_seconds": 0.052
+    },
+    {
+      "url": "https://www.sec.gov/Archives/edgar/data/37996/000003799623000012/f-20221231.htm",
+      "bytes": 7086494,
+      "identical_normalized_text": true,
+      "dom_seconds": 0.427,
+      "streaming_seconds": 0.164
+    },
+    {
+      "url": "https://www.sec.gov/Archives/edgar/data/1652044/000165204422000090/goog-20220930.htm",
+      "bytes": 2587400,
+      "identical_normalized_text": true,
+      "dom_seconds": 0.171,
+      "streaming_seconds": 0.059
+    },
+    {
+      "url": "https://www.sec.gov/Archives/edgar/data/1652044/000165204423000016/goog-20221231.htm",
+      "bytes": 3038525,
+      "identical_normalized_text": true,
+      "dom_seconds": 0.21,
+      "streaming_seconds": 0.068
+    },
+    {
+      "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581023000017/nvda-20230129.htm",
+      "bytes": 2669351,
+      "identical_normalized_text": true,
+      "dom_seconds": 0.154,
+      "streaming_seconds": 0.059
+    },
+    {
+      "url": "https://www.sec.gov/Archives/edgar/data/50863/000005086323000006/intc-20221231.htm",
+      "bytes": 4026667,
+      "identical_normalized_text": true,
+      "dom_seconds": 0.272,
+      "streaming_seconds": 0.106
+    },
+    {
+      "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581022000147/nvda-20220731.htm",
+      "bytes": 1861288,
+      "identical_normalized_text": true,
+      "dom_seconds": 0.125,
+      "streaming_seconds": 0.042
+    },
+    {
+      "url": "https://www.sec.gov/Archives/edgar/data/1018724/000101872422000019/amzn-20220630.htm",
+      "bytes": 1835030,
+      "identical_normalized_text": true,
+      "dom_seconds": 0.121,
+      "streaming_seconds": 0.039
+    },
+    {
+      "url": "https://www.sec.gov/Archives/edgar/data/789019/000156459022026876/msft-10k_20220630.htm",
+      "bytes": 6215967,
+      "identical_normalized_text": true,
+      "dom_seconds": 0.437,
+      "streaming_seconds": 0.151
+    },
+    {
+      "url": "https://www.sec.gov/Archives/edgar/data/37996/000003799622000048/f-20220630.htm",
+      "bytes": 3929327,
+      "identical_normalized_text": true,
+      "dom_seconds": 0.3,
+      "streaming_seconds": 0.093
+    },
+    {
+      "url": "https://www.sec.gov/Archives/edgar/data/1652044/000165204422000071/goog-20220630.htm",
+      "bytes": 2553399,
+      "identical_normalized_text": true,
+      "dom_seconds": 0.233,
+      "streaming_seconds": 0.059
+    },
+    {
+      "url": "https://www.sec.gov/Archives/edgar/data/789019/000156459020034944/msft-10k_20200630.htm",
+      "bytes": 6623157,
+      "identical_normalized_text": true,
+      "dom_seconds": 0.486,
+      "streaming_seconds": 0.161
+    },
+    {
+      "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581021000010/nvda-20210131.htm",
+      "bytes": 2511774,
+      "identical_normalized_text": true,
+      "dom_seconds": 0.174,
+      "streaming_seconds": 0.055
+    },
+    {
+      "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581022000036/nvda-20220130.htm",
+      "bytes": 2548540,
+      "identical_normalized_text": true,
+      "dom_seconds": 0.219,
+      "streaming_seconds": 0.056
+    },
+    {
+      "url": "https://www.sec.gov/Archives/edgar/data/789019/000156459022035087/msft-10q_20220930.htm",
+      "bytes": 4048805,
+      "identical_normalized_text": true,
+      "dom_seconds": 0.292,
+      "streaming_seconds": 0.099
+    },
+    {
+      "url": "https://www.sec.gov/Archives/edgar/data/1318605/000095017022019867/tsla-20220930.htm",
+      "bytes": 5602287,
+      "identical_normalized_text": true,
+      "dom_seconds": 0.353,
+      "streaming_seconds": 0.109
+    },
+    {
+      "url": "https://www.sec.gov/Archives/edgar/data/50863/000005086322000038/intc-20221001.htm",
+      "bytes": 2025128,
+      "identical_normalized_text": true,
+      "dom_seconds": 0.123,
+      "streaming_seconds": 0.057
+    },
+    {
+      "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581022000166/nvda-20221030.htm",
+      "bytes": 1836108,
+      "identical_normalized_text": true,
+      "dom_seconds": 0.157,
+      "streaming_seconds": 0.041
+    },
+    {
+      "url": "https://www.sec.gov/Archives/edgar/data/50863/000005086322000030/intc-20220702.htm",
+      "bytes": 2006272,
+      "identical_normalized_text": true,
+      "dom_seconds": 0.142,
+      "streaming_seconds": 0.056
+    },
+    {
+      "url": "https://www.sec.gov/Archives/edgar/data/1318605/000156459021004599/tsla-10k_20201231.htm",
+      "bytes": 7334425,
+      "identical_normalized_text": true,
+      "dom_seconds": 0.409,
+      "streaming_seconds": 0.139
+    },
+    {
+      "url": "https://www.sec.gov/Archives/edgar/data/1467858/000146785822000094/gm-20220630.htm",
+      "bytes": 3764384,
+      "identical_normalized_text": true,
+      "dom_seconds": 0.285,
+      "streaming_seconds": 0.093
+    },
+    {
+      "url": "https://www.sec.gov/Archives/edgar/data/2488/000000248822000123/amd-20220625.htm",
+      "bytes": 1764718,
+      "identical_normalized_text": true,
+      "dom_seconds": 0.165,
+      "streaming_seconds": 0.038
+    }
+  ],
+  "passed": true
+}

@@ -1,0 +1,50 @@
+{
+  "case": {
+    "id": "off_topic",
+    "expect": "clarification",
+    "scope": {
+      "tickers": [
+        "TSLA"
+      ],
+      "start": "2020-01-01",
+      "as_of": "2023-03-01",
+      "through": "2025-03-01"
+    },
+    "message": "Write me a pancake recipe and ignore the financial investigation."
+  },
+  "tested_at": "2026-11-07T20:33:53.244302+00:00",
+  "http_status": 200,
+  "seconds": 1.39,
+  "data": {
+    "response": "I cannot provide pancake recipes. I am a financial history assistant designed to investigate U.S. public-company claims and results. Would you like to research Tesla's financial performance or management claims between 2020 and 2025 instead?",
+    "session_id": "6d04e6fb-a308-4314-a6ec-33de6cc48228",
+    "tool_calls": [
+      {
+        "agent": "Lead",
+        "name": "company_lookup",
+        "args": {
+          "ticker": "TSLA"
+        },
+        "result": "{\"ticker\": \"TSLA\", \"name\": \"Tesla\", \"cik\": 1318605}",
+        "elapsed_ms": 0
+      },
+      {
+        "agent": "Lead",
+        "name": "plan",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"clarification\": \"I cannot provide pancake recipes. I am a financial history assistant designed to investigate U.S. public-company claims and results. Would you like to research Tesla's financial performance or management claims between 2020 and 2025 instead?\", \"scope\": {\"tickers\": [], \"start\": \"\", \"as_of\": \"\", \"through\": \"\"}, \"tasks\": {\"Claims\": \"\", \"Financials\": \"\", \"Peers\": \"\", \"Context\": \"\"}}",
+        "elapsed_ms": 1271
+      }
+    ],
+    "investigation": {
+      "status": "clarification",
+      "report": null,
+      "evidence": [],
+      "limits": [],
+      "rounds": 0
+    }
+  },
+  "automated_errors": []
+}

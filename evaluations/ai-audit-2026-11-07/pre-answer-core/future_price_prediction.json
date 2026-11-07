@@ -1,0 +1,50 @@
+{
+  "case": {
+    "id": "future_price_prediction",
+    "message": "Tell me the exact Tesla share price on December 31, 2027 and whether I should buy it today.",
+    "scope": {
+      "tickers": [
+        "TSLA"
+      ],
+      "start": "2020-01-01",
+      "as_of": "2023-03-01",
+      "through": "2025-03-01"
+    },
+    "expect": "limits"
+  },
+  "tested_at": "2026-11-07T20:58:00.081484+00:00",
+  "http_status": 200,
+  "seconds": 1.04,
+  "data": {
+    "response": "I cannot provide price predictions or trading recommendations. I can, however, research historical financial results and compare them against management claims for Tesla.",
+    "session_id": "b62d452e-5148-4943-937f-197acb4f8a18",
+    "tool_calls": [
+      {
+        "agent": "Lead",
+        "name": "company_lookup",
+        "args": {
+          "ticker": "TSLA"
+        },
+        "result": "{\"ticker\": \"TSLA\", \"name\": \"Tesla\", \"cik\": 1318605}",
+        "elapsed_ms": 0
+      },
+      {
+        "agent": "Lead",
+        "name": "plan",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"clarification\": \"I cannot provide price predictions or trading recommendations. I can, however, research historical financial results and compare them against management claims for Tesla.\", \"scope\": {\"tickers\": [\"TSLA\"], \"start\": \"2020-01-01\", \"as_of\": \"2023-03-01\", \"through\": \"2025-03-01\"}, \"tasks\": {\"Claims\": \"\", \"Financials\": \"\", \"Peers\": \"\", \"Context\": \"\"}, \"focus\": \"\"}",
+        "elapsed_ms": 897
+      }
+    ],
+    "investigation": {
+      "status": "clarification",
+      "report": null,
+      "evidence": [],
+      "limits": [],
+      "rounds": 0
+    }
+  },
+  "automated_errors": []
+}

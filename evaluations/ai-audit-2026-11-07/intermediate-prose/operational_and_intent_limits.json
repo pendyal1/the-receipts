@@ -1,0 +1,50 @@
+{
+  "case": {
+    "id": "operational_and_intent_limits",
+    "message": "Tell me exactly how many vehicles Tesla delivered in 2024 and prove whether its CEO deliberately lied about the delivery target. Do the available data actually establish these things?",
+    "scope": {
+      "tickers": [
+        "TSLA"
+      ],
+      "start": "2020-01-01",
+      "as_of": "2023-03-01",
+      "through": "2025-03-01"
+    },
+    "expect": "limits"
+  },
+  "tested_at": "2026-11-07T20:43:05.202442+00:00",
+  "http_status": 200,
+  "seconds": 1.84,
+  "data": {
+    "response": "Researching Tesla's 2024 vehicle deliveries and outcomes is supported. Determining whether the CEO deliberately lied is an unsupported request to establish subjective intent and causation, which cannot be proven by financial results alone. I will research the reported 2024 deliveries and compare them against historical claims known as of the historical knowledge date, while noting that intent cannot be established from available data.",
+    "session_id": "016ecff0-c6fd-4e10-b91e-e54ea0b9c30d",
+    "tool_calls": [
+      {
+        "agent": "Lead",
+        "name": "company_lookup",
+        "args": {
+          "ticker": "TSLA"
+        },
+        "result": "{\"ticker\": \"TSLA\", \"name\": \"Tesla\", \"cik\": 1318605}",
+        "elapsed_ms": 0
+      },
+      {
+        "agent": "Lead",
+        "name": "plan",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"clarification\": \"Researching Tesla's 2024 vehicle deliveries and outcomes is supported. Determining whether the CEO deliberately lied is an unsupported request to establish subjective intent and causation, which cannot be proven by financial results alone. I will research the reported 2024 deliveries and compare them against historical claims known as of the historical knowledge date, while noting that intent cannot be established from available data.\", \"scope\": {\"tickers\": [\"TSLA\"], \"start\": \"2020-01-01\", \"as_of\": \"2023-03-01\", \"through\": \"2025-03-01\"}, \"tasks\": {\"Claims\": \"Identify management delivery targets and statements regarding 2024 available as of 2023-03-01.\", \"Financials\": \"Gather actual reported vehicle delivery figures for 2024 from filings and official releases.\", \"Peers\": \"Examine peer context if relevant to delivery volumes.\", \"Context\": \"Assess macroeconomic or supply chain conditions affecting delivery outcomes up to 2025-03-01.\"}, \"focus\": \"Research Tesla 2024 vehicle deliveries and compare with prior management outlook while addressing the limits of proving intent.\"}",
+        "elapsed_ms": 1746
+      }
+    ],
+    "investigation": {
+      "status": "clarification",
+      "report": null,
+      "evidence": [],
+      "limits": [],
+      "rounds": 0
+    }
+  },
+  "automated_errors": []
+}

@@ -1,0 +1,83 @@
+{
+  "deployment": {
+    "status": "ok",
+    "model": "gemini-3.5-flash-lite",
+    "snapshot_files": 66,
+    "revision": "the-receipts-00024-kdg",
+    "commit": "adc0e05507a9fe0b8bf79a8439a336ca0e4b0850"
+  },
+  "prompts": 12,
+  "validation": [
+    {
+      "id": "null_message",
+      "status": 422,
+      "passed": true
+    },
+    {
+      "id": "numeric_message",
+      "status": 422,
+      "passed": true
+    },
+    {
+      "id": "list_body",
+      "status": 422,
+      "passed": true
+    },
+    {
+      "id": "null_body",
+      "status": 422,
+      "passed": true
+    },
+    {
+      "id": "null_ticker",
+      "status": 422,
+      "passed": true
+    },
+    {
+      "id": "nested_ticker",
+      "status": 422,
+      "passed": true
+    },
+    {
+      "id": "impossible_date",
+      "status": 422,
+      "passed": true
+    },
+    {
+      "id": "too_long_window",
+      "status": 422,
+      "passed": true
+    },
+    {
+      "id": "date_with_injection",
+      "status": 422,
+      "passed": true
+    },
+    {
+      "id": "path_ticker",
+      "status": 422,
+      "passed": true
+    },
+    {
+      "id": "unicode_ticker",
+      "status": 422,
+      "passed": true
+    },
+    {
+      "id": "blank_ticker",
+      "status": 422,
+      "passed": true
+    },
+    {
+      "id": "unknown_scope_field",
+      "status": 422,
+      "passed": true
+    },
+    {
+      "id": "malformed_json",
+      "status": 422,
+      "passed": true
+    }
+  ],
+  "failed": 0
+}

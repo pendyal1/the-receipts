@@ -1,0 +1,4347 @@
+{
+  "case": {
+    "id": "apple_live_sources",
+    "message": "Compare Apple annual revenue and net income before and after November 10, 2023. Explain whether management outlook passages can actually be tested using the retrieved financial metrics.",
+    "scope": {
+      "tickers": [
+        "AAPL"
+      ],
+      "start": "2022-01-01",
+      "as_of": "2023-11-10",
+      "through": "2025-03-01"
+    },
+    "expect": "complete"
+  },
+  "tested_at": "2026-11-07T20:39:15.388587+00:00",
+  "http_status": 200,
+  "seconds": 19.52,
+  "data": {
+    "response": "# Apple Annual Revenue and Net Income Investigation\n\n**Insufficient evidence**\n\nAAPL revenue for the fiscal period ended 2024-09-28 was $391.035 billion [E6abfb08af8](https://www.sec.gov/Archives/edgar/data/320193/000032019324000123/0000320193-24-000123-index.html), up from $383.285 billion for 2023-09-30 [Ed8cac20176](https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.html). AAPL net income for the fiscal period ended 2024-09-28 was $93.736 billion [Ee01b580849](https://www.sec.gov/Archives/edgar/data/320193/000032019324000123/0000320193-24-000123-index.html), down from $96.995 billion for 2023-09-30 [E0d8b9d496d](https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.html). AAPL cash PP&E purchases for the fiscal period ended 2024-09-28 was $9.447 billion [E4b4a831d0c](https://www.sec.gov/Archives/edgar/data/320193/000032019324000123/0000320193-24-000123-index.html), down from $10.959 billion for 2023-09-30 [Ec428ad2b43](https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.html).\n\n## What was knowable then\n\nAs of November 10, 2023, original reported financial results for the fiscal year ended September 30, 2023, were known, showing annual revenue of 383,285,000,000 USD [E7532e0e910](https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.html) and net income of 96,995,000,000 USD [Eb756fc8ccf](https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.html). For the prior fiscal year ended September 24, 2022, revenue was 394,328,000,000 USD [E75055f781e](https://www.sec.gov/Archives/edgar/data/320193/000032019322000108/0000320193-22-000108-index.html) and net income was 99,803,000,000 USD [E0563059dfa](https://www.sec.gov/Archives/edgar/data/320193/000032019322000108/0000320193-22-000108-index.html). Management outlook records were absent from the database as of the baseline date [E6821590ed0].\n\n## What happened later\n\nIn subsequent filings through March 1, 2025, Apple reported annual revenue of 391,035,000,000 USD for the fiscal period ending September 28, 2024 [E6abfb08af8](https://www.sec.gov/Archives/edgar/data/320193/000032019324000123/0000320193-24-000123-index.html). Net income for the same fiscal period ending September 28, 2024, was reported as 93,736,000,000 USD [Ee01b580849](https://www.sec.gov/Archives/edgar/data/320193/000032019324000123/0000320193-24-000123-index.html). Operating income shifted from 114,301,000,000 USD for the fiscal year ended September 30, 2023 [E8e61081ba5](https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.html) to 123,216,000,000 USD for the fiscal year ended September 28, 2024 [E022faf9dba](https://www.sec.gov/Archives/edgar/data/320193/000032019324000123/0000320193-24-000123-index.html). Operating cash flow changed from 110,543,000,000 USD for the fiscal year ended September 30, 2023 [E8cb175551d](https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.html) to 118,254,000,000 USD for the fiscal year ended September 28, 2024 [E4cb106cc44](https://www.sec.gov/Archives/edgar/data/320193/000032019324000123/0000320193-24-000123-index.html).\n\n## The peer test\n\nOnly AAPL was selected. Add a peer company to compare results.\n\n## Cross-examination\n\nManagement outlook passages cannot be tested because no matching records for management claims were found in the date-bounded source for AAPL as of November 10, 2023 [E6821590ed0]. Without retrieved forecast statements, any comparison between historical financial outcomes and management intent is not testable. Subsequent financial results alone do not verify unrecorded management promises.\n\n## Limits\n\n- Management outlook claims are missing from the date-bounded source, preventing the testability analysis.\n- As-of vintage macroeconomic series are unavailable due to reliance on revised historical series.\n- No peer companies or peer comparisons were specified or retrieved for AAPL.",
+    "session_id": "d7ce2770-d1b6-465b-9257-08356d4620db",
+    "tool_calls": [
+      {
+        "agent": "Lead",
+        "name": "company_lookup",
+        "args": {
+          "ticker": "AAPL"
+        },
+        "result": "{\"ticker\": \"AAPL\", \"name\": \"Apple\", \"cik\": 320193}",
+        "elapsed_ms": 44
+      },
+      {
+        "agent": "Lead",
+        "name": "plan",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"clarification\": \"\", \"scope\": {\"tickers\": [\"AAPL\"], \"start\": \"2022-01-01\", \"as_of\": \"2023-11-10\", \"through\": \"2025-03-01\"}, \"tasks\": {\"Claims\": \"Examine management outlook passages known as of November 10, 2023, and explain whether they can be tested using subsequent financial metrics.\", \"Financials\": \"Compare Apple annual revenue and net income before and after November 10, 2023.\", \"Peers\": \"Identify any relevant peer revenue and net income comparisons if mentioned in prior periods.\", \"Context\": \"Provide necessary macroeconomic or filing context surrounding the November 10, 2023 baseline and subsequent outcome dates through March 1, 2025.\"}, \"focus\": \"Compare Apple annual revenue and net income before and after November 10, 2023, and assess the testability of management outlook.\"}",
+        "elapsed_ms": 1260
+      },
+      {
+        "agent": "Financials",
+        "name": "research_decision",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"calls\": [{\"tool\": \"financials_then\", \"ticker\": \"AAPL\"}, {\"tool\": \"financials_later\", \"ticker\": \"AAPL\"}], \"findings\": [], \"gaps\": []}",
+        "elapsed_ms": 1330
+      },
+      {
+        "agent": "Peers",
+        "name": "research_decision",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"calls\": [{\"tool\": \"financials_later\", \"ticker\": \"AAPL\"}], \"findings\": [], \"gaps\": [\"Need financials_later data for AAPL to evaluate revenue and net income.\"]}",
+        "elapsed_ms": 1251
+      },
+      {
+        "agent": "Context",
+        "name": "research_decision",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"calls\": [{\"tool\": \"prices\", \"ticker\": \"AAPL\"}, {\"tool\": \"macro\", \"ticker\": \"AAPL\"}], \"findings\": [], \"gaps\": []}",
+        "elapsed_ms": 1435
+      },
+      {
+        "agent": "Claims",
+        "name": "research_decision",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"calls\": [{\"tool\": \"claims\", \"ticker\": \"AAPL\"}], \"findings\": [], \"gaps\": []}",
+        "elapsed_ms": 2004
+      },
+      {
+        "agent": "Context",
+        "name": "prices",
+        "args": {
+          "ticker": "AAPL",
+          "tickers": [
+            "AAPL"
+          ],
+          "start": "2022-01-01",
+          "as_of": "2023-11-10",
+          "through": "2025-03-01"
+        },
+        "result": "[{\"kind\": \"price\", \"ticker\": \"AAPL\", \"currency\": \"USD\", \"url\": \"https://finance.yahoo.com/quote/AAPL/history/\", \"provenance\": {\"url\": \"https://query1.finance.yahoo.com/v8/finance/chart/AAPL?period1=1640995200&period2=1740873600&interval=1d\", \"retrieved_at\": \"2026-11-07T20:39:00.662910+00:00\", \"sha256\": \"b5930d93b00c516e6fae4ce0286ec573235cb35d039baa6f26fadb8eb38f5e19\"}, \"scope\": \"Yahoo Finance unofficial chart endpoint; vendor-adjusted close, retrospective adjustments. Not an executable historical quote, causal event study, or guaranteed total return.\", \"id\": \"E343a29e242\", \"phase\": \"hindsight_context\", \"observation_count\": 792, \"first\": {\"date\": \"2022-01-03\", \"value\": 177.786423}, \"last\": {\"date\": \"2025-02-28\", \"value\": 240.361572}, \"adjusted_close_change_percent\": 35.197}]",
+        "elapsed_ms": 1666
+      },
+      {
+        "agent": "Peers",
+        "name": "financials_later",
+        "args": {
+          "ticker": "AAPL",
+          "tickers": [
+            "AAPL"
+          ],
+          "start": "2022-01-01",
+          "as_of": "2023-11-10",
+          "through": "2025-03-01"
+        },
+        "result": "[{\"kind\": \"financial\", \"ticker\": \"AAPL\", \"metric\": \"revenue\", \"value\": 394328000000, \"unit\": \"USD\", \"period_start\": \"2021-09-26\", \"period_end\": \"2022-09-24\", \"filed\": \"2022-10-28\", \"accession\": \"0000320193-22-000108\", \"tag\": \"RevenueFromContractWithCustomerExcludingAssessedTax\", \"url\": \"https://www.sec.gov/Archives/edgar/data/320193/000032019322000108/0000320193-22-000108-index.html\", \"provenance\": {\"url\": \"https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json\", \"retrieved_at\": \"2026-11-07T20:39:00.654954+00:00\", \"sha256\": \"f085735b4d08fb116ade18d24247ffabe11df8eb52eae6556b165831f15ef1ad\"}, \"selection\": \"Earliest filed annual USD fact for this fiscal period; original reported basis.\", \"id\": \"Eeffcebbd5a\", \"phase\": \"later_results\"}, {\"kind\": \"financial\", \"ticker\": \"AAPL\", \"metric\": \"revenue\", \"value\": 383285000000, \"unit\": \"USD\", \"period_start\": \"2022-09-25\", \"period_end\": \"2023-09-30\", \"filed\": \"2023-11-03\", \"accession\": \"0000320193-23-000106\", \"tag\": \"RevenueFromContractWithCustomerExcludingAssessedTax\", \"url\": \"https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.html\", \"provenance\": {\"url\": \"https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json\", \"retrieved_at\": \"2026-11-07T20:39:00.654954+00:00\", \"sha256\": \"f085735b4d08fb116ade18d24247ffabe11df8eb52eae6556b165831f15ef1ad\"}, \"selection\": \"Earliest filed annual USD fact for this fiscal period; original reported basis.\", \"id\": \"Ed8cac20176\", \"phase\": \"later_results\"}, {\"kind\": \"financial\", \"ticker\": \"AAPL\", \"metric\": \"revenue\", \"value\": 391035000000, \"unit\": \"USD\", \"period_start\": \"2023-10-01\", \"period_end\": \"2024-09-28\", \"filed\": \"2024-11-01\", \"accession\": \"0000320193-24-000123\", \"tag\": \"RevenueFromContractWithCustomerExcludingAssessedTax\", \"url\": \"https://www.sec.gov/Archives/edgar/data/320193/000032019324000123/0000320193-24-000123-index.html\", \"provenance\": {\"url\": \"https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json\", \"retrieved_at\": \"2026-11-07T20:39:00.654954+00:00\", \"sha256\": \"f085735b4d08fb116ade18d24247ffabe11df8eb52eae6556b165831f15ef1ad\"}, \"selection\": \"Earliest filed annual USD fact for this fiscal period; original reported basis.\", \"id\": \"E6abfb08af8\", \"phase\": \"later_results\"}, {\"kind\": \"financial\", \"ticker\": \"AAPL\", \"metric\": \"net_income\", \"value\": 99803000000, \"unit\": \"USD\", \"period_start\": \"2021-09-26\", \"period_end\": \"2022-09-24\", \"filed\": \"2022-10-28\", \"accession\": \"0000320193-22-000108\", \"tag\": \"NetIncomeLoss\", \"url\": \"https://www.sec.gov/Archives/edgar/data/320193/000032019322000108/0000320193-22-000108-index.html\", \"provenance\": {\"url\": \"https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json\", \"retrieved_at\": \"2026-11-07T20:39:00.654954+00:00\", \"sha256\": \"f085735b4d08fb116ade18d24247ffabe11df8eb52eae6556b165831f15ef1ad\"}, \"selection\": \"Earliest filed annual USD fact for this fiscal period; original reported basis.\", \"id\": \"E5e6c9c70a3\", \"phase\": \"later_results\"}, {\"kind\": \"financial\", \"ticker\": \"AAPL\", \"metric\": \"net_income\", \"value\": 96995000000, \"unit\": \"USD\", \"period_start\": \"2022-09-25\", \"period_end\": \"2023-09-30\", \"filed\": \"2023-11-03\", \"accession\": \"0000320193-23-000106\", \"tag\": \"NetIncomeLoss\", \"url\": \"https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.html\", \"provenance\": {\"url\": \"https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json\", \"retrieved_at\": \"2026-11-07T20:39:00.654954+00:00\", \"sha256\": \"f085735b4d08fb116ade18d24247ffabe11df8eb52eae6556b165831f15ef1ad\"}, \"selection\": \"Earliest filed annual USD fact for this fiscal period; original reported basis.\", \"id\": \"E0d8b9d496d\", \"phase\": \"later_results\"}, {\"kind\": \"financial\", \"ticker\": \"AAPL\", \"metric\": \"net_income\", \"value\": 93736000000, \"unit\": \"USD\", \"period_start\": \"2023-10-01\", \"period_end\": \"2024-09-28\", \"filed\": \"2024-11-01\", \"accession\": \"0000320193-24-000123\", \"tag\": \"NetIncomeLoss\", \"url\": \"https://www.sec.gov/Archives/edgar/data/320193/000032019324000123/0000320193-24-000123-index.html\", \"provenance\": {\"url\": \"https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json\", \"retrieved_at\": \"2026-11-07T20:39:00.654954+00:00\", \"sha256\": \"f085735b4d08fb116ade18d24247ffabe11df8eb52eae6556b165831f15ef1ad\"}, \"selection\": \"Earliest filed annual USD fact for this fiscal period; original reported basis.\", \"id\": \"Ee01b580849\", \"phase\": \"later_results\"}, {\"kind\": \"financial\", \"ticker\": \"AAPL\", \"metric\": \"operating_income\", \"value\": 119437000000, \"unit\": \"USD\", \"period_start\": \"2021-09-26\", \"period_end\": \"2022-09-24\", \"filed\": \"2022-10-28\", \"accession\": \"0000320193-22-000108\", \"tag\": \"OperatingIncomeLoss\", \"url\": \"https://www.sec.gov/Archives/edgar/data/320193/000032019322000108/0000320193-22-000108-index.html\", \"provenance\": {\"url\": \"https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json\", \"retrieved_at\": \"2026-11-07T20:39:00.654954+00:00\", \"sha256\": \"f085735b4d08fb116ade18d24247ffabe11df8eb52eae6556b165831f15ef1ad\"}, \"selection\": \"Earliest filed annual USD fact for this fiscal period; original reported basis.\", \"id\": \"E9e83b58c4f\", \"phase\": \"later_results\"}, {\"kind\": \"financial\", \"ticker\": \"AAPL\", \"metric\": \"operating_income\", \"value\": 114301000000, \"unit\": \"USD\", \"period_start\": \"2022-09-25\", \"period_end\": \"2023-09-30\", \"filed\": \"2023-11-03\", \"accession\": \"0000320193-23-000106\", \"tag\": \"OperatingIncomeLoss\", \"url\": \"https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.html\", \"provenance\": {\"url\": \"https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json\", \"retrieved_at\": \"2026-11-07T20:39:00.654954+00:00\", \"sha256\": \"f085735b4d08fb116ade18d24247ffabe11df8eb52eae6556b165831f15ef1ad\"}, \"selection\": \"Earliest filed annual USD fact for this fiscal period; original reported basis.\", \"id\": \"E8e61081ba5\", \"phase\": \"later_results\"}, {\"kind\": \"financial\", \"ticker\": \"AAPL\", \"metric\": \"operating_income\", \"value\": 123216000000, \"unit\": \"USD\", \"period_start\": \"2023-10-01\", \"period_end\": \"2024-09-28\", \"filed\": \"2024-11-01\", \"accession\": \"0000320193-24-000123\", \"tag\": \"OperatingIncomeLoss\", \"url\": \"https://www.sec.gov/Archives/edgar/data/320193/000032019324000123/0000320193-24-000123-index.html\", \"provenance\": {\"url\": \"https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json\", \"retrieved_at\": \"2026-11-07T20:39:00.654954+00:00\", \"sha256\": \"f085735b4d08fb116ade18d24247ffabe11df8eb52eae6556b165831f15ef1ad\"}, \"selection\": \"Earliest filed annual USD fact for this fiscal period; original reported basis.\", \"id\": \"E022faf9dba\", \"phase\": \"later_results\"}, {\"kind\": \"financial\", \"ticker\": \"AAPL\", \"metric\": \"operating_cash_flow\", \"value\": 122151000000, \"unit\": \"USD\", \"period_start\": \"2021-09-26\", \"period_end\": \"2022-09-24\", \"filed\": \"2022-10-28\", \"accession\": \"0000320193-22-000108\", \"tag\": \"NetCashProvidedByUsedInOperatingActivities\", \"url\": \"https://www.sec.gov/Archives/edgar/data/320193/000032019322000108/0000320193-22-000108-index.html\", \"provenance\": {\"url\": \"https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json\", \"retrieved_at\": \"2026-11-07T20:39:00.654954+00:00\", \"sha256\": \"f085735b4d08fb116ade18d24247ffabe11df8eb52eae6556b165831f15ef1ad\"}, \"selection\": \"Earliest filed annual USD fact for this fiscal period; original reported basis.\", \"id\": \"E739d5755e1\", \"phase\": \"later_results\"}, {\"kind\": \"financial\", \"ticker\": \"AAPL\", \"metric\": \"operating_cash_flow\", \"value\": 110543000000, \"unit\": \"USD\", \"period_start\": \"2022-09-25\", \"period_end\": \"2023-09-30\", \"filed\": \"2023-11-03\", \"accession\": \"0000320193-23-000106\", \"tag\": \"NetCashProvidedByUsedInOperatingActivities\", \"url\": \"https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.html\", \"provenance\": {\"url\": \"https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json\", \"retrieved_at\": \"2026-11-07T20:39:00.654954+00:00\", \"sha256\": \"f085735b4d08fb116ade18d24247ffabe11df8eb52eae6556b165831f15ef1ad\"}, \"selection\": \"Earliest filed annual USD fact for this fiscal period; original reported basis.\", \"id\": \"E8cb175551d\", \"phase\": \"later_results\"}, {\"kind\": \"financial\", \"ticker\": \"AAPL\", \"metric\": \"operating_cash_flow\", \"value\": 118254000000, \"unit\": \"USD\", \"period_start\": \"2023-10-01\", \"period_end\": \"2024-09-28\", \"filed\": \"2024-11-01\", \"accession\": \"0000320193-24-000123\", \"tag\": \"NetCashProvidedByUsedInOperatingActivities\", \"url\": \"https://www.sec.gov/Archives/edgar/data/320193/000032019324000123/0000320193-24-000123-index.html\", \"provenance\": {\"url\": \"https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json\", \"retrieved_at\": \"2026-11-07T20:39:00.654954+00:00\", \"sha256\": \"f085735b4d08fb116ade18d24247ffabe11df8eb52eae6556b165831f15ef1ad\"}, \"selection\": \"Earliest filed annual USD fact for this fiscal period; original reported basis.\", \"id\": \"E4cb106cc44\", \"phase\": \"later_results\"}, {\"kind\": \"financial\", \"ticker\": \"AAPL\", \"metric\": \"capex\", \"value\": 10708000000, \"unit\": \"USD\", \"period_start\": \"2021-09-26\", \"period_end\": \"2022-09-24\", \"filed\": \"2022-10-28\", \"accession\": \"0000320193-22-000108\", \"tag\": \"PaymentsToAcquirePropertyPlantAndEquipment\", \"url\": \"https://www.sec.gov/Archives/edgar/data/320193/000032019322000108/0000320193-22-000108-index.html\", \"provenance\": {\"url\": \"https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json\", \"retrieved_at\": \"2026-11-07T20:39:00.654954+00:00\", \"sha256\": \"f085735b4d08fb116ade18d24247ffabe11df8eb52eae6556b165831f15ef1ad\"}, \"selection\": \"Earliest filed annual USD fact for this fiscal period; original reported basis.\", \"id\": \"E98f26eda05\", \"phase\": \"later_results\"}, {\"kind\": \"financial\", \"ticker\": \"AAPL\", \"metric\": \"capex\", \"value\": 10959000000, \"unit\": \"USD\", \"period_start\": \"2022-09-25\", \"period_end\": \"2023-09-30\", \"filed\": \"2023-11-03\", \"accession\": \"0000320193-23-000106\", \"tag\": \"PaymentsToAcquirePropertyPlantAndEquipment\", \"url\": \"https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.html\", \"provenance\": {\"url\": \"https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json\", \"retrieved_at\": \"2026-11-07T20:39:00.654954+00:00\", \"sha256\": \"f085735b4d08fb116ade18d24247ffabe11df8eb52eae6556b165831f15ef1ad\"}, \"selection\": \"Earliest filed annual USD fact for this fiscal period; original reported basis.\", \"id\": \"Ec428ad2b43\", \"phase\": \"later_results\"}, {\"kind\": \"financial\", \"ticker\": \"AAPL\", \"metric\": \"capex\", \"value\": 9447000000, \"unit\": \"USD\", \"period_start\": \"2023-10-01\", \"period_end\": \"2024-09-28\", \"filed\": \"2024-11-01\", \"accession\": \"0000320193-24-000123\", \"tag\": \"PaymentsToAcquirePropertyPlantAndEquipment\", \"url\": \"https://www.sec.gov/Archives/edgar/data/320193/000032019324000123/0000320193-24-000123-index.html\", \"provenance\": {\"url\": \"https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json\", \"retrieved_at\": \"2026-11-07T20:39:00.654954+00:00\", \"sha256\": \"f085735b4d08fb116ade18d24247ffabe11df8eb52eae6556b165831f15ef1ad\"}, \"selection\": \"Earliest filed annual USD fact for this fiscal period; original reported basis.\", \"id\": \"E4b4a831d0c\", \"phase\": \"later_results\"}]",
+        "elapsed_ms": 2040
+      },
+      {
+        "agent": "Financials",
+        "name": "financials_then",
+        "args": {
+          "ticker": "AAPL",
+          "tickers": [
+            "AAPL"
+          ],
+          "start": "2022-01-01",
+          "as_of": "2023-11-10",
+          "through": "2025-03-01"
+        },
+        "result": "[{\"kind\": \"financial\", \"ticker\": \"AAPL\", \"metric\": \"revenue\", \"value\": 394328000000, \"unit\": \"USD\", \"period_start\": \"2021-09-26\", \"period_end\": \"2022-09-24\", \"filed\": \"2022-10-28\", \"accession\": \"0000320193-22-000108\", \"tag\": \"RevenueFromContractWithCustomerExcludingAssessedTax\", \"url\": \"https://www.sec.gov/Archives/edgar/data/320193/000032019322000108/0000320193-22-000108-index.html\", \"provenance\": {\"url\": \"https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json\", \"retrieved_at\": \"2026-11-07T20:39:00.963579+00:00\", \"sha256\": \"f085735b4d08fb116ade18d24247ffabe11df8eb52eae6556b165831f15ef1ad\"}, \"selection\": \"Earliest filed annual USD fact for this fiscal period; original reported basis.\", \"id\": \"E75055f781e\", \"phase\": \"known_then\"}, {\"kind\": \"financial\", \"ticker\": \"AAPL\", \"metric\": \"revenue\", \"value\": 383285000000, \"unit\": \"USD\", \"period_start\": \"2022-09-25\", \"period_end\": \"2023-09-30\", \"filed\": \"2023-11-03\", \"accession\": \"0000320193-23-000106\", \"tag\": \"RevenueFromContractWithCustomerExcludingAssessedTax\", \"url\": \"https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.html\", \"provenance\": {\"url\": \"https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json\", \"retrieved_at\": \"2026-11-07T20:39:00.963579+00:00\", \"sha256\": \"f085735b4d08fb116ade18d24247ffabe11df8eb52eae6556b165831f15ef1ad\"}, \"selection\": \"Earliest filed annual USD fact for this fiscal period; original reported basis.\", \"id\": \"E7532e0e910\", \"phase\": \"known_then\"}, {\"kind\": \"financial\", \"ticker\": \"AAPL\", \"metric\": \"net_income\", \"value\": 99803000000, \"unit\": \"USD\", \"period_start\": \"2021-09-26\", \"period_end\": \"2022-09-24\", \"filed\": \"2022-10-28\", \"accession\": \"0000320193-22-000108\", \"tag\": \"NetIncomeLoss\", \"url\": \"https://www.sec.gov/Archives/edgar/data/320193/000032019322000108/0000320193-22-000108-index.html\", \"provenance\": {\"url\": \"https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json\", \"retrieved_at\": \"2026-11-07T20:39:00.963579+00:00\", \"sha256\": \"f085735b4d08fb116ade18d24247ffabe11df8eb52eae6556b165831f15ef1ad\"}, \"selection\": \"Earliest filed annual USD fact for this fiscal period; original reported basis.\", \"id\": \"E0563059dfa\", \"phase\": \"known_then\"}, {\"kind\": \"financial\", \"ticker\": \"AAPL\", \"metric\": \"net_income\", \"value\": 96995000000, \"unit\": \"USD\", \"period_start\": \"2022-09-25\", \"period_end\": \"2023-09-30\", \"filed\": \"2023-11-03\", \"accession\": \"0000320193-23-000106\", \"tag\": \"NetIncomeLoss\", \"url\": \"https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.html\", \"provenance\": {\"url\": \"https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json\", \"retrieved_at\": \"2026-11-07T20:39:00.963579+00:00\", \"sha256\": \"f085735b4d08fb116ade18d24247ffabe11df8eb52eae6556b165831f15ef1ad\"}, \"selection\": \"Earliest filed annual USD fact for this fiscal period; original reported basis.\", \"id\": \"Eb756fc8ccf\", \"phase\": \"known_then\"}, {\"kind\": \"financial\", \"ticker\": \"AAPL\", \"metric\": \"operating_income\", \"value\": 119437000000, \"unit\": \"USD\", \"period_start\": \"2021-09-26\", \"period_end\": \"2022-09-24\", \"filed\": \"2022-10-28\", \"accession\": \"0000320193-22-000108\", \"tag\": \"OperatingIncomeLoss\", \"url\": \"https://www.sec.gov/Archives/edgar/data/320193/000032019322000108/0000320193-22-000108-index.html\", \"provenance\": {\"url\": \"https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json\", \"retrieved_at\": \"2026-11-07T20:39:00.963579+00:00\", \"sha256\": \"f085735b4d08fb116ade18d24247ffabe11df8eb52eae6556b165831f15ef1ad\"}, \"selection\": \"Earliest filed annual USD fact for this fiscal period; original reported basis.\", \"id\": \"E74bd950b89\", \"phase\": \"known_then\"}, {\"kind\": \"financial\", \"ticker\": \"AAPL\", \"metric\": \"operating_income\", \"value\": 114301000000, \"unit\": \"USD\", \"period_start\": \"2022-09-25\", \"period_end\": \"2023-09-30\", \"filed\": \"2023-11-03\", \"accession\": \"0000320193-23-000106\", \"tag\": \"OperatingIncomeLoss\", \"url\": \"https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.html\", \"provenance\": {\"url\": \"https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json\", \"retrieved_at\": \"2026-11-07T20:39:00.963579+00:00\", \"sha256\": \"f085735b4d08fb116ade18d24247ffabe11df8eb52eae6556b165831f15ef1ad\"}, \"selection\": \"Earliest filed annual USD fact for this fiscal period; original reported basis.\", \"id\": \"E12f71a5cf7\", \"phase\": \"known_then\"}, {\"kind\": \"financial\", \"ticker\": \"AAPL\", \"metric\": \"operating_cash_flow\", \"value\": 122151000000, \"unit\": \"USD\", \"period_start\": \"2021-09-26\", \"period_end\": \"2022-09-24\", \"filed\": \"2022-10-28\", \"accession\": \"0000320193-22-000108\", \"tag\": \"NetCashProvidedByUsedInOperatingActivities\", \"url\": \"https://www.sec.gov/Archives/edgar/data/320193/000032019322000108/0000320193-22-000108-index.html\", \"provenance\": {\"url\": \"https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json\", \"retrieved_at\": \"2026-11-07T20:39:00.963579+00:00\", \"sha256\": \"f085735b4d08fb116ade18d24247ffabe11df8eb52eae6556b165831f15ef1ad\"}, \"selection\": \"Earliest filed annual USD fact for this fiscal period; original reported basis.\", \"id\": \"Eb60d7c6ecd\", \"phase\": \"known_then\"}, {\"kind\": \"financial\", \"ticker\": \"AAPL\", \"metric\": \"operating_cash_flow\", \"value\": 110543000000, \"unit\": \"USD\", \"period_start\": \"2022-09-25\", \"period_end\": \"2023-09-30\", \"filed\": \"2023-11-03\", \"accession\": \"0000320193-23-000106\", \"tag\": \"NetCashProvidedByUsedInOperatingActivities\", \"url\": \"https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.html\", \"provenance\": {\"url\": \"https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json\", \"retrieved_at\": \"2026-11-07T20:39:00.963579+00:00\", \"sha256\": \"f085735b4d08fb116ade18d24247ffabe11df8eb52eae6556b165831f15ef1ad\"}, \"selection\": \"Earliest filed annual USD fact for this fiscal period; original reported basis.\", \"id\": \"E27973ec829\", \"phase\": \"known_then\"}, {\"kind\": \"financial\", \"ticker\": \"AAPL\", \"metric\": \"capex\", \"value\": 10708000000, \"unit\": \"USD\", \"period_start\": \"2021-09-26\", \"period_end\": \"2022-09-24\", \"filed\": \"2022-10-28\", \"accession\": \"0000320193-22-000108\", \"tag\": \"PaymentsToAcquirePropertyPlantAndEquipment\", \"url\": \"https://www.sec.gov/Archives/edgar/data/320193/000032019322000108/0000320193-22-000108-index.html\", \"provenance\": {\"url\": \"https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json\", \"retrieved_at\": \"2026-11-07T20:39:00.963579+00:00\", \"sha256\": \"f085735b4d08fb116ade18d24247ffabe11df8eb52eae6556b165831f15ef1ad\"}, \"selection\": \"Earliest filed annual USD fact for this fiscal period; original reported basis.\", \"id\": \"E6febd4d7b3\", \"phase\": \"known_then\"}, {\"kind\": \"financial\", \"ticker\": \"AAPL\", \"metric\": \"capex\", \"value\": 10959000000, \"unit\": \"USD\", \"period_start\": \"2022-09-25\", \"period_end\": \"2023-09-30\", \"filed\": \"2023-11-03\", \"accession\": \"0000320193-23-000106\", \"tag\": \"PaymentsToAcquirePropertyPlantAndEquipment\", \"url\": \"https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.html\", \"provenance\": {\"url\": \"https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json\", \"retrieved_at\": \"2026-11-07T20:39:00.963579+00:00\", \"sha256\": \"f085735b4d08fb116ade18d24247ffabe11df8eb52eae6556b165831f15ef1ad\"}, \"selection\": \"Earliest filed annual USD fact for this fiscal period; original reported basis.\", \"id\": \"Efe20a59db4\", \"phase\": \"known_then\"}]",
+        "elapsed_ms": 2421
+      },
+      {
+        "agent": "Peers",
+        "name": "research_decision",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"calls\": [], \"findings\": [], \"gaps\": [\"No peer companies or peer comparisons were specified or retrieved for AAPL within the provided tool results.\"]}",
+        "elapsed_ms": 1200
+      },
+      {
+        "agent": "Context",
+        "name": "macro",
+        "args": {
+          "ticker": "AAPL",
+          "tickers": [
+            "AAPL"
+          ],
+          "start": "2022-01-01",
+          "as_of": "2023-11-10",
+          "through": "2025-03-01"
+        },
+        "result": "[{\"kind\": \"macro\", \"series\": \"FEDFUNDS\", \"label\": \"Effective federal funds rate\", \"unit\": \"percent\", \"url\": \"https://fred.stlouisfed.org/series/FEDFUNDS\", \"provenance\": {\"url\": \"https://fred.stlouisfed.org/graph/fredgraph.csv?id=FEDFUNDS&cosd=2022-01-01&coed=2025-03-01\", \"retrieved_at\": \"2026-11-07T20:39:01.577315+00:00\", \"sha256\": \"efdcf4ebb6f5e174b10d71219c5ffaae8bc493cede528094b06fd565c4caf3fd\"}, \"scope\": \"Current revised historical series, NOT an as-of vintage. Excluded from the historical knowledge room.\", \"id\": \"E3e282d52a7\", \"phase\": \"hindsight_context\", \"observation_count\": 39, \"first\": {\"date\": \"2022-01-01\", \"value\": 0.08}, \"last\": {\"date\": \"2025-03-01\", \"value\": 4.33}}, {\"kind\": \"macro\", \"series\": \"CPIAUCSL\", \"label\": \"CPI, all urban consumers, seasonally adjusted\", \"unit\": \"index 1982–84=100\", \"url\": \"https://fred.stlouisfed.org/series/CPIAUCSL\", \"provenance\": {\"url\": \"https://fred.stlouisfed.org/graph/fredgraph.csv?id=CPIAUCSL&cosd=2022-01-01&coed=2025-03-01\", \"retrieved_at\": \"2026-11-07T20:39:02.448885+00:00\", \"sha256\": \"d936bd47772c49945a5e3db1f1651f60305983bdd0c56ed6e1598142ee348517\"}, \"scope\": \"Current revised historical series, NOT an as-of vintage. Excluded from the historical knowledge room.\", \"id\": \"E107a2e6156\", \"phase\": \"hindsight_context\", \"observation_count\": 39, \"first\": {\"date\": \"2022-01-01\", \"value\": 282.543}, \"last\": {\"date\": \"2025-03-01\", \"value\": 319.785}}]",
+        "elapsed_ms": 1686
+      },
+      {
+        "agent": "Financials",
+        "name": "research_decision",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"calls\": [{\"tool\": \"financials_later\", \"ticker\": \"AAPL\"}], \"findings\": [{\"text\": \"Apple reported annual revenue of $394,328,000,000 and net income of $99,803,000,000 for the fiscal year ended September 24, 2022.\", \"evidence_ids\": [\"E75055f781e\", \"E0563059dfa\"]}, {\"text\": \"Apple reported annual revenue of $383,285,000,000 and net income of $96,995,000,000 for the fiscal year ended September 30, 2023, filed on November 3, 2023 (prior to November 10, 2023).\", \"evidence_ids\": [\"E7532e0e910\", \"Eb756fc8ccf\"]}], \"gaps\": [\"Need financials_later data to compare post-November 10, 2023 figures if available.\"]}",
+        "elapsed_ms": 1946
+      },
+      {
+        "agent": "Context",
+        "name": "research_decision",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"calls\": [], \"findings\": [{\"text\": \"Retrospective vendor-adjusted closing prices for AAPL span from 2022-01-03 to 2025-02-28, showing an adjusted close change of 35.197 percent over the period.\", \"evidence_ids\": [\"E343a29e242\"]}, {\"text\": \"Macroeconomic series FEDFUNDS and CPIAUCSL provide revised historical context from January 2022 through March 2025, categorized under hindsight context.\", \"evidence_ids\": [\"E3e282d52a7\", \"E107a2e6156\"]}], \"gaps\": [\"As-of vintage macroeconomic series for the November 10, 2023 baseline are missing due to reliance on revised historical series.\"]}",
+        "elapsed_ms": 1538
+      },
+      {
+        "agent": "Claims",
+        "name": "claims",
+        "args": {
+          "ticker": "AAPL",
+          "tickers": [
+            "AAPL"
+          ],
+          "start": "2022-01-01",
+          "as_of": "2023-11-10",
+          "through": "2025-03-01"
+        },
+        "result": "[{\"kind\": \"source_gap\", \"ticker\": \"AAPL\", \"error\": \"No matching records in the date-bounded source.\", \"id\": \"E6821590ed0\", \"phase\": \"known_then\"}]",
+        "elapsed_ms": 6833
+      },
+      {
+        "agent": "Claims",
+        "name": "research_decision",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"calls\": [], \"findings\": [{\"text\": \"No matching records for management outlook claims were found in the date-bounded source for AAPL as of November 10, 2023.\", \"evidence_ids\": [\"E6821590ed0\"]}], \"gaps\": [\"Management outlook passages known as of November 10, 2023, are missing from the source database, preventing the testability analysis.\"]}",
+        "elapsed_ms": 1425
+      },
+      {
+        "agent": "Lead",
+        "name": "review_gaps",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"gap_tasks\": [], \"remaining_limits\": [\"Management outlook claims are missing from the date-bounded source.\", \"As-of vintage macroeconomic series are unavailable due to reliance on revised historical series.\"]}",
+        "elapsed_ms": 1128
+      },
+      {
+        "agent": "Writer",
+        "name": "cross_examine_ranges",
+        "args": {},
+        "result": "{\"range_checks\": [], \"financial_changes\": [{\"ticker\": \"AAPL\", \"metric\": \"revenue\", \"from_period\": \"2022-09-24\", \"to_period\": \"2023-09-30\", \"from_value\": 394328000000, \"to_value\": 383285000000, \"direction\": \"decreased\", \"delta_USD\": -11043000000, \"evidence_ids\": [\"Eeffcebbd5a\", \"Ed8cac20176\"]}, {\"ticker\": \"AAPL\", \"metric\": \"revenue\", \"from_period\": \"2023-09-30\", \"to_period\": \"2024-09-28\", \"from_value\": 383285000000, \"to_value\": 391035000000, \"direction\": \"increased\", \"delta_USD\": 7750000000, \"evidence_ids\": [\"Ed8cac20176\", \"E6abfb08af8\"]}, {\"ticker\": \"AAPL\", \"metric\": \"net_income\", \"from_period\": \"2022-09-24\", \"to_period\": \"2023-09-30\", \"from_value\": 99803000000, \"to_value\": 96995000000, \"direction\": \"decreased\", \"delta_USD\": -2808000000, \"evidence_ids\": [\"E5e6c9c70a3\", \"E0d8b9d496d\"]}, {\"ticker\": \"AAPL\", \"metric\": \"net_income\", \"from_period\": \"2023-09-30\", \"to_period\": \"2024-09-28\", \"from_value\": 96995000000, \"to_value\": 93736000000, \"direction\": \"decreased\", \"delta_USD\": -3259000000, \"evidence_ids\": [\"E0d8b9d496d\", \"Ee01b580849\"]}, {\"ticker\": \"AAPL\", \"metric\": \"operating_income\", \"from_period\": \"2022-09-24\", \"to_period\": \"2023-09-30\", \"from_value\": 119437000000, \"to_value\": 114301000000, \"direction\": \"decreased\", \"delta_USD\": -5136000000, \"evidence_ids\": [\"E9e83b58c4f\", \"E8e61081ba5\"]}, {\"ticker\": \"AAPL\", \"metric\": \"operating_income\", \"from_period\": \"2023-09-30\", \"to_period\": \"2024-09-28\", \"from_value\": 114301000000, \"to_value\": 123216000000, \"direction\": \"increased\", \"delta_USD\": 8915000000, \"evidence_ids\": [\"E8e61081ba5\", \"E022faf9dba\"]}, {\"ticker\": \"AAPL\", \"metric\": \"operating_cash_flow\", \"from_period\": \"2022-09-24\", \"to_period\": \"2023-09-30\", \"from_value\": 122151000000, \"to_value\": 110543000000, \"direction\": \"decreased\", \"delta_USD\": -11608000000, \"evidence_ids\": [\"E739d5755e1\", \"E8cb175551d\"]}, {\"ticker\": \"AAPL\", \"metric\": \"operating_cash_flow\", \"from_period\": \"2023-09-30\", \"to_period\": \"2024-09-28\", \"from_value\": 110543000000, \"to_value\": 118254000000, \"direction\": \"increased\", \"delta_USD\": 7711000000, \"evidence_ids\": [\"E8cb175551d\", \"E4cb106cc44\"]}, {\"ticker\": \"AAPL\", \"metric\": \"capex\", \"from_period\": \"2022-09-24\", \"to_period\": \"2023-09-30\", \"from_value\": 10708000000, \"to_value\": 10959000000, \"direction\": \"increased\", \"delta_USD\": 251000000, \"evidence_ids\": [\"E98f26eda05\", \"Ec428ad2b43\"]}, {\"ticker\": \"AAPL\", \"metric\": \"capex\", \"from_period\": \"2023-09-30\", \"to_period\": \"2024-09-28\", \"from_value\": 10959000000, \"to_value\": 9447000000, \"direction\": \"decreased\", \"delta_USD\": -1512000000, \"evidence_ids\": [\"Ec428ad2b43\", \"E4b4a831d0c\"]}]}",
+        "elapsed_ms": 0
+      },
+      {
+        "agent": "Writer",
+        "name": "write_report",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"title\": \"Apple Annual Revenue and Net Income Investigation\", \"verdict\": \"insufficient evidence\", \"summary\": \"Management outlook passages cannot be tested due to missing claims in the date-bounded source [E6821590ed0]. Apple annual revenue was 394,328,000,000 USD for 2022-09-24 [Eeffcebbd5a], 383,285,000,000 USD for 2023-09-30 [Ed8cac20176], and 391,035,000,000 USD for 2024-09-28 [E6abfb08af8]. Net income was 99,803,000,000 USD for 2022-09-24 [E5e6c9c70a3], 96,995,000,000 USD for 2023-09-30 [E0d8b9d496d], and 93,736,000,000 USD for 2024-09-28 [Ee01b580849].\", \"sections\": [{\"title\": \"What was knowable then\", \"text\": \"As of November 10, 2023, original reported financial results for the fiscal year ended September 30, 2023, were known, showing annual revenue of 383,285,000,000 USD [E7532e0e910] and net income of 96,995,000,000 USD [Eb756fc8ccf]. For the prior fiscal year ended September 24, 2022, revenue was 394,328,000,000 USD [E75055f781e] and net income was 99,803,000,000 USD [E0563059dfa]. Management outlook records were absent from the database as of the baseline date [E6821590ed0].\"}, {\"title\": \"What happened later\", \"text\": \"In subsequent filings through March 1, 2025, Apple reported annual revenue of 391,035,000,000 USD for the fiscal period ending September 28, 2024 [E6abfb08af8]. Net income for the same fiscal period ending September 28, 2024, was reported as 93,736,000,000 USD [Ee01b580849]. Operating income shifted from 114,301,000,000 USD in 2023 to 123,216,000,000 USD in 2024 [E8e61081ba5] [E022faf9dba]. Operating cash flow changed from 110,543,000,000 USD in 2023 to 118,254,000,000 USD in 2024 [E8cb175551d] [E4cb106cc44].\"}, {\"title\": \"The peer test\", \"text\": \"No peer companies or peer comparisons were specified or retrieved for AAPL within the provided tool results, precluding a multi-company peer test using uniform fiscal period-end dates through the outcome cutoff [E6821590ed0]. Consequently, no peer metrics can be compared alongside Apple's 2022-09-24, 2023-09-30, and 2024-09-28 annual results [Eeffcebbd5a] [Ed8cac20176] [E6abfb08af8].\"}, {\"title\": \"Cross-examination\", \"text\": \"Management outlook passages cannot be tested because no matching records for management claims were found in the date-bounded source for AAPL as of November 10, 2023 [E6821590ed0]. Without retrieved forecast statements, any comparison between historical financial outcomes and management intent is not testable. Subsequent financial results alone do not verify unrecorded management promises.\"}], \"receipts\": [{\"claim_id\": \"NO_CLAIMS_AVAILABLE\", \"outcome_ids\": [], \"assessment\": \"not testable\", \"explanation\": \"Management outlook claims are missing from the date-bounded source, preventing any testability analysis against financial outcomes.\"}], \"limits\": [\"Management outlook claims are missing from the date-bounded source, preventing the testability analysis.\", \"As-of vintage macroeconomic series are unavailable due to reliance on revised historical series.\", \"No peer companies or peer comparisons were specified or retrieved for AAPL.\"]}",
+        "elapsed_ms": 3442
+      },
+      {
+        "agent": "Writer",
+        "name": "fact_check_report",
+        "args": {
+          "fresh_context": true
+        },
+        "result": "{\"title\": \"Apple Annual Revenue and Net Income Investigation\", \"verdict\": \"insufficient evidence\", \"summary\": \"Management outlook passages cannot be tested due to missing claims in the date-bounded source [E6821590ed0]. Apple annual revenue was 394,328,000,000 USD for the fiscal period ended 2022-09-24 [Eeffcebbd5a], 383,285,000,000 USD for 2023-09-30 [Ed8cac20176], and 391,035,000,000 USD for 2024-09-28 [E6abfb08af8]. Net income was 99,803,000,000 USD for 2022-09-24 [E5e6c9c70a3], 96,995,000,000 USD for 2023-09-30 [E0d8b9d496d], and 93,736,000,000 USD for 2024-09-28 [Ee01b580849].\", \"sections\": [{\"title\": \"What was knowable then\", \"text\": \"As of November 10, 2023, original reported financial results for the fiscal year ended September 30, 2023, were known, showing annual revenue of 383,285,000,000 USD [E7532e0e910] and net income of 96,995,000,000 USD [Eb756fc8ccf]. For the prior fiscal year ended September 24, 2022, revenue was 394,328,000,000 USD [E75055f781e] and net income was 99,803,000,000 USD [E0563059dfa]. Management outlook records were absent from the database as of the baseline date [E6821590ed0].\"}, {\"title\": \"What happened later\", \"text\": \"In subsequent filings through March 1, 2025, Apple reported annual revenue of 391,035,000,000 USD for the fiscal period ending September 28, 2024 [E6abfb08af8]. Net income for the same fiscal period ending September 28, 2024, was reported as 93,736,000,000 USD [Ee01b580849]. Operating income shifted from 114,301,000,000 USD for the fiscal year ended September 30, 2023 [E8e61081ba5] to 123,216,000,000 USD for the fiscal year ended September 28, 2024 [E022faf9dba]. Operating cash flow changed from 110,543,000,000 USD for the fiscal year ended September 30, 2023 [E8cb175551d] to 118,254,000,000 USD for the fiscal year ended September 28, 2024 [E4cb106cc44].\"}, {\"title\": \"The peer test\", \"text\": \"No peer companies or peer comparisons were specified or retrieved for AAPL within the provided tool results, precluding a multi-company peer test using uniform fiscal period-end dates through the outcome cutoff [E6821590ed0]. Consequently, no peer metrics can be compared alongside Apple's 2022-09-24, 2023-09-30, and 2024-09-28 annual results [Eeffcebbd5a] [Ed8cac20176] [E6abfb08af8].\"}, {\"title\": \"Cross-examination\", \"text\": \"Management outlook passages cannot be tested because no matching records for management claims were found in the date-bounded source for AAPL as of November 10, 2023 [E6821590ed0]. Without retrieved forecast statements, any comparison between historical financial outcomes and management intent is not testable. Subsequent financial results alone do not verify unrecorded management promises.\"}], \"receipts\": [], \"limits\": [\"Management outlook claims are missing from the date-bounded source, preventing the testability analysis.\", \"As-of vintage macroeconomic series are unavailable due to reliance on revised historical series.\", \"No peer companies or peer comparisons were specified or retrieved for AAPL.\"]}",
+        "elapsed_ms": 3145
+      },
+      {
+        "agent": "Writer",
+        "name": "finalize_summary",
+        "args": {},
+        "result": "{\"basis\": \"Reported annual observations and arithmetic range checks\", \"summary\": \"AAPL revenue for the fiscal period ended 2024-09-28 was $391.035 billion [E6abfb08af8], up from $383.285 billion for 2023-09-30 [Ed8cac20176]. AAPL net income for the fiscal period ended 2024-09-28 was $93.736 billion [Ee01b580849], down from $96.995 billion for 2023-09-30 [E0d8b9d496d]. AAPL cash PP&E purchases for the fiscal period ended 2024-09-28 was $9.447 billion [E4b4a831d0c], down from $10.959 billion for 2023-09-30 [Ec428ad2b43].\"}",
+        "elapsed_ms": 0
+      },
+      {
+        "agent": "Writer",
+        "name": "validate_evidence_references",
+        "args": {},
+        "result": "{\"passed\": true, \"semantic_entailment_verified\": false, \"final_verdict\": \"insufficient evidence\", \"limits\": [\"Management outlook claims are missing from the date-bounded source, preventing the testability analysis.\", \"As-of vintage macroeconomic series are unavailable due to reliance on revised historical series.\", \"No peer companies or peer comparisons were specified or retrieved for AAPL.\"]}",
+        "elapsed_ms": 0
+      }
+    ],
+    "investigation": {
+      "status": "complete",
+      "report": {
+        "title": "Apple Annual Revenue and Net Income Investigation",
+        "verdict": "insufficient evidence",
+        "summary": "AAPL revenue for the fiscal period ended 2024-09-28 was $391.035 billion [E6abfb08af8], up from $383.285 billion for 2023-09-30 [Ed8cac20176]. AAPL net income for the fiscal period ended 2024-09-28 was $93.736 billion [Ee01b580849], down from $96.995 billion for 2023-09-30 [E0d8b9d496d]. AAPL cash PP&E purchases for the fiscal period ended 2024-09-28 was $9.447 billion [E4b4a831d0c], down from $10.959 billion for 2023-09-30 [Ec428ad2b43].",
+        "sections": [
+          {
+            "title": "What was knowable then",
+            "text": "As of November 10, 2023, original reported financial results for the fiscal year ended September 30, 2023, were known, showing annual revenue of 383,285,000,000 USD [E7532e0e910] and net income of 96,995,000,000 USD [Eb756fc8ccf]. For the prior fiscal year ended September 24, 2022, revenue was 394,328,000,000 USD [E75055f781e] and net income was 99,803,000,000 USD [E0563059dfa]. Management outlook records were absent from the database as of the baseline date [E6821590ed0]."
+          },
+          {
+            "title": "What happened later",
+            "text": "In subsequent filings through March 1, 2025, Apple reported annual revenue of 391,035,000,000 USD for the fiscal period ending September 28, 2024 [E6abfb08af8]. Net income for the same fiscal period ending September 28, 2024, was reported as 93,736,000,000 USD [Ee01b580849]. Operating income shifted from 114,301,000,000 USD for the fiscal year ended September 30, 2023 [E8e61081ba5] to 123,216,000,000 USD for the fiscal year ended September 28, 2024 [E022faf9dba]. Operating cash flow changed from 110,543,000,000 USD for the fiscal year ended September 30, 2023 [E8cb175551d] to 118,254,000,000 USD for the fiscal year ended September 28, 2024 [E4cb106cc44]."
+          },
+          {
+            "title": "The peer test",
+            "text": "Only AAPL was selected. Add a peer company to compare results."
+          },
+          {
+            "title": "Cross-examination",
+            "text": "Management outlook passages cannot be tested because no matching records for management claims were found in the date-bounded source for AAPL as of November 10, 2023 [E6821590ed0]. Without retrieved forecast statements, any comparison between historical financial outcomes and management intent is not testable. Subsequent financial results alone do not verify unrecorded management promises."
+          }
+        ],
+        "receipts": [],
+        "limits": [
+          "Management outlook claims are missing from the date-bounded source, preventing the testability analysis.",
+          "As-of vintage macroeconomic series are unavailable due to reliance on revised historical series.",
+          "No peer companies or peer comparisons were specified or retrieved for AAPL."
+        ]
+      },
+      "evidence": [
+        {
+          "kind": "price",
+          "ticker": "AAPL",
+          "currency": "USD",
+          "observations": [
+            {
+              "date": "2022-01-03",
+              "value": 177.786423
+            },
+            {
+              "date": "2022-01-04",
+              "value": 175.529968
+            },
+            {
+              "date": "2022-01-05",
+              "value": 170.860916
+            },
+            {
+              "date": "2022-01-06",
+              "value": 168.008698
+            },
+            {
+              "date": "2022-01-07",
+              "value": 168.174759
+            },
+            {
+              "date": "2022-01-10",
+              "value": 168.194275
+            },
+            {
+              "date": "2022-01-11",
+              "value": 171.017181
+            },
+            {
+              "date": "2022-01-12",
+              "value": 171.456787
+            },
+            {
+              "date": "2022-01-13",
+              "value": 168.194275
+            },
+            {
+              "date": "2022-01-14",
+              "value": 169.053894
+            },
+            {
+              "date": "2022-01-18",
+              "value": 165.859756
+            },
+            {
+              "date": "2022-01-19",
+              "value": 162.372528
+            },
+            {
+              "date": "2022-01-20",
+              "value": 160.692505
+            },
+            {
+              "date": "2022-01-21",
+              "value": 158.641235
+            },
+            {
+              "date": "2022-01-24",
+              "value": 157.869537
+            },
+            {
+              "date": "2022-01-25",
+              "value": 156.07225
+            },
+            {
+              "date": "2022-01-26",
+              "value": 155.984314
+            },
+            {
+              "date": "2022-01-27",
+              "value": 155.525253
+            },
+            {
+              "date": "2022-01-28",
+              "value": 166.377472
+            },
+            {
+              "date": "2022-01-31",
+              "value": 170.724182
+            },
+            {
+              "date": "2022-02-01",
+              "value": 170.558105
+            },
+            {
+              "date": "2022-02-02",
+              "value": 171.759583
+            },
+            {
+              "date": "2022-02-03",
+              "value": 168.887787
+            },
+            {
+              "date": "2022-02-04",
+              "value": 168.604156
+            },
+            {
+              "date": "2022-02-07",
+              "value": 167.890213
+            },
+            {
+              "date": "2022-02-08",
+              "value": 170.990601
+            },
+            {
+              "date": "2022-02-09",
+              "value": 172.408737
+            },
+            {
+              "date": "2022-02-10",
+              "value": 168.340103
+            },
+            {
+              "date": "2022-02-11",
+              "value": 164.936539
+            },
+            {
+              "date": "2022-02-14",
+              "value": 165.171249
+            },
+            {
+              "date": "2022-02-15",
+              "value": 168.995361
+            },
+            {
+              "date": "2022-02-16",
+              "value": 168.760666
+            },
+            {
+              "date": "2022-02-17",
+              "value": 165.171249
+            },
+            {
+              "date": "2022-02-18",
+              "value": 163.625946
+            },
+            {
+              "date": "2022-02-22",
+              "value": 160.711395
+            },
+            {
+              "date": "2022-02-23",
+              "value": 156.554733
+            },
+            {
+              "date": "2022-02-24",
+              "value": 159.166107
+            },
+            {
+              "date": "2022-02-25",
+              "value": 161.229752
+            },
+            {
+              "date": "2022-02-28",
+              "value": 161.49382
+            },
+            {
+              "date": "2022-03-01",
+              "value": 159.615997
+            },
+            {
+              "date": "2022-03-02",
+              "value": 162.902191
+            },
+            {
+              "date": "2022-03-03",
+              "value": 162.579407
+            },
+            {
+              "date": "2022-03-04",
+              "value": 159.586624
+            },
+            {
+              "date": "2022-03-07",
+              "value": 155.80162
+            },
+            {
+              "date": "2022-03-08",
+              "value": 153.982483
+            },
+            {
+              "date": "2022-03-09",
+              "value": 159.371475
+            },
+            {
+              "date": "2022-03-10",
+              "value": 155.038788
+            },
+            {
+              "date": "2022-03-11",
+              "value": 151.33197
+            },
+            {
+              "date": "2022-03-14",
+              "value": 147.312241
+            },
+            {
+              "date": "2022-03-15",
+              "value": 151.684097
+            },
+            {
+              "date": "2022-03-16",
+              "value": 156.085236
+            },
+            {
+              "date": "2022-03-17",
+              "value": 157.092621
+            },
+            {
+              "date": "2022-03-18",
+              "value": 160.37886
+            },
+            {
+              "date": "2022-03-21",
+              "value": 161.748123
+            },
+            {
+              "date": "2022-03-22",
+              "value": 165.112595
+            },
+            {
+              "date": "2022-03-23",
+              "value": 166.472031
+            },
+            {
+              "date": "2022-03-24",
+              "value": 170.247253
+            },
+            {
+              "date": "2022-03-25",
+              "value": 170.88298
+            },
+            {
+              "date": "2022-03-28",
+              "value": 171.743713
+            },
+            {
+              "date": "2022-03-29",
+              "value": 175.029907
+            },
+            {
+              "date": "2022-03-30",
+              "value": 173.866043
+            },
+            {
+              "date": "2022-03-31",
+              "value": 170.775421
+            },
+            {
+              "date": "2022-04-01",
+              "value": 170.48201
+            },
+            {
+              "date": "2022-04-04",
+              "value": 174.521332
+            },
+            {
+              "date": "2022-04-05",
+              "value": 171.21553
+            },
+            {
+              "date": "2022-04-06",
+              "value": 168.056473
+            },
+            {
+              "date": "2022-04-07",
+              "value": 168.35965
+            },
+            {
+              "date": "2022-04-08",
+              "value": 166.354691
+            },
+            {
+              "date": "2022-04-11",
+              "value": 162.10997
+            },
+            {
+              "date": "2022-04-12",
+              "value": 163.978058
+            },
+            {
+              "date": "2022-04-13",
+              "value": 166.657852
+            },
+            {
+              "date": "2022-04-14",
+              "value": 161.660049
+            },
+            {
+              "date": "2022-04-18",
+              "value": 161.444916
+            },
+            {
+              "date": "2022-04-19",
+              "value": 163.723724
+            },
+            {
+              "date": "2022-04-20",
+              "value": 163.557465
+            },
+            {
+              "date": "2022-04-21",
+              "value": 162.765289
+            },
+            {
+              "date": "2022-04-22",
+              "value": 158.236954
+            },
+            {
+              "date": "2022-04-25",
+              "value": 159.303009
+            },
+            {
+              "date": "2022-04-26",
+              "value": 153.356552
+            },
+            {
+              "date": "2022-04-27",
+              "value": 153.131607
+            },
+            {
+              "date": "2022-04-28",
+              "value": 160.046326
+            },
+            {
+              "date": "2022-04-29",
+              "value": 154.187866
+            },
+            {
+              "date": "2022-05-02",
+              "value": 154.491104
+            },
+            {
+              "date": "2022-05-03",
+              "value": 155.977646
+            },
+            {
+              "date": "2022-05-04",
+              "value": 162.374054
+            },
+            {
+              "date": "2022-05-05",
+              "value": 153.327209
+            },
+            {
+              "date": "2022-05-06",
+              "value": 154.052017
+            },
+            {
+              "date": "2022-05-09",
+              "value": 148.939133
+            },
+            {
+              "date": "2022-05-10",
+              "value": 151.338867
+            },
+            {
+              "date": "2022-05-11",
+              "value": 143.49324
+            },
+            {
+              "date": "2022-05-12",
+              "value": 139.634125
+            },
+            {
+              "date": "2022-05-13",
+              "value": 144.090698
+            },
+            {
+              "date": "2022-05-16",
+              "value": 142.552948
+            },
+            {
+              "date": "2022-05-17",
+              "value": 146.177048
+            },
+            {
+              "date": "2022-05-18",
+              "value": 137.92981
+            },
+            {
+              "date": "2022-05-19",
+              "value": 134.531052
+            },
+            {
+              "date": "2022-05-20",
+              "value": 134.766113
+            },
+            {
+              "date": "2022-05-23",
+              "value": 140.172836
+            },
+            {
+              "date": "2022-05-24",
+              "value": 137.479279
+            },
+            {
+              "date": "2022-05-25",
+              "value": 137.635971
+            },
+            {
+              "date": "2022-05-26",
+              "value": 140.829071
+            },
+            {
+              "date": "2022-05-27",
+              "value": 146.568787
+            },
+            {
+              "date": "2022-05-31",
+              "value": 145.785248
+            },
+            {
+              "date": "2022-06-01",
+              "value": 145.657898
+            },
+            {
+              "date": "2022-06-02",
+              "value": 148.106567
+            },
+            {
+              "date": "2022-06-03",
+              "value": 142.39624
+            },
+            {
+              "date": "2022-06-06",
+              "value": 143.140656
+            },
+            {
+              "date": "2022-06-07",
+              "value": 145.657898
+            },
+            {
+              "date": "2022-06-08",
+              "value": 144.923279
+            },
+            {
+              "date": "2022-06-09",
+              "value": 139.712479
+            },
+            {
+              "date": "2022-06-10",
+              "value": 134.315582
+            },
+            {
+              "date": "2022-06-13",
+              "value": 129.173309
+            },
+            {
+              "date": "2022-06-14",
+              "value": 130.035248
+            },
+            {
+              "date": "2022-06-15",
+              "value": 132.650436
+            },
+            {
+              "date": "2022-06-16",
+              "value": 127.39064
+            },
+            {
+              "date": "2022-06-17",
+              "value": 128.859879
+            },
+            {
+              "date": "2022-06-21",
+              "value": 133.081406
+            },
+            {
+              "date": "2022-06-22",
+              "value": 132.572098
+            },
+            {
+              "date": "2022-06-23",
+              "value": 135.432159
+            },
+            {
+              "date": "2022-06-24",
+              "value": 138.752609
+            },
+            {
+              "date": "2022-06-27",
+              "value": 138.752609
+            },
+            {
+              "date": "2022-06-28",
+              "value": 134.619202
+            },
+            {
+              "date": "2022-06-29",
+              "value": 136.372482
+            },
+            {
+              "date": "2022-06-30",
+              "value": 133.913971
+            },
+            {
+              "date": "2022-07-01",
+              "value": 136.078613
+            },
+            {
+              "date": "2022-07-05",
+              "value": 138.654678
+            },
+            {
+              "date": "2022-07-06",
+              "value": 139.986725
+            },
+            {
+              "date": "2022-07-07",
+              "value": 143.346344
+            },
+            {
+              "date": "2022-07-08",
+              "value": 144.022156
+            },
+            {
+              "date": "2022-07-11",
+              "value": 141.896713
+            },
+            {
+              "date": "2022-07-12",
+              "value": 142.866409
+            },
+            {
+              "date": "2022-07-13",
+              "value": 142.503952
+            },
+            {
+              "date": "2022-07-14",
+              "value": 145.422821
+            },
+            {
+              "date": "2022-07-15",
+              "value": 147.087921
+            },
+            {
+              "date": "2022-07-18",
+              "value": 144.051605
+            },
+            {
+              "date": "2022-07-19",
+              "value": 147.900909
+            },
+            {
+              "date": "2022-07-20",
+              "value": 149.899048
+            },
+            {
+              "date": "2022-07-21",
+              "value": 152.161621
+            },
+            {
+              "date": "2022-07-22",
+              "value": 150.927444
+            },
+            {
+              "date": "2022-07-25",
+              "value": 149.810883
+            },
+            {
+              "date": "2022-07-26",
+              "value": 148.488571
+            },
+            {
+              "date": "2022-07-27",
+              "value": 153.572067
+            },
+            {
+              "date": "2022-07-28",
+              "value": 154.120575
+            },
+            {
+              "date": "2022-07-29",
+              "value": 159.174637
+            },
+            {
+              "date": "2022-08-01",
+              "value": 158.19519
+            },
+            {
+              "date": "2022-08-02",
+              "value": 156.725983
+            },
+            {
+              "date": "2022-08-03",
+              "value": 162.720322
+            },
+            {
+              "date": "2022-08-04",
+              "value": 162.406967
+            },
+            {
+              "date": "2022-08-05",
+              "value": 162.181351
+            },
+            {
+              "date": "2022-08-08",
+              "value": 161.710571
+            },
+            {
+              "date": "2022-08-09",
+              "value": 161.759567
+            },
+            {
+              "date": "2022-08-10",
+              "value": 165.996811
+            },
+            {
+              "date": "2022-08-11",
+              "value": 165.261185
+            },
+            {
+              "date": "2022-08-12",
+              "value": 168.801987
+            },
+            {
+              "date": "2022-08-15",
+              "value": 169.871109
+            },
+            {
+              "date": "2022-08-16",
+              "value": 169.714172
+            },
+            {
+              "date": "2022-08-17",
+              "value": 171.205063
+            },
+            {
+              "date": "2022-08-18",
+              "value": 170.812714
+            },
+            {
+              "date": "2022-08-19",
+              "value": 168.233124
+            },
+            {
+              "date": "2022-08-22",
+              "value": 164.35881
+            },
+            {
+              "date": "2022-08-23",
+              "value": 164.025284
+            },
+            {
+              "date": "2022-08-24",
+              "value": 164.31958
+            },
+            {
+              "date": "2022-08-25",
+              "value": 166.771683
+            },
+            {
+              "date": "2022-08-26",
+              "value": 160.484482
+            },
+            {
+              "date": "2022-08-29",
+              "value": 158.28746
+            },
+            {
+              "date": "2022-08-30",
+              "value": 155.864761
+            },
+            {
+              "date": "2022-08-31",
+              "value": 154.207169
+            },
+            {
+              "date": "2022-09-01",
+              "value": 154.932999
+            },
+            {
+              "date": "2022-09-02",
+              "value": 152.824173
+            },
+            {
+              "date": "2022-09-06",
+              "value": 151.56868
+            },
+            {
+              "date": "2022-09-07",
+              "value": 152.971283
+            },
+            {
+              "date": "2022-09-08",
+              "value": 151.500092
+            },
+            {
+              "date": "2022-09-09",
+              "value": 154.354279
+            },
+            {
+              "date": "2022-09-12",
+              "value": 160.298157
+            },
+            {
+              "date": "2022-09-13",
+              "value": 150.891876
+            },
+            {
+              "date": "2022-09-14",
+              "value": 152.333725
+            },
+            {
+              "date": "2022-09-15",
+              "value": 149.450073
+            },
+            {
+              "date": "2022-09-16",
+              "value": 147.812088
+            },
+            {
+              "date": "2022-09-19",
+              "value": 151.519638
+            },
+            {
+              "date": "2022-09-20",
+              "value": 153.893265
+            },
+            {
+              "date": "2022-09-21",
+              "value": 150.774216
+            },
+            {
+              "date": "2022-09-22",
+              "value": 149.813004
+            },
+            {
+              "date": "2022-09-23",
+              "value": 147.547241
+            },
+            {
+              "date": "2022-09-26",
+              "value": 147.880737
+            },
+            {
+              "date": "2022-09-27",
+              "value": 148.851761
+            },
+            {
+              "date": "2022-09-28",
+              "value": 146.968552
+            },
+            {
+              "date": "2022-09-29",
+              "value": 139.749603
+            },
+            {
+              "date": "2022-09-30",
+              "value": 135.55162
+            },
+            {
+              "date": "2022-10-03",
+              "value": 139.720184
+            },
+            {
+              "date": "2022-10-04",
+              "value": 143.300232
+            },
+            {
+              "date": "2022-10-05",
+              "value": 143.594467
+            },
+            {
+              "date": "2022-10-06",
+              "value": 142.643036
+            },
+            {
+              "date": "2022-10-07",
+              "value": 137.405426
+            },
+            {
+              "date": "2022-10-10",
+              "value": 137.729065
+            },
+            {
+              "date": "2022-10-11",
+              "value": 136.316666
+            },
+            {
+              "date": "2022-10-12",
+              "value": 135.688904
+            },
+            {
+              "date": "2022-10-13",
+              "value": 140.249847
+            },
+            {
+              "date": "2022-10-14",
+              "value": 135.72821
+            },
+            {
+              "date": "2022-10-17",
+              "value": 139.680954
+            },
+            {
+              "date": "2022-10-18",
+              "value": 140.9953
+            },
+            {
+              "date": "2022-10-19",
+              "value": 141.103195
+            },
+            {
+              "date": "2022-10-20",
+              "value": 140.642181
+            },
+            {
+              "date": "2022-10-21",
+              "value": 144.44783
+            },
+            {
+              "date": "2022-10-24",
+              "value": 146.58606
+            },
+            {
+              "date": "2022-10-25",
+              "value": 149.420685
+            },
+            {
+              "date": "2022-10-26",
+              "value": 146.487976
+            },
+            {
+              "date": "2022-10-27",
+              "value": 142.025146
+            },
+            {
+              "date": "2022-10-28",
+              "value": 152.755524
+            },
+            {
+              "date": "2022-10-31",
+              "value": 150.401489
+            },
+            {
+              "date": "2022-11-01",
+              "value": 147.763046
+            },
+            {
+              "date": "2022-11-02",
+              "value": 142.250748
+            },
+            {
+              "date": "2022-11-03",
+              "value": 136.218613
+            },
+            {
+              "date": "2022-11-04",
+              "value": 135.953354
+            },
+            {
+              "date": "2022-11-07",
+              "value": 136.483871
+            },
+            {
+              "date": "2022-11-08",
+              "value": 137.05368
+            },
+            {
+              "date": "2022-11-09",
+              "value": 132.504898
+            },
+            {
+              "date": "2022-11-10",
+              "value": 144.294479
+            },
+            {
+              "date": "2022-11-11",
+              "value": 147.074814
+            },
+            {
+              "date": "2022-11-14",
+              "value": 145.679718
+            },
+            {
+              "date": "2022-11-15",
+              "value": 147.408875
+            },
+            {
+              "date": "2022-11-16",
+              "value": 146.180756
+            },
+            {
+              "date": "2022-11-17",
+              "value": 148.076935
+            },
+            {
+              "date": "2022-11-18",
+              "value": 148.636948
+            },
+            {
+              "date": "2022-11-21",
+              "value": 145.414474
+            },
+            {
+              "date": "2022-11-22",
+              "value": 147.546402
+            },
+            {
+              "date": "2022-11-23",
+              "value": 148.420822
+            },
+            {
+              "date": "2022-11-25",
+              "value": 145.512711
+            },
+            {
+              "date": "2022-11-28",
+              "value": 141.690964
+            },
+            {
+              "date": "2022-11-29",
+              "value": 138.694397
+            },
+            {
+              "date": "2022-11-30",
+              "value": 145.434097
+            },
+            {
+              "date": "2022-12-01",
+              "value": 145.709198
+            },
+            {
+              "date": "2022-12-02",
+              "value": 145.217926
+            },
+            {
+              "date": "2022-12-05",
+              "value": 144.058655
+            },
+            {
+              "date": "2022-12-06",
+              "value": 140.4039
+            },
+            {
+              "date": "2022-12-07",
+              "value": 138.468445
+            },
+            {
+              "date": "2022-12-08",
+              "value": 140.148453
+            },
+            {
+              "date": "2022-12-09",
+              "value": 139.667053
+            },
+            {
+              "date": "2022-12-12",
+              "value": 141.956192
+            },
+            {
+              "date": "2022-12-13",
+              "value": 142.919006
+            },
+            {
+              "date": "2022-12-14",
+              "value": 140.698654
+            },
+            {
+              "date": "2022-12-15",
+              "value": 134.106293
+            },
+            {
+              "date": "2022-12-16",
+              "value": 132.151199
+            },
+            {
+              "date": "2022-12-19",
+              "value": 130.048706
+            },
+            {
+              "date": "2022-12-20",
+              "value": 129.97995
+            },
+            {
+              "date": "2022-12-21",
+              "value": 133.074692
+            },
+            {
+              "date": "2022-12-22",
+              "value": 129.911194
+            },
+            {
+              "date": "2022-12-23",
+              "value": 129.547653
+            },
+            {
+              "date": "2022-12-27",
+              "value": 127.749725
+            },
+            {
+              "date": "2022-12-28",
+              "value": 123.82972
+            },
+            {
+              "date": "2022-12-29",
+              "value": 127.337112
+            },
+            {
+              "date": "2022-12-30",
+              "value": 127.65152
+            },
+            {
+              "date": "2023-01-03",
+              "value": 122.876762
+            },
+            {
+              "date": "2023-01-04",
+              "value": 124.144119
+            },
+            {
+              "date": "2023-01-05",
+              "value": 122.827621
+            },
+            {
+              "date": "2023-01-06",
+              "value": 127.346924
+            },
+            {
+              "date": "2023-01-09",
+              "value": 127.867661
+            },
+            {
+              "date": "2023-01-10",
+              "value": 128.437485
+            },
+            {
+              "date": "2023-01-11",
+              "value": 131.149094
+            },
+            {
+              "date": "2023-01-12",
+              "value": 131.070511
+            },
+            {
+              "date": "2023-01-13",
+              "value": 132.396835
+            },
+            {
+              "date": "2023-01-17",
+              "value": 133.556122
+            },
+            {
+              "date": "2023-01-18",
+              "value": 132.838928
+            },
+            {
+              "date": "2023-01-19",
+              "value": 132.897873
+            },
+            {
+              "date": "2023-01-20",
+              "value": 135.452271
+            },
+            {
+              "date": "2023-01-23",
+              "value": 138.635452
+            },
+            {
+              "date": "2023-01-24",
+              "value": 140.030563
+            },
+            {
+              "date": "2023-01-25",
+              "value": 139.372284
+            },
+            {
+              "date": "2023-01-26",
+              "value": 141.435455
+            },
+            {
+              "date": "2023-01-27",
+              "value": 143.370911
+            },
+            {
+              "date": "2023-01-30",
+              "value": 140.49231
+            },
+            {
+              "date": "2023-01-31",
+              "value": 141.75972
+            },
+            {
+              "date": "2023-02-01",
+              "value": 142.8797
+            },
+            {
+              "date": "2023-02-02",
+              "value": 148.175171
+            },
+            {
+              "date": "2023-02-03",
+              "value": 151.790649
+            },
+            {
+              "date": "2023-02-06",
+              "value": 149.069229
+            },
+            {
+              "date": "2023-02-07",
+              "value": 151.938034
+            },
+            {
+              "date": "2023-02-08",
+              "value": 149.255875
+            },
+            {
+              "date": "2023-02-09",
+              "value": 148.224319
+            },
+            {
+              "date": "2023-02-10",
+              "value": 148.588364
+            },
+            {
+              "date": "2023-02-13",
+              "value": 151.382843
+            },
+            {
+              "date": "2023-02-14",
+              "value": 150.74324
+            },
+            {
+              "date": "2023-02-15",
+              "value": 152.839111
+            },
+            {
+              "date": "2023-02-16",
+              "value": 151.245071
+            },
+            {
+              "date": "2023-02-17",
+              "value": 150.103668
+            },
+            {
+              "date": "2023-02-21",
+              "value": 146.098938
+            },
+            {
+              "date": "2023-02-22",
+              "value": 146.522049
+            },
+            {
+              "date": "2023-02-23",
+              "value": 147.004196
+            },
+            {
+              "date": "2023-02-24",
+              "value": 144.357361
+            },
+            {
+              "date": "2023-02-27",
+              "value": 145.547913
+            },
+            {
+              "date": "2023-02-28",
+              "value": 145.046112
+            },
+            {
+              "date": "2023-03-01",
+              "value": 142.979767
+            },
+            {
+              "date": "2023-03-02",
+              "value": 143.57019
+            },
+            {
+              "date": "2023-03-03",
+              "value": 148.608047
+            },
+            {
+              "date": "2023-03-06",
+              "value": 151.363174
+            },
+            {
+              "date": "2023-03-07",
+              "value": 149.1689
+            },
+            {
+              "date": "2023-03-08",
+              "value": 150.418549
+            },
+            {
+              "date": "2023-03-09",
+              "value": 148.17511
+            },
+            {
+              "date": "2023-03-10",
+              "value": 146.118622
+            },
+            {
+              "date": "2023-03-13",
+              "value": 148.057053
+            },
+            {
+              "date": "2023-03-14",
+              "value": 150.143036
+            },
+            {
+              "date": "2023-03-15",
+              "value": 150.536621
+            },
+            {
+              "date": "2023-03-16",
+              "value": 153.350769
+            },
+            {
+              "date": "2023-03-17",
+              "value": 152.514389
+            },
+            {
+              "date": "2023-03-20",
+              "value": 154.875885
+            },
+            {
+              "date": "2023-03-21",
+              "value": 156.725723
+            },
+            {
+              "date": "2023-03-22",
+              "value": 155.298996
+            },
+            {
+              "date": "2023-03-23",
+              "value": 156.381363
+            },
+            {
+              "date": "2023-03-24",
+              "value": 157.680191
+            },
+            {
+              "date": "2023-03-27",
+              "value": 155.741776
+            },
+            {
+              "date": "2023-03-28",
+              "value": 155.121887
+            },
+            {
+              "date": "2023-03-29",
+              "value": 158.191833
+            },
+            {
+              "date": "2023-03-30",
+              "value": 159.756363
+            },
+            {
+              "date": "2023-03-31",
+              "value": 162.255646
+            },
+            {
+              "date": "2023-04-03",
+              "value": 163.505264
+            },
+            {
+              "date": "2023-04-04",
+              "value": 162.973923
+            },
+            {
+              "date": "2023-04-05",
+              "value": 161.133911
+            },
+            {
+              "date": "2023-04-06",
+              "value": 162.01947
+            },
+            {
+              "date": "2023-04-10",
+              "value": 159.431671
+            },
+            {
+              "date": "2023-04-11",
+              "value": 158.22142
+            },
+            {
+              "date": "2023-04-12",
+              "value": 157.532639
+            },
+            {
+              "date": "2023-04-13",
+              "value": 162.905045
+            },
+            {
+              "date": "2023-04-14",
+              "value": 162.560669
+            },
+            {
+              "date": "2023-04-17",
+              "value": 162.580322
+            },
+            {
+              "date": "2023-04-18",
+              "value": 163.800446
+            },
+            {
+              "date": "2023-04-19",
+              "value": 164.941864
+            },
+            {
+              "date": "2023-04-20",
+              "value": 163.97757
+            },
+            {
+              "date": "2023-04-21",
+              "value": 162.373703
+            },
+            {
+              "date": "2023-04-24",
+              "value": 162.678757
+            },
+            {
+              "date": "2023-04-25",
+              "value": 161.143723
+            },
+            {
+              "date": "2023-04-26",
+              "value": 161.133911
+            },
+            {
+              "date": "2023-04-27",
+              "value": 165.70932
+            },
+            {
+              "date": "2023-04-28",
+              "value": 166.958969
+            },
+            {
+              "date": "2023-05-01",
+              "value": 166.870422
+            },
+            {
+              "date": "2023-05-02",
+              "value": 165.83725
+            },
+            {
+              "date": "2023-05-03",
+              "value": 164.76474
+            },
+            {
+              "date": "2023-05-04",
+              "value": 163.131332
+            },
+            {
+              "date": "2023-05-05",
+              "value": 170.786606
+            },
+            {
+              "date": "2023-05-08",
+              "value": 170.717712
+            },
+            {
+              "date": "2023-05-09",
+              "value": 169.015488
+            },
+            {
+              "date": "2023-05-10",
+              "value": 170.776764
+            },
+            {
+              "date": "2023-05-11",
+              "value": 170.963715
+            },
+            {
+              "date": "2023-05-12",
+              "value": 170.037506
+            },
+            {
+              "date": "2023-05-15",
+              "value": 169.544815
+            },
+            {
+              "date": "2023-05-16",
+              "value": 169.544815
+            },
+            {
+              "date": "2023-05-17",
+              "value": 170.155731
+            },
+            {
+              "date": "2023-05-18",
+              "value": 172.481125
+            },
+            {
+              "date": "2023-05-19",
+              "value": 172.589523
+            },
+            {
+              "date": "2023-05-22",
+              "value": 171.64357
+            },
+            {
+              "date": "2023-05-23",
+              "value": 169.042328
+            },
+            {
+              "date": "2023-05-24",
+              "value": 169.318222
+            },
+            {
+              "date": "2023-05-25",
+              "value": 170.45137
+            },
+            {
+              "date": "2023-05-26",
+              "value": 172.85553
+            },
+            {
+              "date": "2023-05-30",
+              "value": 174.69809
+            },
+            {
+              "date": "2023-05-31",
+              "value": 174.648819
+            },
+            {
+              "date": "2023-06-01",
+              "value": 177.447144
+            },
+            {
+              "date": "2023-06-02",
+              "value": 178.29454
+            },
+            {
+              "date": "2023-06-05",
+              "value": 176.944626
+            },
+            {
+              "date": "2023-06-06",
+              "value": 176.580078
+            },
+            {
+              "date": "2023-06-07",
+              "value": 175.210464
+            },
+            {
+              "date": "2023-06-08",
+              "value": 177.920105
+            },
+            {
+              "date": "2023-06-09",
+              "value": 178.304367
+            },
+            {
+              "date": "2023-06-12",
+              "value": 181.092834
+            },
+            {
+              "date": "2023-06-13",
+              "value": 180.619904
+            },
+            {
+              "date": "2023-06-14",
+              "value": 181.250504
+            },
+            {
+              "date": "2023-06-15",
+              "value": 183.280273
+            },
+            {
+              "date": "2023-06-16",
+              "value": 182.206268
+            },
+            {
+              "date": "2023-06-20",
+              "value": 182.294937
+            },
+            {
+              "date": "2023-06-21",
+              "value": 181.260361
+            },
+            {
+              "date": "2023-06-22",
+              "value": 184.255737
+            },
+            {
+              "date": "2023-06-23",
+              "value": 183.940414
+            },
+            {
+              "date": "2023-06-26",
+              "value": 182.551117
+            },
+            {
+              "date": "2023-06-27",
+              "value": 185.300156
+            },
+            {
+              "date": "2023-06-28",
+              "value": 186.472733
+            },
+            {
+              "date": "2023-06-29",
+              "value": 186.807739
+            },
+            {
+              "date": "2023-06-30",
+              "value": 191.123459
+            },
+            {
+              "date": "2023-07-03",
+              "value": 189.63559
+            },
+            {
+              "date": "2023-07-05",
+              "value": 188.522186
+            },
+            {
+              "date": "2023-07-06",
+              "value": 188.995163
+            },
+            {
+              "date": "2023-07-07",
+              "value": 187.881744
+            },
+            {
+              "date": "2023-07-10",
+              "value": 185.842148
+            },
+            {
+              "date": "2023-07-11",
+              "value": 185.319916
+            },
+            {
+              "date": "2023-07-12",
+              "value": 186.985092
+            },
+            {
+              "date": "2023-07-13",
+              "value": 187.743774
+            },
+            {
+              "date": "2023-07-14",
+              "value": 187.891602
+            },
+            {
+              "date": "2023-07-17",
+              "value": 191.143173
+            },
+            {
+              "date": "2023-07-18",
+              "value": 190.886978
+            },
+            {
+              "date": "2023-07-19",
+              "value": 192.236893
+            },
+            {
+              "date": "2023-07-20",
+              "value": 190.295776
+            },
+            {
+              "date": "2023-07-21",
+              "value": 189.123245
+            },
+            {
+              "date": "2023-07-24",
+              "value": 189.921371
+            },
+            {
+              "date": "2023-07-25",
+              "value": 190.77858
+            },
+            {
+              "date": "2023-07-26",
+              "value": 191.645691
+            },
+            {
+              "date": "2023-07-27",
+              "value": 190.38446
+            },
+            {
+              "date": "2023-07-28",
+              "value": 192.956177
+            },
+            {
+              "date": "2023-07-31",
+              "value": 193.567032
+            },
+            {
+              "date": "2023-08-01",
+              "value": 192.739395
+            },
+            {
+              "date": "2023-08-02",
+              "value": 189.753891
+            },
+            {
+              "date": "2023-08-03",
+              "value": 188.364563
+            },
+            {
+              "date": "2023-08-04",
+              "value": 179.31929
+            },
+            {
+              "date": "2023-08-07",
+              "value": 176.225311
+            },
+            {
+              "date": "2023-08-08",
+              "value": 177.161392
+            },
+            {
+              "date": "2023-08-09",
+              "value": 175.575012
+            },
+            {
+              "date": "2023-08-10",
+              "value": 175.358231
+            },
+            {
+              "date": "2023-08-11",
+              "value": 175.417465
+            },
+            {
+              "date": "2023-08-14",
+              "value": 177.065201
+            },
+            {
+              "date": "2023-08-15",
+              "value": 175.082001
+            },
+            {
+              "date": "2023-08-16",
+              "value": 174.21373
+            },
+            {
+              "date": "2023-08-17",
+              "value": 171.678009
+            },
+            {
+              "date": "2023-08-18",
+              "value": 172.161514
+            },
+            {
+              "date": "2023-08-21",
+              "value": 173.493469
+            },
+            {
+              "date": "2023-08-22",
+              "value": 174.864944
+            },
+            {
+              "date": "2023-08-23",
+              "value": 178.703033
+            },
+            {
+              "date": "2023-08-24",
+              "value": 174.026291
+            },
+            {
+              "date": "2023-08-25",
+              "value": 176.226501
+            },
+            {
+              "date": "2023-08-28",
+              "value": 177.785446
+            },
+            {
+              "date": "2023-08-29",
+              "value": 181.66301
+            },
+            {
+              "date": "2023-08-30",
+              "value": 185.145905
+            },
+            {
+              "date": "2023-08-31",
+              "value": 185.362946
+            },
+            {
+              "date": "2023-09-01",
+              "value": 186.931747
+            },
+            {
+              "date": "2023-09-05",
+              "value": 187.168518
+            },
+            {
+              "date": "2023-09-06",
+              "value": 180.469131
+            },
+            {
+              "date": "2023-09-07",
+              "value": 175.190552
+            },
+            {
+              "date": "2023-09-08",
+              "value": 175.802261
+            },
+            {
+              "date": "2023-09-11",
+              "value": 176.966522
+            },
+            {
+              "date": "2023-09-12",
+              "value": 173.947327
+            },
+            {
+              "date": "2023-09-13",
+              "value": 171.885223
+            },
+            {
+              "date": "2023-09-14",
+              "value": 173.394867
+            },
+            {
+              "date": "2023-09-15",
+              "value": 172.674576
+            },
+            {
+              "date": "2023-09-18",
+              "value": 175.595062
+            },
+            {
+              "date": "2023-09-19",
+              "value": 176.680359
+            },
+            {
+              "date": "2023-09-20",
+              "value": 173.148163
+            },
+            {
+              "date": "2023-09-21",
+              "value": 171.608948
+            },
+            {
+              "date": "2023-09-22",
+              "value": 172.457489
+            },
+            {
+              "date": "2023-09-25",
+              "value": 173.730286
+            },
+            {
+              "date": "2023-09-26",
+              "value": 169.665253
+            },
+            {
+              "date": "2023-09-27",
+              "value": 168.155685
+            },
+            {
+              "date": "2023-09-28",
+              "value": 168.412186
+            },
+            {
+              "date": "2023-09-29",
+              "value": 168.925262
+            },
+            {
+              "date": "2023-10-02",
+              "value": 171.431366
+            },
+            {
+              "date": "2023-10-03",
+              "value": 170.09938
+            },
+            {
+              "date": "2023-10-04",
+              "value": 171.342575
+            },
+            {
+              "date": "2023-10-05",
+              "value": 172.575897
+            },
+            {
+              "date": "2023-10-06",
+              "value": 175.12149
+            },
+            {
+              "date": "2023-10-09",
+              "value": 176.601456
+            },
+            {
+              "date": "2023-10-10",
+              "value": 176.009445
+            },
+            {
+              "date": "2023-10-11",
+              "value": 177.400635
+            },
+            {
+              "date": "2023-10-12",
+              "value": 178.298492
+            },
+            {
+              "date": "2023-10-13",
+              "value": 176.463303
+            },
+            {
+              "date": "2023-10-16",
+              "value": 176.335052
+            },
+            {
+              "date": "2023-10-17",
+              "value": 174.786026
+            },
+            {
+              "date": "2023-10-18",
+              "value": 173.493469
+            },
+            {
+              "date": "2023-10-19",
+              "value": 173.118561
+            },
+            {
+              "date": "2023-10-20",
+              "value": 170.572998
+            },
+            {
+              "date": "2023-10-23",
+              "value": 170.691391
+            },
+            {
+              "date": "2023-10-24",
+              "value": 171.125488
+            },
+            {
+              "date": "2023-10-25",
+              "value": 168.816742
+            },
+            {
+              "date": "2023-10-26",
+              "value": 164.662918
+            },
+            {
+              "date": "2023-10-27",
+              "value": 165.975174
+            },
+            {
+              "date": "2023-10-30",
+              "value": 168.017563
+            },
+            {
+              "date": "2023-10-31",
+              "value": 168.491165
+            },
+            {
+              "date": "2023-11-01",
+              "value": 171.648422
+            },
+            {
+              "date": "2023-11-02",
+              "value": 175.200409
+            },
+            {
+              "date": "2023-11-03",
+              "value": 174.292679
+            },
+            {
+              "date": "2023-11-06",
+              "value": 176.838242
+            },
+            {
+              "date": "2023-11-07",
+              "value": 179.393692
+            },
+            {
+              "date": "2023-11-08",
+              "value": 180.449402
+            },
+            {
+              "date": "2023-11-09",
+              "value": 179.9758
+            },
+            {
+              "date": "2023-11-10",
+              "value": 184.154877
+            },
+            {
+              "date": "2023-11-13",
+              "value": 182.574127
+            },
+            {
+              "date": "2023-11-14",
+              "value": 185.182358
+            },
+            {
+              "date": "2023-11-15",
+              "value": 185.745468
+            },
+            {
+              "date": "2023-11-16",
+              "value": 187.424988
+            },
+            {
+              "date": "2023-11-17",
+              "value": 187.405243
+            },
+            {
+              "date": "2023-11-20",
+              "value": 189.144058
+            },
+            {
+              "date": "2023-11-21",
+              "value": 188.343811
+            },
+            {
+              "date": "2023-11-22",
+              "value": 189.005722
+            },
+            {
+              "date": "2023-11-24",
+              "value": 187.68187
+            },
+            {
+              "date": "2023-11-27",
+              "value": 187.504028
+            },
+            {
+              "date": "2023-11-28",
+              "value": 188.106674
+            },
+            {
+              "date": "2023-11-29",
+              "value": 187.089066
+            },
+            {
+              "date": "2023-11-30",
+              "value": 187.662109
+            },
+            {
+              "date": "2023-12-01",
+              "value": 188.936569
+            },
+            {
+              "date": "2023-12-04",
+              "value": 187.148346
+            },
+            {
+              "date": "2023-12-05",
+              "value": 191.090302
+            },
+            {
+              "date": "2023-12-06",
+              "value": 190.00354
+            },
+            {
+              "date": "2023-12-07",
+              "value": 191.930084
+            },
+            {
+              "date": "2023-12-08",
+              "value": 193.352722
+            },
+            {
+              "date": "2023-12-11",
+              "value": 190.853195
+            },
+            {
+              "date": "2023-12-12",
+              "value": 192.364761
+            },
+            {
+              "date": "2023-12-13",
+              "value": 195.575638
+            },
+            {
+              "date": "2023-12-14",
+              "value": 195.723801
+            },
+            {
+              "date": "2023-12-15",
+              "value": 195.190338
+            },
+            {
+              "date": "2023-12-18",
+              "value": 193.530579
+            },
+            {
+              "date": "2023-12-19",
+              "value": 194.567932
+            },
+            {
+              "date": "2023-12-20",
+              "value": 192.483307
+            },
+            {
+              "date": "2023-12-21",
+              "value": 192.335114
+            },
+            {
+              "date": "2023-12-22",
+              "value": 191.268127
+            },
+            {
+              "date": "2023-12-26",
+              "value": 190.724777
+            },
+            {
+              "date": "2023-12-27",
+              "value": 190.823547
+            },
+            {
+              "date": "2023-12-28",
+              "value": 191.248398
+            },
+            {
+              "date": "2023-12-29",
+              "value": 190.211014
+            },
+            {
+              "date": "2024-01-02",
+              "value": 183.404037
+            },
+            {
+              "date": "2024-01-03",
+              "value": 182.030731
+            },
+            {
+              "date": "2024-01-04",
+              "value": 179.718948
+            },
+            {
+              "date": "2024-01-05",
+              "value": 178.997711
+            },
+            {
+              "date": "2024-01-08",
+              "value": 183.324982
+            },
+            {
+              "date": "2024-01-09",
+              "value": 182.910019
+            },
+            {
+              "date": "2024-01-10",
+              "value": 183.947388
+            },
+            {
+              "date": "2024-01-11",
+              "value": 183.354614
+            },
+            {
+              "date": "2024-01-12",
+              "value": 183.680649
+            },
+            {
+              "date": "2024-01-16",
+              "value": 181.418228
+            },
+            {
+              "date": "2024-01-17",
+              "value": 180.479645
+            },
+            {
+              "date": "2024-01-18",
+              "value": 186.357986
+            },
+            {
+              "date": "2024-01-19",
+              "value": 189.252701
+            },
+            {
+              "date": "2024-01-22",
+              "value": 191.554642
+            },
+            {
+              "date": "2024-01-23",
+              "value": 192.829117
+            },
+            {
+              "date": "2024-01-24",
+              "value": 192.157333
+            },
+            {
+              "date": "2024-01-25",
+              "value": 191.831284
+            },
+            {
+              "date": "2024-01-26",
+              "value": 190.102341
+            },
+            {
+              "date": "2024-01-29",
+              "value": 189.420654
+            },
+            {
+              "date": "2024-01-30",
+              "value": 185.775085
+            },
+            {
+              "date": "2024-01-31",
+              "value": 182.17894
+            },
+            {
+              "date": "2024-02-01",
+              "value": 184.609299
+            },
+            {
+              "date": "2024-02-02",
+              "value": 183.611465
+            },
+            {
+              "date": "2024-02-05",
+              "value": 185.419418
+            },
+            {
+              "date": "2024-02-06",
+              "value": 187.019943
+            },
+            {
+              "date": "2024-02-07",
+              "value": 187.128616
+            },
+            {
+              "date": "2024-02-08",
+              "value": 186.051727
+            },
+            {
+              "date": "2024-02-09",
+              "value": 186.813431
+            },
+            {
+              "date": "2024-02-12",
+              "value": 185.131744
+            },
+            {
+              "date": "2024-02-13",
+              "value": 183.044495
+            },
+            {
+              "date": "2024-02-14",
+              "value": 182.164139
+            },
+            {
+              "date": "2024-02-15",
+              "value": 181.877228
+            },
+            {
+              "date": "2024-02-16",
+              "value": 180.343948
+            },
+            {
+              "date": "2024-02-20",
+              "value": 179.602051
+            },
+            {
+              "date": "2024-02-21",
+              "value": 180.353851
+            },
+            {
+              "date": "2024-02-22",
+              "value": 182.381744
+            },
+            {
+              "date": "2024-02-23",
+              "value": 180.551712
+            },
+            {
+              "date": "2024-02-26",
+              "value": 179.206345
+            },
+            {
+              "date": "2024-02-27",
+              "value": 180.660522
+            },
+            {
+              "date": "2024-02-28",
+              "value": 179.463547
+            },
+            {
+              "date": "2024-02-29",
+              "value": 178.800766
+            },
+            {
+              "date": "2024-03-01",
+              "value": 177.722519
+            },
+            {
+              "date": "2024-03-04",
+              "value": 173.211746
+            },
+            {
+              "date": "2024-03-05",
+              "value": 168.285385
+            },
+            {
+              "date": "2024-03-06",
+              "value": 167.296173
+            },
+            {
+              "date": "2024-03-07",
+              "value": 167.17749
+            },
+            {
+              "date": "2024-03-08",
+              "value": 168.888824
+            },
+            {
+              "date": "2024-03-11",
+              "value": 170.887054
+            },
+            {
+              "date": "2024-03-12",
+              "value": 171.361877
+            },
+            {
+              "date": "2024-03-13",
+              "value": 169.284561
+            },
+            {
+              "date": "2024-03-14",
+              "value": 171.134354
+            },
+            {
+              "date": "2024-03-15",
+              "value": 170.758423
+            },
+            {
+              "date": "2024-03-18",
+              "value": 171.846588
+            },
+            {
+              "date": "2024-03-19",
+              "value": 174.181137
+            },
+            {
+              "date": "2024-03-20",
+              "value": 176.743225
+            },
+            {
+              "date": "2024-03-21",
+              "value": 169.521912
+            },
+            {
+              "date": "2024-03-22",
+              "value": 170.422104
+            },
+            {
+              "date": "2024-03-25",
+              "value": 169.007553
+            },
+            {
+              "date": "2024-03-26",
+              "value": 167.879807
+            },
+            {
+              "date": "2024-03-27",
+              "value": 171.441025
+            },
+            {
+              "date": "2024-03-28",
+              "value": 169.630737
+            },
+            {
+              "date": "2024-04-01",
+              "value": 168.196381
+            },
+            {
+              "date": "2024-04-02",
+              "value": 167.019196
+            },
+            {
+              "date": "2024-04-03",
+              "value": 167.82048
+            },
+            {
+              "date": "2024-04-04",
+              "value": 166.99942
+            },
+            {
+              "date": "2024-04-05",
+              "value": 167.751205
+            },
+            {
+              "date": "2024-04-08",
+              "value": 166.633423
+            },
+            {
+              "date": "2024-04-09",
+              "value": 167.840271
+            },
+            {
+              "date": "2024-04-10",
+              "value": 165.970657
+            },
+            {
+              "date": "2024-04-11",
+              "value": 173.152344
+            },
+            {
+              "date": "2024-04-12",
+              "value": 174.646072
+            },
+            {
+              "date": "2024-04-15",
+              "value": 170.827667
+            },
+            {
+              "date": "2024-04-16",
+              "value": 167.553406
+            },
+            {
+              "date": "2024-04-17",
+              "value": 166.188248
+            },
+            {
+              "date": "2024-04-18",
+              "value": 165.238617
+            },
+            {
+              "date": "2024-04-19",
+              "value": 163.220627
+            },
+            {
+              "date": "2024-04-22",
+              "value": 164.051559
+            },
+            {
+              "date": "2024-04-23",
+              "value": 165.100143
+            },
+            {
+              "date": "2024-04-24",
+              "value": 167.197296
+            },
+            {
+              "date": "2024-04-25",
+              "value": 168.057907
+            },
+            {
+              "date": "2024-04-26",
+              "value": 167.474258
+            },
+            {
+              "date": "2024-04-29",
+              "value": 171.628952
+            },
+            {
+              "date": "2024-04-30",
+              "value": 168.493149
+            },
+            {
+              "date": "2024-05-01",
+              "value": 167.474258
+            },
+            {
+              "date": "2024-05-02",
+              "value": 171.164047
+            },
+            {
+              "date": "2024-05-03",
+              "value": 181.40242
+            },
+            {
+              "date": "2024-05-06",
+              "value": 179.750443
+            },
+            {
+              "date": "2024-05-07",
+              "value": 180.432968
+            },
+            {
+              "date": "2024-05-08",
+              "value": 180.769333
+            },
+            {
+              "date": "2024-05-09",
+              "value": 182.579575
+            },
+            {
+              "date": "2024-05-10",
+              "value": 181.321594
+            },
+            {
+              "date": "2024-05-13",
+              "value": 184.521072
+            },
+            {
+              "date": "2024-05-14",
+              "value": 185.660202
+            },
+            {
+              "date": "2024-05-15",
+              "value": 187.928604
+            },
+            {
+              "date": "2024-05-16",
+              "value": 188.04744
+            },
+            {
+              "date": "2024-05-17",
+              "value": 188.077164
+            },
+            {
+              "date": "2024-05-20",
+              "value": 189.23613
+            },
+            {
+              "date": "2024-05-21",
+              "value": 190.533768
+            },
+            {
+              "date": "2024-05-22",
+              "value": 189.097458
+            },
+            {
+              "date": "2024-05-23",
+              "value": 185.115433
+            },
+            {
+              "date": "2024-05-24",
+              "value": 188.186127
+            },
+            {
+              "date": "2024-05-28",
+              "value": 188.19606
+            },
+            {
+              "date": "2024-05-29",
+              "value": 188.493225
+            },
+            {
+              "date": "2024-05-30",
+              "value": 189.483765
+            },
+            {
+              "date": "2024-05-31",
+              "value": 190.434708
+            },
+            {
+              "date": "2024-06-03",
+              "value": 192.197876
+            },
+            {
+              "date": "2024-06-04",
+              "value": 192.514862
+            },
+            {
+              "date": "2024-06-05",
+              "value": 194.020508
+            },
+            {
+              "date": "2024-06-06",
+              "value": 192.643661
+            },
+            {
+              "date": "2024-06-07",
+              "value": 195.030899
+            },
+            {
+              "date": "2024-06-10",
+              "value": 191.296478
+            },
+            {
+              "date": "2024-06-11",
+              "value": 205.194016
+            },
+            {
+              "date": "2024-06-12",
+              "value": 211.058121
+            },
+            {
+              "date": "2024-06-13",
+              "value": 212.217056
+            },
+            {
+              "date": "2024-06-14",
+              "value": 210.483597
+            },
+            {
+              "date": "2024-06-17",
+              "value": 214.62413
+            },
+            {
+              "date": "2024-06-18",
+              "value": 212.266586
+            },
+            {
+              "date": "2024-06-20",
+              "value": 207.700134
+            },
+            {
+              "date": "2024-06-21",
+              "value": 205.530807
+            },
+            {
+              "date": "2024-06-24",
+              "value": 206.174667
+            },
+            {
+              "date": "2024-06-25",
+              "value": 207.095901
+            },
+            {
+              "date": "2024-06-26",
+              "value": 211.23642
+            },
+            {
+              "date": "2024-06-27",
+              "value": 212.078384
+            },
+            {
+              "date": "2024-06-28",
+              "value": 208.631226
+            },
+            {
+              "date": "2024-07-01",
+              "value": 214.703369
+            },
+            {
+              "date": "2024-07-02",
+              "value": 218.19014
+            },
+            {
+              "date": "2024-07-03",
+              "value": 219.458069
+            },
+            {
+              "date": "2024-07-05",
+              "value": 224.20282
+            },
+            {
+              "date": "2024-07-08",
+              "value": 225.668823
+            },
+            {
+              "date": "2024-07-09",
+              "value": 226.520706
+            },
+            {
+              "date": "2024-07-10",
+              "value": 230.780136
+            },
+            {
+              "date": "2024-07-11",
+              "value": 225.421204
+            },
+            {
+              "date": "2024-07-12",
+              "value": 228.363159
+            },
+            {
+              "date": "2024-07-15",
+              "value": 232.186707
+            },
+            {
+              "date": "2024-07-16",
+              "value": 232.602753
+            },
+            {
+              "date": "2024-07-17",
+              "value": 226.718826
+            },
+            {
+              "date": "2024-07-18",
+              "value": 222.063187
+            },
+            {
+              "date": "2024-07-19",
+              "value": 222.192001
+            },
+            {
+              "date": "2024-07-22",
+              "value": 221.845291
+            },
+            {
+              "date": "2024-07-23",
+              "value": 222.885391
+            },
+            {
+              "date": "2024-07-24",
+              "value": 216.476471
+            },
+            {
+              "date": "2024-07-25",
+              "value": 215.436386
+            },
+            {
+              "date": "2024-07-26",
+              "value": 215.901947
+            },
+            {
+              "date": "2024-07-29",
+              "value": 216.179321
+            },
+            {
+              "date": "2024-07-30",
+              "value": 216.734039
+            },
+            {
+              "date": "2024-07-31",
+              "value": 219.983047
+            },
+            {
+              "date": "2024-08-01",
+              "value": 216.298157
+            },
+            {
+              "date": "2024-08-02",
+              "value": 217.784012
+            },
+            {
+              "date": "2024-08-05",
+              "value": 207.293991
+            },
+            {
+              "date": "2024-08-06",
+              "value": 205.273254
+            },
+            {
+              "date": "2024-08-07",
+              "value": 207.838821
+            },
+            {
+              "date": "2024-08-08",
+              "value": 211.295853
+            },
+            {
+              "date": "2024-08-09",
+              "value": 214.198196
+            },
+            {
+              "date": "2024-08-12",
+              "value": 215.725403
+            },
+            {
+              "date": "2024-08-13",
+              "value": 219.434402
+            },
+            {
+              "date": "2024-08-14",
+              "value": 219.880661
+            },
+            {
+              "date": "2024-08-15",
+              "value": 222.855759
+            },
+            {
+              "date": "2024-08-16",
+              "value": 224.174744
+            },
+            {
+              "date": "2024-08-19",
+              "value": 224.016052
+            },
+            {
+              "date": "2024-08-20",
+              "value": 224.63092
+            },
+            {
+              "date": "2024-08-21",
+              "value": 224.521851
+            },
+            {
+              "date": "2024-08-22",
+              "value": 222.667343
+            },
+            {
+              "date": "2024-08-23",
+              "value": 224.958176
+            },
+            {
+              "date": "2024-08-26",
+              "value": 225.295364
+            },
+            {
+              "date": "2024-08-27",
+              "value": 226.13829
+            },
+            {
+              "date": "2024-08-28",
+              "value": 224.611099
+            },
+            {
+              "date": "2024-08-29",
+              "value": 227.883713
+            },
+            {
+              "date": "2024-08-30",
+              "value": 227.100266
+            },
+            {
+              "date": "2024-09-03",
+              "value": 220.921936
+            },
+            {
+              "date": "2024-09-04",
+              "value": 219.017883
+            },
+            {
+              "date": "2024-09-05",
+              "value": 220.535187
+            },
+            {
+              "date": "2024-09-06",
+              "value": 218.988113
+            },
+            {
+              "date": "2024-09-09",
+              "value": 219.077377
+            },
+            {
+              "date": "2024-09-10",
+              "value": 218.284012
+            },
+            {
+              "date": "2024-09-11",
+              "value": 220.812851
+            },
+            {
+              "date": "2024-09-12",
+              "value": 220.921936
+            },
+            {
+              "date": "2024-09-13",
+              "value": 220.654175
+            },
+            {
+              "date": "2024-09-16",
+              "value": 214.525452
+            },
+            {
+              "date": "2024-09-17",
+              "value": 214.991547
+            },
+            {
+              "date": "2024-09-18",
+              "value": 218.859207
+            },
+            {
+              "date": "2024-09-19",
+              "value": 226.971344
+            },
+            {
+              "date": "2024-09-20",
+              "value": 226.3069
+            },
+            {
+              "date": "2024-09-23",
+              "value": 224.591232
+            },
+            {
+              "date": "2024-09-24",
+              "value": 225.483795
+            },
+            {
+              "date": "2024-09-25",
+              "value": 224.49205
+            },
+            {
+              "date": "2024-09-26",
+              "value": 225.632553
+            },
+            {
+              "date": "2024-09-27",
+              "value": 225.900299
+            },
+            {
+              "date": "2024-09-30",
+              "value": 231.067078
+            },
+            {
+              "date": "2024-10-01",
+              "value": 224.333405
+            },
+            {
+              "date": "2024-10-02",
+              "value": 224.898666
+            },
+            {
+              "date": "2024-10-03",
+              "value": 223.797882
+            },
+            {
+              "date": "2024-10-04",
+              "value": 224.918503
+            },
+            {
+              "date": "2024-10-07",
+              "value": 219.850906
+            },
+            {
+              "date": "2024-10-08",
+              "value": 223.897079
+            },
+            {
+              "date": "2024-10-09",
+              "value": 227.635773
+            },
+            {
+              "date": "2024-10-10",
+              "value": 227.139923
+            },
+            {
+              "date": "2024-10-11",
+              "value": 225.662277
+            },
+            {
+              "date": "2024-10-14",
+              "value": 229.38118
+            },
+            {
+              "date": "2024-10-15",
+              "value": 231.910034
+            },
+            {
+              "date": "2024-10-16",
+              "value": 229.857193
+            },
+            {
+              "date": "2024-10-17",
+              "value": 230.224106
+            },
+            {
+              "date": "2024-10-18",
+              "value": 233.050476
+            },
+            {
+              "date": "2024-10-21",
+              "value": 234.518204
+            },
+            {
+              "date": "2024-10-22",
+              "value": 233.903351
+            },
+            {
+              "date": "2024-10-23",
+              "value": 228.845642
+            },
+            {
+              "date": "2024-10-24",
+              "value": 228.657227
+            },
+            {
+              "date": "2024-10-25",
+              "value": 229.49028
+            },
+            {
+              "date": "2024-10-28",
+              "value": 231.463745
+            },
+            {
+              "date": "2024-10-29",
+              "value": 231.731522
+            },
+            {
+              "date": "2024-10-30",
+              "value": 228.191147
+            },
+            {
+              "date": "2024-10-31",
+              "value": 224.035889
+            },
+            {
+              "date": "2024-11-01",
+              "value": 221.060791
+            },
+            {
+              "date": "2024-11-04",
+              "value": 220.168243
+            },
+            {
+              "date": "2024-11-05",
+              "value": 221.596283
+            },
+            {
+              "date": "2024-11-06",
+              "value": 220.872345
+            },
+            {
+              "date": "2024-11-07",
+              "value": 225.592896
+            },
+            {
+              "date": "2024-11-08",
+              "value": 225.324799
+            },
+            {
+              "date": "2024-11-11",
+              "value": 222.614487
+            },
+            {
+              "date": "2024-11-12",
+              "value": 222.614487
+            },
+            {
+              "date": "2024-11-13",
+              "value": 223.498077
+            },
+            {
+              "date": "2024-11-14",
+              "value": 226.575745
+            },
+            {
+              "date": "2024-11-15",
+              "value": 223.378922
+            },
+            {
+              "date": "2024-11-18",
+              "value": 226.377182
+            },
+            {
+              "date": "2024-11-19",
+              "value": 226.6353
+            },
+            {
+              "date": "2024-11-20",
+              "value": 227.350128
+            },
+            {
+              "date": "2024-11-21",
+              "value": 226.873581
+            },
+            {
+              "date": "2024-11-22",
+              "value": 228.213852
+            },
+            {
+              "date": "2024-11-25",
+              "value": 231.192261
+            },
+            {
+              "date": "2024-11-26",
+              "value": 233.36647
+            },
+            {
+              "date": "2024-11-27",
+              "value": 233.237396
+            },
+            {
+              "date": "2024-11-29",
+              "value": 235.620102
+            },
+            {
+              "date": "2024-12-02",
+              "value": 237.863815
+            },
+            {
+              "date": "2024-12-03",
+              "value": 240.901764
+            },
+            {
+              "date": "2024-12-04",
+              "value": 241.259171
+            },
+            {
+              "date": "2024-12-05",
+              "value": 241.288956
+            },
+            {
+              "date": "2024-12-06",
+              "value": 241.090408
+            },
+            {
+              "date": "2024-12-09",
+              "value": 244.972244
+            },
+            {
+              "date": "2024-12-10",
+              "value": 245.984894
+            },
+            {
+              "date": "2024-12-11",
+              "value": 244.714096
+            },
+            {
+              "date": "2024-12-12",
+              "value": 246.173508
+            },
+            {
+              "date": "2024-12-13",
+              "value": 246.342285
+            },
+            {
+              "date": "2024-12-16",
+              "value": 249.231323
+            },
+            {
+              "date": "2024-12-17",
+              "value": 251.653732
+            },
+            {
+              "date": "2024-12-18",
+              "value": 246.262878
+            },
+            {
+              "date": "2024-12-19",
+              "value": 247.990311
+            },
+            {
+              "date": "2024-12-20",
+              "value": 252.656494
+            },
+            {
+              "date": "2024-12-23",
+              "value": 253.430862
+            },
+            {
+              "date": "2024-12-24",
+              "value": 256.339783
+            },
+            {
+              "date": "2024-12-26",
+              "value": 257.153839
+            },
+            {
+              "date": "2024-12-27",
+              "value": 253.74855
+            },
+            {
+              "date": "2024-12-30",
+              "value": 250.382965
+            },
+            {
+              "date": "2024-12-31",
+              "value": 248.615799
+            },
+            {
+              "date": "2025-01-02",
+              "value": 242.09314
+            },
+            {
+              "date": "2025-01-03",
+              "value": 241.606659
+            },
+            {
+              "date": "2025-01-06",
+              "value": 243.234848
+            },
+            {
+              "date": "2025-01-07",
+              "value": 240.464966
+            },
+            {
+              "date": "2025-01-08",
+              "value": 240.951401
+            },
+            {
+              "date": "2025-01-10",
+              "value": 235.143555
+            },
+            {
+              "date": "2025-01-13",
+              "value": 232.711212
+            },
+            {
+              "date": "2025-01-14",
+              "value": 231.599258
+            },
+            {
+              "date": "2025-01-15",
+              "value": 236.156189
+            },
+            {
+              "date": "2025-01-16",
+              "value": 226.615433
+            },
+            {
+              "date": "2025-01-17",
+              "value": 228.323059
+            },
+            {
+              "date": "2025-01-21",
+              "value": 221.035934
+            },
+            {
+              "date": "2025-01-22",
+              "value": 222.217361
+            },
+            {
+              "date": "2025-01-23",
+              "value": 222.048599
+            },
+            {
+              "date": "2025-01-24",
+              "value": 221.174942
+            },
+            {
+              "date": "2025-01-27",
+              "value": 228.203903
+            },
+            {
+              "date": "2025-01-28",
+              "value": 236.543381
+            },
+            {
+              "date": "2025-01-29",
+              "value": 237.635498
+            },
+            {
+              "date": "2025-01-30",
+              "value": 235.87822
+            },
+            {
+              "date": "2025-01-31",
+              "value": 234.299667
+            },
+            {
+              "date": "2025-02-03",
+              "value": 226.367249
+            },
+            {
+              "date": "2025-02-04",
+              "value": 231.122757
+            },
+            {
+              "date": "2025-02-05",
+              "value": 230.79512
+            },
+            {
+              "date": "2025-02-06",
+              "value": 231.539734
+            },
+            {
+              "date": "2025-02-07",
+              "value": 225.989975
+            },
+            {
+              "date": "2025-02-10",
+              "value": 226.258331
+            },
+            {
+              "date": "2025-02-11",
+              "value": 231.197937
+            },
+            {
+              "date": "2025-02-12",
+              "value": 235.421982
+            },
+            {
+              "date": "2025-02-13",
+              "value": 240.053482
+            },
+            {
+              "date": "2025-02-14",
+              "value": 243.104736
+            },
+            {
+              "date": "2025-02-18",
+              "value": 242.97554
+            },
+            {
+              "date": "2025-02-19",
+              "value": 243.373062
+            },
+            {
+              "date": "2025-02-20",
+              "value": 244.327194
+            },
+            {
+              "date": "2025-02-21",
+              "value": 244.04892
+            },
+            {
+              "date": "2025-02-24",
+              "value": 245.589432
+            },
+            {
+              "date": "2025-02-25",
+              "value": 245.5298
+            },
+            {
+              "date": "2025-02-26",
+              "value": 238.89064
+            },
+            {
+              "date": "2025-02-27",
+              "value": 235.849335
+            },
+            {
+              "date": "2025-02-28",
+              "value": 240.361572
+            }
+          ],
+          "url": "https://finance.yahoo.com/quote/AAPL/history/",
+          "provenance": {
+            "url": "https://query1.finance.yahoo.com/v8/finance/chart/AAPL?period1=1640995200&period2=1740873600&interval=1d",
+            "retrieved_at": "2026-11-07T20:39:00.662910+00:00",
+            "sha256": "b5930d93b00c516e6fae4ce0286ec573235cb35d039baa6f26fadb8eb38f5e19"
+          },
+          "scope": "Yahoo Finance unofficial chart endpoint; vendor-adjusted close, retrospective adjustments. Not an executable historical quote, causal event study, or guaranteed total return.",
+          "id": "E343a29e242",
+          "phase": "hindsight_context"
+        },
+        {
+          "kind": "financial",
+          "ticker": "AAPL",
+          "metric": "revenue",
+          "value": 394328000000,
+          "unit": "USD",
+          "period_start": "2021-09-26",
+          "period_end": "2022-09-24",
+          "filed": "2022-10-28",
+          "accession": "0000320193-22-000108",
+          "tag": "RevenueFromContractWithCustomerExcludingAssessedTax",
+          "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019322000108/0000320193-22-000108-index.html",
+          "provenance": {
+            "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
+            "retrieved_at": "2026-11-07T20:39:00.654954+00:00",
+            "sha256": "f085735b4d08fb116ade18d24247ffabe11df8eb52eae6556b165831f15ef1ad"
+          },
+          "selection": "Earliest filed annual USD fact for this fiscal period; original reported basis.",
+          "id": "Eeffcebbd5a",
+          "phase": "later_results"
+        },
+        {
+          "kind": "financial",
+          "ticker": "AAPL",
+          "metric": "revenue",
+          "value": 383285000000,
+          "unit": "USD",
+          "period_start": "2022-09-25",
+          "period_end": "2023-09-30",
+          "filed": "2023-11-03",
+          "accession": "0000320193-23-000106",
+          "tag": "RevenueFromContractWithCustomerExcludingAssessedTax",
+          "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.html",
+          "provenance": {
+            "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
+            "retrieved_at": "2026-11-07T20:39:00.654954+00:00",
+            "sha256": "f085735b4d08fb116ade18d24247ffabe11df8eb52eae6556b165831f15ef1ad"
+          },
+          "selection": "Earliest filed annual USD fact for this fiscal period; original reported basis.",
+          "id": "Ed8cac20176",
+          "phase": "later_results"
+        },
+        {
+          "kind": "financial",
+          "ticker": "AAPL",
+          "metric": "revenue",
+          "value": 391035000000,
+          "unit": "USD",
+          "period_start": "2023-10-01",
+          "period_end": "2024-09-28",
+          "filed": "2024-11-01",
+          "accession": "0000320193-24-000123",
+          "tag": "RevenueFromContractWithCustomerExcludingAssessedTax",
+          "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019324000123/0000320193-24-000123-index.html",
+          "provenance": {
+            "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
+            "retrieved_at": "2026-11-07T20:39:00.654954+00:00",
+            "sha256": "f085735b4d08fb116ade18d24247ffabe11df8eb52eae6556b165831f15ef1ad"
+          },
+          "selection": "Earliest filed annual USD fact for this fiscal period; original reported basis.",
+          "id": "E6abfb08af8",
+          "phase": "later_results"
+        },
+        {
+          "kind": "financial",
+          "ticker": "AAPL",
+          "metric": "net_income",
+          "value": 99803000000,
+          "unit": "USD",
+          "period_start": "2021-09-26",
+          "period_end": "2022-09-24",
+          "filed": "2022-10-28",
+          "accession": "0000320193-22-000108",
+          "tag": "NetIncomeLoss",
+          "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019322000108/0000320193-22-000108-index.html",
+          "provenance": {
+            "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
+            "retrieved_at": "2026-11-07T20:39:00.654954+00:00",
+            "sha256": "f085735b4d08fb116ade18d24247ffabe11df8eb52eae6556b165831f15ef1ad"
+          },
+          "selection": "Earliest filed annual USD fact for this fiscal period; original reported basis.",
+          "id": "E5e6c9c70a3",
+          "phase": "later_results"
+        },
+        {
+          "kind": "financial",
+          "ticker": "AAPL",
+          "metric": "net_income",
+          "value": 96995000000,
+          "unit": "USD",
+          "period_start": "2022-09-25",
+          "period_end": "2023-09-30",
+          "filed": "2023-11-03",
+          "accession": "0000320193-23-000106",
+          "tag": "NetIncomeLoss",
+          "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.html",
+          "provenance": {
+            "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
+            "retrieved_at": "2026-11-07T20:39:00.654954+00:00",
+            "sha256": "f085735b4d08fb116ade18d24247ffabe11df8eb52eae6556b165831f15ef1ad"
+          },
+          "selection": "Earliest filed annual USD fact for this fiscal period; original reported basis.",
+          "id": "E0d8b9d496d",
+          "phase": "later_results"
+        },
+        {
+          "kind": "financial",
+          "ticker": "AAPL",
+          "metric": "net_income",
+          "value": 93736000000,
+          "unit": "USD",
+          "period_start": "2023-10-01",
+          "period_end": "2024-09-28",
+          "filed": "2024-11-01",
+          "accession": "0000320193-24-000123",
+          "tag": "NetIncomeLoss",
+          "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019324000123/0000320193-24-000123-index.html",
+          "provenance": {
+            "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
+            "retrieved_at": "2026-11-07T20:39:00.654954+00:00",
+            "sha256": "f085735b4d08fb116ade18d24247ffabe11df8eb52eae6556b165831f15ef1ad"
+          },
+          "selection": "Earliest filed annual USD fact for this fiscal period; original reported basis.",
+          "id": "Ee01b580849",
+          "phase": "later_results"
+        },
+        {
+          "kind": "financial",
+          "ticker": "AAPL",
+          "metric": "operating_income",
+          "value": 119437000000,
+          "unit": "USD",
+          "period_start": "2021-09-26",
+          "period_end": "2022-09-24",
+          "filed": "2022-10-28",
+          "accession": "0000320193-22-000108",
+          "tag": "OperatingIncomeLoss",
+          "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019322000108/0000320193-22-000108-index.html",
+          "provenance": {
+            "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
+            "retrieved_at": "2026-11-07T20:39:00.654954+00:00",
+            "sha256": "f085735b4d08fb116ade18d24247ffabe11df8eb52eae6556b165831f15ef1ad"
+          },
+          "selection": "Earliest filed annual USD fact for this fiscal period; original reported basis.",
+          "id": "E9e83b58c4f",
+          "phase": "later_results"
+        },
+        {
+          "kind": "financial",
+          "ticker": "AAPL",
+          "metric": "operating_income",
+          "value": 114301000000,
+          "unit": "USD",
+          "period_start": "2022-09-25",
+          "period_end": "2023-09-30",
+          "filed": "2023-11-03",
+          "accession": "0000320193-23-000106",
+          "tag": "OperatingIncomeLoss",
+          "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.html",
+          "provenance": {
+            "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
+            "retrieved_at": "2026-11-07T20:39:00.654954+00:00",
+            "sha256": "f085735b4d08fb116ade18d24247ffabe11df8eb52eae6556b165831f15ef1ad"
+          },
+          "selection": "Earliest filed annual USD fact for this fiscal period; original reported basis.",
+          "id": "E8e61081ba5",
+          "phase": "later_results"
+        },
+        {
+          "kind": "financial",
+          "ticker": "AAPL",
+          "metric": "operating_income",
+          "value": 123216000000,
+          "unit": "USD",
+          "period_start": "2023-10-01",
+          "period_end": "2024-09-28",
+          "filed": "2024-11-01",
+          "accession": "0000320193-24-000123",
+          "tag": "OperatingIncomeLoss",
+          "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019324000123/0000320193-24-000123-index.html",
+          "provenance": {
+            "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
+            "retrieved_at": "2026-11-07T20:39:00.654954+00:00",
+            "sha256": "f085735b4d08fb116ade18d24247ffabe11df8eb52eae6556b165831f15ef1ad"
+          },
+          "selection": "Earliest filed annual USD fact for this fiscal period; original reported basis.",
+          "id": "E022faf9dba",
+          "phase": "later_results"
+        },
+        {
+          "kind": "financial",
+          "ticker": "AAPL",
+          "metric": "operating_cash_flow",
+          "value": 122151000000,
+          "unit": "USD",
+          "period_start": "2021-09-26",
+          "period_end": "2022-09-24",
+          "filed": "2022-10-28",
+          "accession": "0000320193-22-000108",
+          "tag": "NetCashProvidedByUsedInOperatingActivities",
+          "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019322000108/0000320193-22-000108-index.html",
+          "provenance": {
+            "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
+            "retrieved_at": "2026-11-07T20:39:00.654954+00:00",
+            "sha256": "f085735b4d08fb116ade18d24247ffabe11df8eb52eae6556b165831f15ef1ad"
+          },
+          "selection": "Earliest filed annual USD fact for this fiscal period; original reported basis.",
+          "id": "E739d5755e1",
+          "phase": "later_results"
+        },
+        {
+          "kind": "financial",
+          "ticker": "AAPL",
+          "metric": "operating_cash_flow",
+          "value": 110543000000,
+          "unit": "USD",
+          "period_start": "2022-09-25",
+          "period_end": "2023-09-30",
+          "filed": "2023-11-03",
+          "accession": "0000320193-23-000106",
+          "tag": "NetCashProvidedByUsedInOperatingActivities",
+          "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.html",
+          "provenance": {
+            "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
+            "retrieved_at": "2026-11-07T20:39:00.654954+00:00",
+            "sha256": "f085735b4d08fb116ade18d24247ffabe11df8eb52eae6556b165831f15ef1ad"
+          },
+          "selection": "Earliest filed annual USD fact for this fiscal period; original reported basis.",
+          "id": "E8cb175551d",
+          "phase": "later_results"
+        },
+        {
+          "kind": "financial",
+          "ticker": "AAPL",
+          "metric": "operating_cash_flow",
+          "value": 118254000000,
+          "unit": "USD",
+          "period_start": "2023-10-01",
+          "period_end": "2024-09-28",
+          "filed": "2024-11-01",
+          "accession": "0000320193-24-000123",
+          "tag": "NetCashProvidedByUsedInOperatingActivities",
+          "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019324000123/0000320193-24-000123-index.html",
+          "provenance": {
+            "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
+            "retrieved_at": "2026-11-07T20:39:00.654954+00:00",
+            "sha256": "f085735b4d08fb116ade18d24247ffabe11df8eb52eae6556b165831f15ef1ad"
+          },
+          "selection": "Earliest filed annual USD fact for this fiscal period; original reported basis.",
+          "id": "E4cb106cc44",
+          "phase": "later_results"
+        },
+        {
+          "kind": "financial",
+          "ticker": "AAPL",
+          "metric": "capex",
+          "value": 10708000000,
+          "unit": "USD",
+          "period_start": "2021-09-26",
+          "period_end": "2022-09-24",
+          "filed": "2022-10-28",
+          "accession": "0000320193-22-000108",
+          "tag": "PaymentsToAcquirePropertyPlantAndEquipment",
+          "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019322000108/0000320193-22-000108-index.html",
+          "provenance": {
+            "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
+            "retrieved_at": "2026-11-07T20:39:00.654954+00:00",
+            "sha256": "f085735b4d08fb116ade18d24247ffabe11df8eb52eae6556b165831f15ef1ad"
+          },
+          "selection": "Earliest filed annual USD fact for this fiscal period; original reported basis.",
+          "id": "E98f26eda05",
+          "phase": "later_results"
+        },
+        {
+          "kind": "financial",
+          "ticker": "AAPL",
+          "metric": "capex",
+          "value": 10959000000,
+          "unit": "USD",
+          "period_start": "2022-09-25",
+          "period_end": "2023-09-30",
+          "filed": "2023-11-03",
+          "accession": "0000320193-23-000106",
+          "tag": "PaymentsToAcquirePropertyPlantAndEquipment",
+          "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.html",
+          "provenance": {
+            "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
+            "retrieved_at": "2026-11-07T20:39:00.654954+00:00",
+            "sha256": "f085735b4d08fb116ade18d24247ffabe11df8eb52eae6556b165831f15ef1ad"
+          },
+          "selection": "Earliest filed annual USD fact for this fiscal period; original reported basis.",
+          "id": "Ec428ad2b43",
+          "phase": "later_results"
+        },
+        {
+          "kind": "financial",
+          "ticker": "AAPL",
+          "metric": "capex",
+          "value": 9447000000,
+          "unit": "USD",
+          "period_start": "2023-10-01",
+          "period_end": "2024-09-28",
+          "filed": "2024-11-01",
+          "accession": "0000320193-24-000123",
+          "tag": "PaymentsToAcquirePropertyPlantAndEquipment",
+          "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019324000123/0000320193-24-000123-index.html",
+          "provenance": {
+            "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
+            "retrieved_at": "2026-11-07T20:39:00.654954+00:00",
+            "sha256": "f085735b4d08fb116ade18d24247ffabe11df8eb52eae6556b165831f15ef1ad"
+          },
+          "selection": "Earliest filed annual USD fact for this fiscal period; original reported basis.",
+          "id": "E4b4a831d0c",
+          "phase": "later_results"
+        },
+        {
+          "kind": "financial",
+          "ticker": "AAPL",
+          "metric": "revenue",
+          "value": 394328000000,
+          "unit": "USD",
+          "period_start": "2021-09-26",
+          "period_end": "2022-09-24",
+          "filed": "2022-10-28",
+          "accession": "0000320193-22-000108",
+          "tag": "RevenueFromContractWithCustomerExcludingAssessedTax",
+          "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019322000108/0000320193-22-000108-index.html",
+          "provenance": {
+            "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
+            "retrieved_at": "2026-11-07T20:39:00.963579+00:00",
+            "sha256": "f085735b4d08fb116ade18d24247ffabe11df8eb52eae6556b165831f15ef1ad"
+          },
+          "selection": "Earliest filed annual USD fact for this fiscal period; original reported basis.",
+          "id": "E75055f781e",
+          "phase": "known_then"
+        },
+        {
+          "kind": "financial",
+          "ticker": "AAPL",
+          "metric": "revenue",
+          "value": 383285000000,
+          "unit": "USD",
+          "period_start": "2022-09-25",
+          "period_end": "2023-09-30",
+          "filed": "2023-11-03",
+          "accession": "0000320193-23-000106",
+          "tag": "RevenueFromContractWithCustomerExcludingAssessedTax",
+          "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.html",
+          "provenance": {
+            "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
+            "retrieved_at": "2026-11-07T20:39:00.963579+00:00",
+            "sha256": "f085735b4d08fb116ade18d24247ffabe11df8eb52eae6556b165831f15ef1ad"
+          },
+          "selection": "Earliest filed annual USD fact for this fiscal period; original reported basis.",
+          "id": "E7532e0e910",
+          "phase": "known_then"
+        },
+        {
+          "kind": "financial",
+          "ticker": "AAPL",
+          "metric": "net_income",
+          "value": 99803000000,
+          "unit": "USD",
+          "period_start": "2021-09-26",
+          "period_end": "2022-09-24",
+          "filed": "2022-10-28",
+          "accession": "0000320193-22-000108",
+          "tag": "NetIncomeLoss",
+          "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019322000108/0000320193-22-000108-index.html",
+          "provenance": {
+            "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
+            "retrieved_at": "2026-11-07T20:39:00.963579+00:00",
+            "sha256": "f085735b4d08fb116ade18d24247ffabe11df8eb52eae6556b165831f15ef1ad"
+          },
+          "selection": "Earliest filed annual USD fact for this fiscal period; original reported basis.",
+          "id": "E0563059dfa",
+          "phase": "known_then"
+        },
+        {
+          "kind": "financial",
+          "ticker": "AAPL",
+          "metric": "net_income",
+          "value": 96995000000,
+          "unit": "USD",
+          "period_start": "2022-09-25",
+          "period_end": "2023-09-30",
+          "filed": "2023-11-03",
+          "accession": "0000320193-23-000106",
+          "tag": "NetIncomeLoss",
+          "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.html",
+          "provenance": {
+            "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
+            "retrieved_at": "2026-11-07T20:39:00.963579+00:00",
+            "sha256": "f085735b4d08fb116ade18d24247ffabe11df8eb52eae6556b165831f15ef1ad"
+          },
+          "selection": "Earliest filed annual USD fact for this fiscal period; original reported basis.",
+          "id": "Eb756fc8ccf",
+          "phase": "known_then"
+        },
+        {
+          "kind": "financial",
+          "ticker": "AAPL",
+          "metric": "operating_income",
+          "value": 119437000000,
+          "unit": "USD",
+          "period_start": "2021-09-26",
+          "period_end": "2022-09-24",
+          "filed": "2022-10-28",
+          "accession": "0000320193-22-000108",
+          "tag": "OperatingIncomeLoss",
+          "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019322000108/0000320193-22-000108-index.html",
+          "provenance": {
+            "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
+            "retrieved_at": "2026-11-07T20:39:00.963579+00:00",
+            "sha256": "f085735b4d08fb116ade18d24247ffabe11df8eb52eae6556b165831f15ef1ad"
+          },
+          "selection": "Earliest filed annual USD fact for this fiscal period; original reported basis.",
+          "id": "E74bd950b89",
+          "phase": "known_then"
+        },
+        {
+          "kind": "financial",
+          "ticker": "AAPL",
+          "metric": "operating_income",
+          "value": 114301000000,
+          "unit": "USD",
+          "period_start": "2022-09-25",
+          "period_end": "2023-09-30",
+          "filed": "2023-11-03",
+          "accession": "0000320193-23-000106",
+          "tag": "OperatingIncomeLoss",
+          "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.html",
+          "provenance": {
+            "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
+            "retrieved_at": "2026-11-07T20:39:00.963579+00:00",
+            "sha256": "f085735b4d08fb116ade18d24247ffabe11df8eb52eae6556b165831f15ef1ad"
+          },
+          "selection": "Earliest filed annual USD fact for this fiscal period; original reported basis.",
+          "id": "E12f71a5cf7",
+          "phase": "known_then"
+        },
+        {
+          "kind": "financial",
+          "ticker": "AAPL",
+          "metric": "operating_cash_flow",
+          "value": 122151000000,
+          "unit": "USD",
+          "period_start": "2021-09-26",
+          "period_end": "2022-09-24",
+          "filed": "2022-10-28",
+          "accession": "0000320193-22-000108",
+          "tag": "NetCashProvidedByUsedInOperatingActivities",
+          "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019322000108/0000320193-22-000108-index.html",
+          "provenance": {
+            "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
+            "retrieved_at": "2026-11-07T20:39:00.963579+00:00",
+            "sha256": "f085735b4d08fb116ade18d24247ffabe11df8eb52eae6556b165831f15ef1ad"
+          },
+          "selection": "Earliest filed annual USD fact for this fiscal period; original reported basis.",
+          "id": "Eb60d7c6ecd",
+          "phase": "known_then"
+        },
+        {
+          "kind": "financial",
+          "ticker": "AAPL",
+          "metric": "operating_cash_flow",
+          "value": 110543000000,
+          "unit": "USD",
+          "period_start": "2022-09-25",
+          "period_end": "2023-09-30",
+          "filed": "2023-11-03",
+          "accession": "0000320193-23-000106",
+          "tag": "NetCashProvidedByUsedInOperatingActivities",
+          "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.html",
+          "provenance": {
+            "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
+            "retrieved_at": "2026-11-07T20:39:00.963579+00:00",
+            "sha256": "f085735b4d08fb116ade18d24247ffabe11df8eb52eae6556b165831f15ef1ad"
+          },
+          "selection": "Earliest filed annual USD fact for this fiscal period; original reported basis.",
+          "id": "E27973ec829",
+          "phase": "known_then"
+        },
+        {
+          "kind": "financial",
+          "ticker": "AAPL",
+          "metric": "capex",
+          "value": 10708000000,
+          "unit": "USD",
+          "period_start": "2021-09-26",
+          "period_end": "2022-09-24",
+          "filed": "2022-10-28",
+          "accession": "0000320193-22-000108",
+          "tag": "PaymentsToAcquirePropertyPlantAndEquipment",
+          "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019322000108/0000320193-22-000108-index.html",
+          "provenance": {
+            "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
+            "retrieved_at": "2026-11-07T20:39:00.963579+00:00",
+            "sha256": "f085735b4d08fb116ade18d24247ffabe11df8eb52eae6556b165831f15ef1ad"
+          },
+          "selection": "Earliest filed annual USD fact for this fiscal period; original reported basis.",
+          "id": "E6febd4d7b3",
+          "phase": "known_then"
+        },
+        {
+          "kind": "financial",
+          "ticker": "AAPL",
+          "metric": "capex",
+          "value": 10959000000,
+          "unit": "USD",
+          "period_start": "2022-09-25",
+          "period_end": "2023-09-30",
+          "filed": "2023-11-03",
+          "accession": "0000320193-23-000106",
+          "tag": "PaymentsToAcquirePropertyPlantAndEquipment",
+          "url": "https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.html",
+          "provenance": {
+            "url": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
+            "retrieved_at": "2026-11-07T20:39:00.963579+00:00",
+            "sha256": "f085735b4d08fb116ade18d24247ffabe11df8eb52eae6556b165831f15ef1ad"
+          },
+          "selection": "Earliest filed annual USD fact for this fiscal period; original reported basis.",
+          "id": "Efe20a59db4",
+          "phase": "known_then"
+        },
+        {
+          "kind": "macro",
+          "series": "FEDFUNDS",
+          "label": "Effective federal funds rate",
+          "unit": "percent",
+          "observations": [
+            {
+              "date": "2022-01-01",
+              "value": 0.08
+            },
+            {
+              "date": "2022-02-01",
+              "value": 0.08
+            },
+            {
+              "date": "2022-03-01",
+              "value": 0.2
+            },
+            {
+              "date": "2022-04-01",
+              "value": 0.33
+            },
+            {
+              "date": "2022-05-01",
+              "value": 0.77
+            },
+            {
+              "date": "2022-06-01",
+              "value": 1.21
+            },
+            {
+              "date": "2022-07-01",
+              "value": 1.68
+            },
+            {
+              "date": "2022-08-01",
+              "value": 2.33
+            },
+            {
+              "date": "2022-09-01",
+              "value": 2.56
+            },
+            {
+              "date": "2022-10-01",
+              "value": 3.08
+            },
+            {
+              "date": "2022-11-01",
+              "value": 3.78
+            },
+            {
+              "date": "2022-12-01",
+              "value": 4.1
+            },
+            {
+              "date": "2023-01-01",
+              "value": 4.33
+            },
+            {
+              "date": "2023-02-01",
+              "value": 4.57
+            },
+            {
+              "date": "2023-03-01",
+              "value": 4.65
+            },
+            {
+              "date": "2023-04-01",
+              "value": 4.83
+            },
+            {
+              "date": "2023-05-01",
+              "value": 5.06
+            },
+            {
+              "date": "2023-06-01",
+              "value": 5.08
+            },
+            {
+              "date": "2023-07-01",
+              "value": 5.12
+            },
+            {
+              "date": "2023-08-01",
+              "value": 5.33
+            },
+            {
+              "date": "2023-09-01",
+              "value": 5.33
+            },
+            {
+              "date": "2023-10-01",
+              "value": 5.33
+            },
+            {
+              "date": "2023-11-01",
+              "value": 5.33
+            },
+            {
+              "date": "2023-12-01",
+              "value": 5.33
+            },
+            {
+              "date": "2024-01-01",
+              "value": 5.33
+            },
+            {
+              "date": "2024-02-01",
+              "value": 5.33
+            },
+            {
+              "date": "2024-03-01",
+              "value": 5.33
+            },
+            {
+              "date": "2024-04-01",
+              "value": 5.33
+            },
+            {
+              "date": "2024-05-01",
+              "value": 5.33
+            },
+            {
+              "date": "2024-06-01",
+              "value": 5.33
+            },
+            {
+              "date": "2024-07-01",
+              "value": 5.33
+            },
+            {
+              "date": "2024-08-01",
+              "value": 5.33
+            },
+            {
+              "date": "2024-09-01",
+              "value": 5.13
+            },
+            {
+              "date": "2024-10-01",
+              "value": 4.83
+            },
+            {
+              "date": "2024-11-01",
+              "value": 4.64
+            },
+            {
+              "date": "2024-12-01",
+              "value": 4.48
+            },
+            {
+              "date": "2025-01-01",
+              "value": 4.33
+            },
+            {
+              "date": "2025-02-01",
+              "value": 4.33
+            },
+            {
+              "date": "2025-03-01",
+              "value": 4.33
+            }
+          ],
+          "url": "https://fred.stlouisfed.org/series/FEDFUNDS",
+          "provenance": {
+            "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=FEDFUNDS&cosd=2022-01-01&coed=2025-03-01",
+            "retrieved_at": "2026-11-07T20:39:01.577315+00:00",
+            "sha256": "efdcf4ebb6f5e174b10d71219c5ffaae8bc493cede528094b06fd565c4caf3fd"
+          },
+          "scope": "Current revised historical series, NOT an as-of vintage. Excluded from the historical knowledge room.",
+          "id": "E3e282d52a7",
+          "phase": "hindsight_context"
+        },
+        {
+          "kind": "macro",
+          "series": "CPIAUCSL",
+          "label": "CPI, all urban consumers, seasonally adjusted",
+          "unit": "index 1982–84=100",
+          "observations": [
+            {
+              "date": "2022-01-01",
+              "value": 282.543
+            },
+            {
+              "date": "2022-02-01",
+              "value": 284.5
+            },
+            {
+              "date": "2022-03-01",
+              "value": 287.674
+            },
+            {
+              "date": "2022-04-01",
+              "value": 288.561
+            },
+            {
+              "date": "2022-05-01",
+              "value": 291.298
+            },
+            {
+              "date": "2022-06-01",
+              "value": 294.957
+            },
+            {
+              "date": "2022-07-01",
+              "value": 294.913
+            },
+            {
+              "date": "2022-08-01",
+              "value": 295.097
+            },
+            {
+              "date": "2022-09-01",
+              "value": 296.349
+            },
+            {
+              "date": "2022-10-01",
+              "value": 298.007
+            },
+            {
+              "date": "2022-11-01",
+              "value": 298.786
+            },
+            {
+              "date": "2022-12-01",
+              "value": 298.832
+            },
+            {
+              "date": "2023-01-01",
+              "value": 300.42
+            },
+            {
+              "date": "2023-02-01",
+              "value": 301.45
+            },
+            {
+              "date": "2023-03-01",
+              "value": 301.821
+            },
+            {
+              "date": "2023-04-01",
+              "value": 302.845
+            },
+            {
+              "date": "2023-05-01",
+              "value": 303.334
+            },
+            {
+              "date": "2023-06-01",
+              "value": 304.014
+            },
+            {
+              "date": "2023-07-01",
+              "value": 304.609
+            },
+            {
+              "date": "2023-08-01",
+              "value": 306.082
+            },
+            {
+              "date": "2023-09-01",
+              "value": 307.276
+            },
+            {
+              "date": "2023-10-01",
+              "value": 307.696
+            },
+            {
+              "date": "2023-11-01",
+              "value": 308.148
+            },
+            {
+              "date": "2023-12-01",
+              "value": 308.741
+            },
+            {
+              "date": "2024-01-01",
+              "value": 309.698
+            },
+            {
+              "date": "2024-02-01",
+              "value": 310.967
+            },
+            {
+              "date": "2024-03-01",
+              "value": 312.345
+            },
+            {
+              "date": "2024-04-01",
+              "value": 313.023
+            },
+            {
+              "date": "2024-05-01",
+              "value": 313.175
+            },
+            {
+              "date": "2024-06-01",
+              "value": 313.044
+            },
+            {
+              "date": "2024-07-01",
+              "value": 313.569
+            },
+            {
+              "date": "2024-08-01",
+              "value": 314.062
+            },
+            {
+              "date": "2024-09-01",
+              "value": 314.732
+            },
+            {
+              "date": "2024-10-01",
+              "value": 315.631
+            },
+            {
+              "date": "2024-11-01",
+              "value": 316.528
+            },
+            {
+              "date": "2024-12-01",
+              "value": 317.604
+            },
+            {
+              "date": "2025-01-01",
+              "value": 318.961
+            },
+            {
+              "date": "2025-02-01",
+              "value": 319.679
+            },
+            {
+              "date": "2025-03-01",
+              "value": 319.785
+            }
+          ],
+          "url": "https://fred.stlouisfed.org/series/CPIAUCSL",
+          "provenance": {
+            "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=CPIAUCSL&cosd=2022-01-01&coed=2025-03-01",
+            "retrieved_at": "2026-11-07T20:39:02.448885+00:00",
+            "sha256": "d936bd47772c49945a5e3db1f1651f60305983bdd0c56ed6e1598142ee348517"
+          },
+          "scope": "Current revised historical series, NOT an as-of vintage. Excluded from the historical knowledge room.",
+          "id": "E107a2e6156",
+          "phase": "hindsight_context"
+        },
+        {
+          "kind": "source_gap",
+          "ticker": "AAPL",
+          "error": "No matching records in the date-bounded source.",
+          "id": "E6821590ed0",
+          "phase": "known_then"
+        }
+      ],
+      "limits": [
+        "Management outlook claims are missing from the date-bounded source.",
+        "As-of vintage macroeconomic series are unavailable due to reliance on revised historical series."
+      ],
+      "rounds": 1,
+      "scope": {
+        "tickers": [
+          "AAPL"
+        ],
+        "start": "2022-01-01",
+        "as_of": "2023-11-10",
+        "through": "2025-03-01"
+      }
+    }
+  },
+  "automated_errors": []
+}

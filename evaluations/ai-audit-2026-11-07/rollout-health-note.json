@@ -1,0 +1,5 @@
+{
+  "observation": "A health request timed out at 10 seconds while a deployment and live research tests overlapped. A subsequent request returned HTTP 200 in 6.11 seconds on revision the-receipts-00020-8xm. No root cause was established.",
+  "final_steady_state_check": "See concurrency-final.json: HTTP 200 in 0.35 seconds.",
+  "included_as_final_passing_test": false
+}
