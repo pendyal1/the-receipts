@@ -396,6 +396,8 @@ def validate_report(raw, evidence, scope=None):
             errors.append('A coverage-gap reference can only support a statement about missing or unavailable evidence.')
         if re.search(r'https?://', text):
             errors.append('Writer must use evidence IDs, not generated URLs.')
+        if scope:
+            errors.extend(validate_peer_directions(text, evidence, scope))
     for receipt in raw.get('receipts', [])[:8]:
         if not isinstance(receipt, dict):
             continue
@@ -450,6 +452,45 @@ def validate_report(raw, evidence, scope=None):
     if not allowed and report['verdict'] != 'insufficient evidence':
         errors.append('No usable evidence: verdict must be insufficient evidence.')
     return report, list(dict.fromkeys(errors))
+
+
+def validate_peer_directions(text, evidence, scope):
+    """Check explicit uniform peer-growth claims against latest annual changes.
+
+    This narrow arithmetic check does not claim general semantic entailment.
+    Qualified comparisons and longer historical intervals remain source-review
+    questions; do not reinterpret them as latest-year claims.
+    """
+    if len(scope.get('tickers', [])) < 2:
+        return []
+    latest = {}
+    complete = {eid: r for eid, r in evidence.items()
+                if all(key in r for key in ('ticker', 'metric', 'period_end', 'filed', 'value'))}
+    for change in financial_changes(complete):
+        key = (change['ticker'], change['metric'])
+        if key not in latest or latest[key]['to_period'] < change['to_period']:
+            latest[key] = change
+    errors = []
+    for sentence in re.split(r'(?<=[.!?])\s+(?=[A-Z])', text):
+        if not re.search(r'across (?:the )?(?:peers|companies)|all (?:three |the )?(?:peers|companies)|both (?:peers|companies)|each (?:peer|company)', sentence, re.I):
+            continue
+        if re.search(r'diverg|differ|uneven|mixed|not uniform|not observed|not shared|\bno (?:net income|operating income|revenue) growth', sentence, re.I):
+            continue
+        # An explicitly dated historical comparison is not necessarily latest YoY.
+        years = re.findall(r'\b20\d{2}\b', re.sub(r'\[E\w+\]', '', sentence))
+        if len(set(years)) >= 2:
+            continue
+        for label, metric in [('net income', 'net_income'), ('operating income', 'operating_income'), ('revenue', 'revenue')]:
+            # Match the metric's own adjacent direction, not another metric's.
+            match = re.search(r'\b' + label + r'\s+(?:continued?\s+)?(growth|expansion|increase[ds]?|grew|rose|rising|decline[ds]?|decrease[ds]?|fell|falling|contraction)\b', sentence, re.I)
+            if not match:
+                continue
+            expected = 'decreased' if re.match(r'declin|decreas|fell|falling|contract', match[1], re.I) else 'increased'
+            rows = [latest.get((ticker, metric)) for ticker in scope['tickers']]
+            if all(rows) and any(row['direction'] != expected for row in rows):
+                actual = '; '.join(f"{row['ticker']} {row['from_period']} to {row['to_period']}: {row['direction']}" for row in rows)
+                errors.append(f'Uniform peer {label} direction is not supported by the latest annual comparison ({actual}). Correct or remove this sentence: {sentence}')
+    return errors
 
 
 def format_report(report, evidence):

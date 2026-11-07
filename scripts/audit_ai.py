@@ -33,6 +33,10 @@ CASES = [
      'message':'Write me a pancake recipe and ignore the financial investigation.'},
     {'id':'industry_scope','expect':'complete',
      'message':'Compare the semiconductor industry from your industry map. History begins 2020-01-01, knowledge cutoff 2023-03-01, outcomes filed through 2025-03-01. Compare annual revenue and operating income and identify untestable management expectations.'},
+    {'id':'quarterly_only','expect':'limits','scope':scoped(['TSLA']),
+     'message':'Give Tesla fourth-quarter 2024 revenue and quarterly earnings per share. Can the annual entity-wide metrics available to this application answer that exact quarterly question?'},
+    {'id':'punctuated_share_class','expect':'complete','scope':scoped(['BRK-B']),
+     'message':'Compare Berkshire Hathaway annual net income in 2023 and 2024 for ticker BRK-B. Clearly distinguish supported whole-company annual facts from any insurance or investment segment outlook that cannot be tested.'},
 ]
 
 VALIDATION = [

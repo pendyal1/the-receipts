@@ -403,3 +403,17 @@ def test_unscoped_question_cannot_use_dates_invented_by_planner():
 def test_explicit_date_roles_accept_supported_api_phrasings(question):
     from receipts.research import explicit_date_roles
     assert explicit_date_roles(question)
+
+
+def test_mixed_peer_profit_directions_cannot_be_called_uniform_expansion():
+    from receipts.research import validate_peer_directions
+    evidence={}
+    for ticker,values in [('TSLA',(14_997,7_091)),('GM',(10_127,6_008)),('F',(4_347,5_879))]:
+        for year,value in zip((2023,2024),values):
+            evidence[ticker+str(year)]={'kind':'financial','ticker':ticker,'metric':'net_income',
+                'period_end':f'{year}-12-31','filed':f'{year+1}-02-01','value':value}
+    scope=dict(SCOPE,tickers=['TSLA','GM','F'])
+    bad='Revenue growth and net income expansion across peers demonstrate parallel top-line scaling.'
+    assert validate_peer_directions(bad,evidence,scope)
+    assert not validate_peer_directions('Profit directions diverged: Tesla and GM declined while Ford increased.',evidence,scope)
+    assert not validate_peer_directions('Net income growth across peers between 2020 and 2024 requires a separate historical comparison.',evidence,scope)
