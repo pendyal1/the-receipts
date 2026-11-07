@@ -29,7 +29,7 @@ function companyLogo(company){
  return logo;
 }
 function decorateCompanyCases(){
- const featured={Automakers:['TSLA'],Semiconductors:['NVDA'],'Cloud platforms':['MSFT','AMZN','GOOGL']};
+ const featured={Automakers:['TSLA'],'Consumer staples':['KO'],'Cloud platforms':['MSFT','AMZN','GOOGL']};
  for(const button of document.querySelectorAll('.case-card')){
   button.querySelector('.case-logos')?.remove();const group=el('span',null,'case-logos');group.setAttribute('aria-hidden','true');
   for(const ticker of featured[button.dataset.case]||[])group.append(companyLogo(companyDirectory.symbols.get(ticker)));
