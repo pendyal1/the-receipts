@@ -359,6 +359,9 @@ class Investigator:
                 ledger.trace('Writer', 'finalize_coverage_summary', {}, {'basis': 'No management passages or annual financial observations were retrieved', 'report': report})
             if citation_errors:
                 raise ModelError('The report did not pass evidence-reference validation. Collected sources remain available; no unverified report was published.')
+            # Preserve the validated answer to the actual question. The computed
+            # numbers are supporting evidence, not a substitute for that answer.
+            report['answer'] = report['summary']
             report['summary'] = calculated_summary(ledger.evidence, scope.tickers[0]) or report['summary']
             ledger.trace('Writer', 'finalize_summary', {}, {'basis': 'Reported annual observations and arithmetic range checks', 'summary': report['summary']})
             ledger.trace('Writer', 'validate_evidence_references', {}, {'passed': True, 'semantic_entailment_verified': False, 'final_verdict': report['verdict'], 'limits': report['limits']})
@@ -387,6 +390,9 @@ def validate_report(raw, evidence, scope=None):
         errors.append('Verdict must use an allowed label.')
     report['summary'] = normalize_citations(report['summary'])
     texts = [report['summary']]
+    if isinstance(raw.get('answer'), str):
+        report['answer'] = normalize_citations(raw['answer'])
+        texts.append(report['answer'])
     scope_only_texts = set()
     for section in raw.get('sections', [])[:8]:
         if isinstance(section, dict) and isinstance(section.get('text'), str):
@@ -539,7 +545,9 @@ def validate_peer_directions(text, evidence, scope):
 def format_report(report, evidence):
     def links(text):
         return re.sub(r'\[(E[a-zA-Z0-9]+)\]', lambda m: f'[{m[1]}]({evidence[m[1]]["url"]})' if evidence.get(m[1], {}).get('url') else m[0], text)
-    sections = [f'# {report["title"]}', f'**{report["verdict"].capitalize()}**', links(report['summary'])]
+    sections = [f'# {report["title"]}', f'**{report["verdict"].capitalize()}**', links(report.get('answer') or report['summary'])]
+    if report.get('answer') and report['answer'] != report['summary']:
+        sections.append('## Numbers on record\n\n' + links(report['summary']))
     sections += [f'## {s["title"]}\n\n{links(s["text"])}' for s in report['sections']]
     if report['limits']:
         sections.append('## Limits\n\n' + '\n'.join('- ' + x for x in report['limits']))

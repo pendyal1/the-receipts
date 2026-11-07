@@ -471,3 +471,21 @@ def test_planner_limitation_announcement_does_not_stop_supported_research(note):
     result=Investigator(FakeSources(),ProgressNote()).run('Compare annual revenue and explain whether intent is provable.',SCOPE)
     assert result['investigation']['status']=='complete'
     assert any(t['name']=='continue_supported_research' for t in result['tool_calls'])
+
+
+def test_answer_to_question_is_preserved_beside_computed_annual_numbers():
+    class ScopeAnswer(FakeModel):
+        def generate(self,system,payload,**kwargs):
+            result=super().generate(system,payload,**kwargs)
+            if 'You are Writer.' in system:
+                fact=next(r for r in payload['evidence'] if r['kind']=='financial')
+                result['summary']=f'These annual records cannot answer the quarterly EPS question [{fact["id"]}].'
+            return result
+    result=Investigator(FakeSources(),ScopeAnswer()).run('Can annual records answer quarterly EPS?',SCOPE)
+    report=result['investigation']['report']
+    assert 'cannot answer the quarterly EPS' in report['answer']
+    assert 'TSLA revenue for the fiscal period' in report['summary']
+    assert result['response'].index('cannot answer the quarterly EPS')<result['response'].index('Numbers on record')
+    raw={**report,'answer':'Invented [Efabricated].'}
+    evidence={r['id']:r for r in result['investigation']['evidence']}
+    assert 'Unknown or unavailable evidence citation.' in validate_report(raw,evidence,SCOPE)[1]
