@@ -476,7 +476,9 @@ def writer_schema(claims, facts):
             'receipts': {'type': 'ARRAY', 'maxItems': 6 if claims else 0, 'items': {'type': 'OBJECT',
                 'required': ['claim_id', 'outcome_ids', 'assessment', 'explanation'], 'properties': {
                     'claim_id': {'type': 'STRING', 'enum': claims or ['NO_CLAIMS_AVAILABLE']},
-                    'outcome_ids': {'type': 'ARRAY', 'items': {'type': 'STRING', 'enum': facts or ['NO_FINANCIAL_OUTCOMES_AVAILABLE']}, 'maxItems': 8 if facts else 0},
+                    # Large nested ID enums can exceed Vertex's schema complexity
+                    # budget. The server validates IDs against the full ledger.
+                    'outcome_ids': {'type': 'ARRAY', 'items': {'type': 'STRING', 'description': 'An available financial evidence ID only; never a coverage-gap ID.'}, 'maxItems': 8 if facts else 0},
                     'assessment': {'type': 'STRING', 'enum': ['supported', 'mixed', 'contradicted', 'not testable']}, 'explanation': string}}},
             'limits': {'type': 'ARRAY', 'items': string}}}
 

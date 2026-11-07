@@ -325,10 +325,13 @@ def test_component_forecasts_cannot_be_tested_by_entity_wide_totals(excerpt,metr
     assert claim_test_candidates(evidence)['Ec']['allowed_outcome_ids']==[]
 
 
-def test_writer_schema_only_allows_financial_outcome_ids():
+def test_writer_schema_stays_small_for_large_financial_ledgers():
     from receipts.research import writer_schema
-    schema=writer_schema(['Ec'],['Ef'])
-    assert schema['properties']['receipts']['items']['properties']['outcome_ids']['items']['enum']==['Ef']
+    schema=writer_schema(['Ec'],['Ef'+str(i) for i in range(500)])
+    outcome=schema['properties']['receipts']['items']['properties']['outcome_ids']
+    assert 'enum' not in outcome['items']
+    assert 'financial evidence ID only' in outcome['items']['description']
+    assert len(json.dumps(schema))<2500
 
 
 @pytest.mark.parametrize('failure',[SourceError('Provider unavailable'),ValueError('bad date'),KeyError('facts'),TypeError('bad body')])
