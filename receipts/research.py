@@ -8,7 +8,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import date, timedelta
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
-from .config import INDUSTRIES, METRICS
+from .config import INDUSTRIES, METRICS, COMPANIES
 from .model import ModelError, StructuredOutputError
 from .sources import SourceError
 
@@ -392,7 +392,7 @@ def validate_report(raw, evidence, scope=None):
             errors.append('A factual summary or section is missing evidence citations.')
         if any(eid not in evidence for eid in ids):
             errors.append('Unknown or unavailable evidence citation.')
-        if any(evidence.get(eid, {}).get('kind') == 'source_gap' for eid in ids) and not re.search(r'missing|unavailable|not available|not provided|unprovided|cannot|untest|not testable|lack|limited|incomplete|not found|not covered|not present|absen|(?:source|coverage) gap|unsupported|no (?:annual|matching|historical|financial|management|company|peer|records|data|coverage)|\bno\b[^.!?]{0,100}\b(?:retrieved|provided|present|available|found)\b', text, re.I):
+        if any(evidence.get(eid, {}).get('kind') == 'source_gap' for eid in ids) and not re.search(r'missing|unavailable|not available|not provided|unprovided|cannot|untest|not testable|lack|limited|incomplete|unpopulated|not found|not covered|not present|absen|(?:source|coverage|disclosure) gap|unsupported|no (?:annual|matching|historical|financial|management|company|peer|records|data|coverage)|\bno\b[^.!?]{0,100}\b(?:retrieved|provided|present|available|found)\b', text, re.I):
             errors.append('A coverage-gap reference can only support a statement about missing or unavailable evidence.')
         if re.search(r'https?://', text):
             errors.append('Writer must use evidence IDs, not generated URLs.')
@@ -472,8 +472,7 @@ def validate_peer_directions(text, evidence, scope):
             latest[key] = change
     errors = []
     for sentence in re.split(r'(?<=[.!?])\s+(?=[A-Z])', text):
-        if not re.search(r'across (?:the )?(?:peers|companies)|all (?:three |the )?(?:peers|companies)|both (?:peers|companies)|each (?:peer|company)', sentence, re.I):
-            continue
+        uniform = bool(re.search(r'across (?:the )?(?:peers|companies)|all (?:three |the )?(?:peers|companies)|both (?:peers|companies)|each (?:peer|company)', sentence, re.I))
         if re.search(r'diverg|differ|uneven|mixed|not uniform|not observed|not shared|\bno (?:net income|operating income|revenue) growth', sentence, re.I):
             continue
         # An explicitly dated historical comparison is not necessarily latest YoY.
@@ -485,8 +484,17 @@ def validate_peer_directions(text, evidence, scope):
             match = re.search(r'\b' + label + r'\s+(?:continued?\s+)?(growth|expansion|increase[ds]?|grew|rose|rising|decline[ds]?|decrease[ds]?|fell|falling|contraction)\b', sentence, re.I)
             if not match:
                 continue
+            targets = scope['tickers'] if uniform else []
+            named = re.match(r'\s+(?:at|for|among)\s+(.+?)(?:\bdo(?:es)?\b|\b(?:were|was|but|while|although)\b|[.;]|$)', sentence[match.end():], re.I)
+            if not uniform and named:
+                for ticker in scope['tickers']:
+                    names = [ticker, COMPANIES.get(ticker, (ticker,))[0]]
+                    if any(re.search(r'\b' + re.escape(name) + r'\b', named[1], re.I) for name in names):
+                        targets.append(ticker)
+            if len(targets) < 2:
+                continue
             expected = 'decreased' if re.match(r'declin|decreas|fell|falling|contract', match[1], re.I) else 'increased'
-            rows = [latest.get((ticker, metric)) for ticker in scope['tickers']]
+            rows = [latest.get((ticker, metric)) for ticker in targets]
             if all(rows) and any(row['direction'] != expected for row in rows):
                 actual = '; '.join(f"{row['ticker']} {row['from_period']} to {row['to_period']}: {row['direction']}" for row in rows)
                 errors.append(f'Uniform peer {label} direction is not supported by the latest annual comparison ({actual}). Correct or remove this sentence: {sentence}')

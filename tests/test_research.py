@@ -277,6 +277,8 @@ def test_no_specific_outlook_was_retrieved_is_a_valid_gap_explanation():
     raw={'verdict':'insufficient evidence','summary':'No specific management outlook passages were retrieved [Egap].',
          'sections':[{'title':'Evidence','text':'An unprovided management statement cannot be tested [Egap].'}]}
     assert not validate_report(raw,{'Egap':{'kind':'source_gap'}})[1]
+    raw['summary']='Ford capex metrics remain unpopulated under supported tags, creating a disclosure gap [Egap].'
+    assert not validate_report(raw,{'Egap':{'kind':'source_gap'}})[1]
 
 
 def test_not_testable_gap_is_an_explanation_not_a_financial_outcome():
@@ -415,5 +417,6 @@ def test_mixed_peer_profit_directions_cannot_be_called_uniform_expansion():
     scope=dict(SCOPE,tickers=['TSLA','GM','F'])
     bad='Revenue growth and net income expansion across peers demonstrate parallel top-line scaling.'
     assert validate_peer_directions(bad,evidence,scope)
+    assert validate_peer_directions('Entity-wide revenue and net income growth at GM and Ford do not verify capex.',evidence,scope)
     assert not validate_peer_directions('Profit directions diverged: Tesla and GM declined while Ford increased.',evidence,scope)
     assert not validate_peer_directions('Net income growth across peers between 2020 and 2024 requires a separate historical comparison.',evidence,scope)
