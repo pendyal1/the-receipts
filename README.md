@@ -1,134 +1,49 @@
 # The Receipts
 
-**They said it. Did they deliver?** The Receipts is a historical financial investigation desk for investors and traders. It compares management outlook passages with subsequent reported financial results and puts the company beside its industry peers. Every investigation exposes the evidence and the agent/tool trace.
+**They said it. Did they deliver?** The Receipts helps investors and traders check public companies’ past management statements against later financial results and compare peers. It shows what was knowable at the time, what happened later, and which claims the available evidence can test.
 
-**Live application:** https://the-receipts-7l4zrnepoq-ue.a.run.app
+**[Open the live application](https://the-receipts-7l4zrnepoq-ue.a.run.app/)** · Sign in with a Columbia Google account.
 
-**Author:** Aditya Pendyala, ap4839@columbia.edu · **IEOR 4570 Project 2:** `research` (Deep Research).
+**Author:** Aditya Pendyala (`ap4839@columbia.edu`) · **IEOR 4570 Project 2:** Deep Research (`research` in [submission.json](submission.json)).
 
 ## Use the application
 
-1. Ask a historical financial question in the main bar, naming the company and any peers.
-2. Press **Enter** or the green submit button to investigate directly. **Shift+Enter** adds a line. The optional **Research lens** controls sit beneath the bar; the date summary shows the default historical scope.
-3. Optionally open **Compare companies or change dates** to add up to two peers, adjust the three dates, or browse source data without an AI answer. The bundled examples use **2020-01-01 / 2023-03-01 / 2025-03-01**.
-4. Results open with a short finding and key financial figures. Expand claim checks, performance charts, the full report, market context or limitations only when needed.
-5. Select a numbered citation to inspect its source. **Sources** and **Research log** preserve the evidence ledger and full agent/tool trace. **Download** exports the complete case as JSON.
+1. Type a question naming the company and any peers, or select **Tesla**, **Coca-Cola**, or **Cloud giants** to fill in an example. Press **Enter** or click the submit arrow to start research.
+2. Use **Research lens** to change the company, add up to two peers, or adjust the dates. **History begins** sets the start of the window; **Freeze the record** sets what was knowable then; **Reveal what followed** sets the cutoff for later results. Select **Browse the records** for a source preview without an AI report.
+3. In the results, open **Check the management claims** to compare an outlook with its observed outcome. Under **Compare performance**, use **Show later results** to compare the historical view with what followed.
+4. Open a numbered citation to inspect its source. **Sources** shows the evidence ledger, **Research log** shows the agents’ inputs and results, and **Download** exports the case as JSON.
 
-The public-facing interface uses progressive disclosure, plain language, labeled inputs, keyboard-native controls and touch-sized actions. Company, question and one primary action form the starting screen; optional setup and detailed research are collapsed. Example investigations are compact suggestions rather than separate landing-page sections.
+## Three grader queries and model-only comparisons
 
-The interface explains the audience, workflow, data boundaries and difference between evidence preview and AI investigation. It renders model text as text nodes, with server-validated evidence references linked to the ledger. Model-generated HTML is never injected.
+The featured cases use the default dates: **history starts January 1, 2020; information known by March 1, 2023; later results through March 1, 2025**. Use the same dates when entering the questions manually.
 
-## Research architecture
+### 1. Tesla, GM, and Ford
 
-```mermaid
-flowchart TD
-  U[Question and explicit historical scope] --> L[Lead: clarify or plan]
-  L --> C[Claims Researcher: filing outlook]
-  L --> F[Financials Researcher: known then]
-  L --> P[Peers Researcher: later outcomes]
-  L --> M[Context Researcher: FRED and prices]
-  C --> R[Lead: review findings and gaps]
-  F --> R
-  P --> R
-  M --> R
-  R -->|At most one gap-fill fan-out| G[Independent fresh-context Researchers]
-  G --> W[Writer: cited report and cross-examination]
-  R --> W
-  W --> V[Evidence-reference validation and at most one repair]
-  V --> O[Report, source ledger, charts, complete trace]
-```
+> Did Tesla's growth expectations hold up after 2022? Cross-examine the evidence and compare annual revenue and profitability with GM and Ford.
 
-There are three distinct agent shapes: Lead, Researcher and Writer. Four specialized Researchers fan out concurrently in a `ThreadPoolExecutor` from one Lead planning turn. Each receives only its task, scoped tool menu and its own tool results. A Researcher never receives another Researcher's conversation. A gap-fill Researcher also starts with a fresh context.
+**Expected answer:** Tesla revenue rose from $81.462B in 2022 to $97.690B in 2024. Annual revenue cannot test a vehicle-delivery target. GM’s 2024 total revenue was $187.442B ($171.606B covers contract revenue only); Ford reported $184.992B. Net income fell at Tesla and GM from 2023 to 2024 and rose at Ford. Separately, Tesla’s cash capital spending exceeded the original outlook ranges in 2023 and 2024.
 
-Researchers choose structured tool requests; the server validates the tool name and scoped ticker, supplies the date boundaries, executes the public-data adapter, and returns evidence to that Researcher's next model turn. No agent can fetch arbitrary URLs or widen the server's historical scope. The Lead reviews findings, recorded source calls and failures, then can dispatch up to two missing-source tasks in one additional parallel round. Finally, the Writer receives the assembled ledger and arithmetic changes/range checks. A fresh Writer editing pass checks factual consistency before reference validation. The opening summary is assembled deterministically from reported annual observations and explicit quoted-range calculations; free-form interpretation remains in the cited sections.
+**Sources:** [Tesla’s 2022 Form 10-K outlook](https://www.sec.gov/Archives/edgar/data/1318605/000095017023001409/tsla-20221231.htm) and SEC Company Facts for [Tesla](https://data.sec.gov/api/xbrl/companyfacts/CIK0001318605.json), [GM](https://data.sec.gov/api/xbrl/companyfacts/CIK0001467858.json), and [Ford](https://data.sec.gov/api/xbrl/companyfacts/CIK0000037996.json). [Recorded comparison](#automakers-same-model-comparison).
 
-Bounds: **2 research rounds**, **3 decision turns per Researcher**, **22 distinct source tool calls**, one Writer factual-editing pass and one citation-repair attempt, and a **240-second model/research budget**. Individual source HTTP requests time out at 18 seconds; model requests at 38 seconds or the remaining budget. A slow in-flight source request may run past the soft research budget; Cloud Run has a 300-second request timeout. At most two user investigations run simultaneously in one instance. These are application controls, not distributed rate limits or a hard billing cap.
+### 2. Coca-Cola and PepsiCo
 
-When required company/date information is absent, the Lead asks for clarification before calling any source tool. Explicit frontend scope overrides model-inferred scope. Source failures are recorded as gaps. The Writer must acknowledge missing evidence; a failed model request or citation gate returns an explicit unavailable result with collected evidence, never a fabricated report.
+> Did Coca-Cola deliver on its 2023 capital-spending outlook? Compare its stated expectation with actual capital spending, and compare 2023–2024 revenue and net income with PepsiCo.
 
-Citation validation checks evidence existence, rejects unknown references and generated URLs; a gap reference can support only an explicit statement about missing evidence, normalizes grouped references, and requires actual management passages for claim receipts. It also requires same-company outcomes for testable receipts, a compatible financial metric, and a financial period ending after the management statement. The historical-knowledge section cannot cite later filings or revised market/macro context. A claim card without outcomes is conservatively marked not testable; an overall claim verdict without any testable receipts becomes insufficient evidence. It does **not** prove semantic entailment of every sentence or automatically guarantee that two accounting definitions match. Inspect the primary sources. Qualitative, segment-specific, operational or undated promises may remain **not testable** with entity-wide annual financial data.
+**Expected answer:** Coca-Cola forecast approximately $1.9B of 2023 capital expenditures and reported $1.852B in cash purchases of property, plant, and equipment. Revenue rose at both companies in 2024: Coca-Cola from $45.754B to $47.061B and PepsiCo from $91.471B to $91.854B. Coca-Cola net income fell from $10.714B to $10.631B, while PepsiCo’s rose from $9.074B to $9.578B. Compare the companies by their respective fiscal years. PepsiCo capital spending was unavailable under the supported tags.
 
-### Project 1 API compatibility
+**Sources:** [Coca-Cola’s 2022 Form 10-K outlook](https://www.sec.gov/Archives/edgar/data/21344/000002134423000011/ko-20221231.htm) and SEC Company Facts for [Coca-Cola](https://data.sec.gov/api/xbrl/companyfacts/CIK0000021344.json) and [PepsiCo](https://data.sec.gov/api/xbrl/companyfacts/CIK0000077476.json). [Recorded comparison](#consumer-staples-same-model-comparison).
 
-`POST /chat` still accepts `message` and optional `session_id`, and returns the original fields:
+### 3. Microsoft, Amazon, and Alphabet
 
-```json
-{
-  "response": "A cited Markdown investigation or a clarification",
-  "session_id": "a UUID",
-  "tool_calls": [
-    {"agent": "Claims", "name": "claims", "args": {}, "result": "JSON string", "elapsed_ms": 123}
-  ],
-  "investigation": {"status": "complete", "scope": {}, "report": {}, "evidence": [], "limits": [], "rounds": 1}
-}
-```
+> Compare management growth and investment expectations with later annual revenue and capital expenditures for Microsoft, Amazon and Alphabet. Which claims can the data actually test?
 
-`scope` is an optional request extension: `{"tickers":["TSLA","GM","F"],"start":"2020-01-01","as_of":"2023-03-01","through":"2025-03-01"}`. The extra `investigation` response field powers the interface; the original `response`, `session_id`, `tool_calls`, and string-valued `result` contract remains intact. **Every model stage and every sub-agent source call includes `agent`.** `POST /evidence` returns the same shape with `status=preview` and no model verdict. `POST /clear` accepts `session_id`. `GET /health` is service liveness, not a claim that model credentials work. `GET /catalog` lists starter industries and bounds.
+**Expected answer:** Microsoft expected capital expenditures to rise to support cloud growth; company-wide cash purchases of property, plant, and equipment rose from $23.886B in FY2022 to $28.107B in FY2023 and $44.477B in FY2024. The company-wide figures support the direction of spending but do not isolate cloud investment. FY2024 revenue was $245.122B for Microsoft, $637.959B for Amazon, and $350.018B for Alphabet, with different fiscal year ends. Amazon capital spending was unavailable under the supported tags.
 
-Sessions retain only the previous scope and question, not entire prior reports. An unscoped follow-up may reuse that scope; answers are researched afresh. Sessions are isolated by random UUID, expire after 30 minutes idle, are capped at 100, and disappear on restart. This is a course application, not durable portfolio storage. The browser stores the session ID in tab-scoped `sessionStorage`.
-
-## Data sources and reproducibility
-
-This solo project uses **three source families**, exceeding the one-data-source-per-team-member requirement. There are no paid financial-data services or third-party paid model APIs. Gemini requests use the named GCP project and its existing Vertex AI access.
-
-| Source | Data and access | Interpretation |
-|---|---|---|
-| [SEC EDGAR](https://www.sec.gov/search-filings/edgar-application-programming-interfaces) | Keyless submissions JSON, archived annual/quarterly filing HTML and Company Facts XBRL | Management excerpts and annual entity financials; exact filing/accession and XBRL tag retained |
-| [FRED](https://fred.stlouisfed.org/) | Keyless graph CSV for `FEDFUNDS` and `CPIAUCSL` | Macro context. Current revised history; **not** an ALFRED real-time vintage |
-| [Yahoo Finance historical prices](https://finance.yahoo.com/quote/TSLA/history/) | Keyless, unofficial chart endpoint, `indicators.adjclose` | Best-effort vendor-adjusted daily closing history. No live quote, execution price or causal inference |
-
-The runtime source-text cache is capped at 64 million characters and 160 URLs. The source loader archives original UTF-8 source bodies with retrieval time, original URL and SHA-256. About 13 MB of gzip archives in `data/snapshots/` ship with the deployment; `data/manifest.json` records coverage. A snapshot is fetched **at archive time**, not at the historical cutoff. The app separately filters SEC records by actual filing date. Source hashes are checked before archives are used. No credentials are stored with the data.
-
-Bundled starter universes:
-
-- Automakers: Tesla (`TSLA`), General Motors (`GM`), Ford (`F`).
-- Consumer staples: Coca-Cola (`KO`), PepsiCo (`PEP`).
-- Archived semiconductor comparisons: NVIDIA (`NVDA`), AMD (`AMD`), Intel (`INTC`).
-- Cloud platforms: Microsoft (`MSFT`), Amazon (`AMZN`), Alphabet (`GOOGL`).
-
-These are curated peer groups, not exhaustive industry universes, and membership is contemporary. They are subject to survivorship and selection bias. Other tickers resolve through the SEC's current ticker directory. Foreign/private companies, delisted-company discovery and complete historical industry membership are outside this version.
-
-### Load the data
-
-```bash
-uv sync --locked
-uv run python -m scripts.load_data
-```
-
-The loader gets the starter companies’ and Coca-Cola/PepsiCo’s Company Facts and price history, filing submissions and up to three recent filings for each demo company, plus the two macro series. It preserves existing matching archives. To refresh a specific source, remove its archive from `data/snapshots/` and rerun the loader; keep the prior archive elsewhere if reproducibility matters. Each filename is the SHA-256 of the source URL. Live fetches use an in-process cache, while the loader explicitly persists archives. Set `OFFLINE_DATA=1` to require bundled data and return explicit gaps elsewhere.
-
-Endpoint patterns:
-
-```text
-https://data.sec.gov/submissions/CIK##########.json
-https://data.sec.gov/submissions/CIK##########-submissions-NNN.json
-https://data.sec.gov/api/xbrl/companyfacts/CIK##########.json
-https://www.sec.gov/Archives/edgar/data/{cik}/{accession_without_dashes}/{primaryDocument}
-https://fred.stlouisfed.org/graph/fredgraph.csv?id={series}&cosd={start}&coed={end}
-https://query1.finance.yahoo.com/v8/finance/chart/{ticker}?period1={unix_start}&period2={exclusive_unix_end}&interval=1d
-```
-
-The SEC User-Agent identifies this academic project and its author's contact email. A shared process adapter paces SEC request starts at less than five per second; one Cloud Run instance is configured. A block, invalid response, missing adjusted close or missing series becomes an explicit evidence gap. No raw-close or invented financial fallback is substituted.
-
-### Accounting and historical boundaries
-
-Financial facts must be USD, from annual 10-K/10-K/A filings, with duration **330–380 days**. YTD, quarterly and instant values are excluded. Only facts filed on or before the requested availability date are eligible. For each period the adapter takes the earliest filed observation, breaking ties using a documented tag preference. This preserves original-reported observations instead of silently replacing them with later restatements. Historical SEC facts cannot enter the known-then room merely because their fiscal period ended before the cutoff.
-
-Total `Revenues` takes precedence over contract revenue where both are reported, particularly for automakers with financing businesses. Revenue fallback concepts and capex definitions can still differ; the exact tag is exposed in the ledger. Cash capex uses `PaymentsToAcquirePropertyPlantAndEquipment`. No segment aggregation, quarter derivation, inflation adjustment, GAAP reconciliation or currency conversion is inferred. NVIDIA and Microsoft fiscal-year ends differ from calendar-year peers. Future filings, later restatements, revised FRED series and retrospectively adjusted stock prices cannot support a statement about what investors knew at the cutoff.
-
-Management passages are a ranked, bounded retrieval from at most three latest 10-K/10-Q filings in the selected range. It is a sentence-level normalized excerpt search for forward-looking language, not an exhaustive earnings-call archive, semantic search across all exhibits or proof that no other guidance existed. The UI exposes the exact excerpt and a find-in-filing locator. Only explicitly retrieved passages can become claim receipts.
-
-## Three grader questions and model-only comparisons
-
-All use `start=2020-01-01`, `as_of=2023-03-01`, `through=2025-03-01`. Exact run outputs, complete traces and same-model baselines are in `evaluations/`. Baselines receive the same question and dates with **no system prompt and no tools**, using the same Gemini model as the application. Model-only responses are recorded observations, not gold answers.
-
-1. **Automakers:** “Did Tesla's growth expectations hold up after 2022? Cross-examine the evidence and compare annual revenue and profitability with GM and Ford.” Expected: distinguish company revenue growth from vehicle-delivery targets; identify any testable capex outlook separately; Tesla annual revenue was $81.462B in 2022 and $97.690B in 2024. GM's 2024 total `Revenues` was $187.442B; do not mistake its $171.606B contract revenue for the whole company. Source: SEC Company Facts for CIK `0001318605`, `0001467858`, `0000037996`, and management passages in the archived filings. The outcome cannot prove intent.
-2. **Consumer staples:** “Did Coca-Cola deliver on its 2023 capital-spending outlook? Compare its stated expectation with actual capital spending, and compare 2023–2024 revenue and net income with PepsiCo.” Expected: Coca-Cola forecast approximately $1.9B of 2023 capital expenditures and reported $1.852B of cash PP&E purchases, close to the approximate outlook. Coca-Cola revenue was $45.754B in 2023 and $47.061B in 2024; net income was $10.714B and $10.631B. PepsiCo revenue was $91.471B and $91.854B, with net income of $9.074B and $9.578B. Preserve the different fiscal year-end dates. PepsiCo capital spending is not retrieved under the supported tags; do not substitute revenue as proof of a spending target. Sources: SEC Company Facts for CIK `0000021344` and `0000077476`, and [Coca-Cola’s 2022 Form 10-K](https://www.sec.gov/Archives/edgar/data/21344/000002134423000011/ko-20221231.htm).
-3. **Cloud platforms:** “Compare management growth and investment expectations with later annual revenue and capital expenditures for Microsoft, Amazon and Alphabet. Which claims can the data actually test?” Expected: identify Microsoft's historical expectation that capital expenditures would increase to support cloud growth, compare subsequent annual cash PP&E purchases, and explain that consolidated financials cannot directly establish cloud-segment promises. Expected numeric anchors: Microsoft cash PP&E purchases were $23.886B in FY2022, $28.107B in FY2023 and $44.477B in FY2024. Amazon has no supported annual cash-PP&E tag in the selected window; its revenue cannot validate an infrastructure-spending promise. Source: Company Facts for CIK `0000789019`, `0001018724`, `0001652044` and Microsoft 10-Q/10-K outlook passages.
+**Sources:** [Microsoft’s Form 10-Q for the quarter ended December 2022](https://www.sec.gov/Archives/edgar/data/789019/000156459023000733/msft-10q_20221231.htm) and SEC Company Facts for [Microsoft](https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json), [Amazon](https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json), and [Alphabet](https://data.sec.gov/api/xbrl/companyfacts/CIK0001652044.json). [Recorded comparison](#cloud-platforms-same-model-comparison).
 
 ### Recorded answers from the validation runs
 
-These are actual Gemini runs, not illustrative transcripts. Each pair uses the same question, dates and model (`gemini-3.5-flash-lite`). Baselines have no tools or system prompt. Complete answers and agent/tool traces are retained in the linked JSON files. Coca-Cola replaces the previously featured NVIDIA case; older semiconductor records remain archived.
+These are actual Gemini runs, not illustrative transcripts. Each pair uses the same question, dates and model (`gemini-3.5-flash-lite`). Baselines have no tools or system prompt. Complete answers and agent/tool traces are retained in the linked JSON files.
 
 | Case | Research status | Research latency | Trace |
 |---|---|---:|---|
@@ -448,7 +363,109 @@ To reproduce all three real model/tool runs and baselines (billable only to the 
 uv run python -m scripts.smoke_research
 ```
 
-The script records latency, model name, answers, citations, evidence and full traces. A successful trace is not a substitute for reviewing factual support. The Deep Research path does not require the separate Evals path's 50-example suite; the tests below focus on this application's actual failure modes.
+The script records latency, model name, answers, citations, evidence and full traces. These are recorded comparisons, not estimates of general model accuracy.
+
+## Research architecture
+
+```mermaid
+flowchart TD
+  U[Question and explicit historical scope] --> L[Lead: clarify or plan]
+  L --> C[Claims Researcher: filing outlook]
+  L --> F[Financials Researcher: known then]
+  L --> P[Peers Researcher: later outcomes]
+  L --> M[Context Researcher: FRED and prices]
+  C --> R[Lead: review findings and gaps]
+  F --> R
+  P --> R
+  M --> R
+  R -->|At most one gap-fill fan-out| G[Independent fresh-context Researchers]
+  G --> W[Writer: cited report and cross-examination]
+  R --> W
+  W --> V[Evidence-reference validation and at most one repair]
+  V --> O[Report, source ledger, charts, complete trace]
+```
+
+There are three distinct agent shapes: Lead, Researcher and Writer. Four specialized Researchers fan out concurrently in a `ThreadPoolExecutor` from one Lead planning turn. Each receives only its task, scoped tool menu and its own tool results. A Researcher never receives another Researcher's conversation. A gap-fill Researcher also starts with a fresh context.
+
+Researchers choose structured tool requests; the server validates the tool name and scoped ticker, supplies the date boundaries, executes the public-data adapter, and returns evidence to that Researcher's next model turn. No agent can fetch arbitrary URLs or widen the server's historical scope. The Lead reviews findings, recorded source calls and failures, then can dispatch up to two missing-source tasks in one additional parallel round. Finally, the Writer receives the assembled ledger and arithmetic changes/range checks. A fresh Writer editing pass checks factual consistency before reference validation. The opening summary is assembled deterministically from reported annual observations and explicit quoted-range calculations; free-form interpretation remains in the cited sections.
+
+Bounds: **2 research rounds**, **3 decision turns per Researcher**, **22 distinct source tool calls**, one Writer factual-editing pass and one citation-repair attempt, and a **240-second model/research budget**. Individual source HTTP requests time out at 18 seconds; model requests at 38 seconds or the remaining budget. A slow in-flight source request may run past the soft research budget; Cloud Run has a 300-second request timeout. At most two user investigations run simultaneously in one instance. These are application controls, not distributed rate limits or a hard billing cap.
+
+When required company/date information is absent, the Lead asks for clarification before calling any source tool. Explicit frontend scope overrides model-inferred scope. Source failures are recorded as gaps. The Writer must acknowledge missing evidence; a failed model request or citation gate returns an explicit unavailable result with collected evidence, never a fabricated report.
+
+Citation validation checks evidence existence, rejects unknown references and generated URLs; a gap reference can support only an explicit statement about missing evidence, normalizes grouped references, and requires actual management passages for claim receipts. It also requires same-company outcomes for testable receipts, a compatible financial metric, and a financial period ending after the management statement. The historical-knowledge section cannot cite later filings or revised market/macro context. A claim card without outcomes is conservatively marked not testable; an overall claim verdict without any testable receipts becomes insufficient evidence. It does **not** prove semantic entailment of every sentence or automatically guarantee that two accounting definitions match. Inspect the primary sources. Qualitative, segment-specific, operational or undated promises may remain **not testable** with entity-wide annual financial data.
+
+### Project 1 API compatibility
+
+`POST /chat` still accepts `message` and optional `session_id`, and returns the original fields:
+
+```json
+{
+  "response": "A cited Markdown investigation or a clarification",
+  "session_id": "a UUID",
+  "tool_calls": [
+    {"agent": "Claims", "name": "claims", "args": {}, "result": "JSON string", "elapsed_ms": 123}
+  ],
+  "investigation": {"status": "complete", "scope": {}, "report": {}, "evidence": [], "limits": [], "rounds": 1}
+}
+```
+
+`scope` is an optional request extension: `{"tickers":["TSLA","GM","F"],"start":"2020-01-01","as_of":"2023-03-01","through":"2025-03-01"}`. The extra `investigation` response field powers the interface; the original `response`, `session_id`, `tool_calls`, and string-valued `result` contract remains intact. **Every model stage and every sub-agent source call includes `agent`.** `POST /evidence` returns the same shape with `status=preview` and no model verdict. `POST /clear` accepts `session_id`. `GET /health` is service liveness, not a claim that model credentials work. `GET /catalog` lists starter industries and bounds.
+
+Sessions retain only the previous scope and question, not entire prior reports. An unscoped follow-up may reuse that scope; answers are researched afresh. Sessions are isolated by random UUID, expire after 30 minutes idle, are capped at 100, and disappear on restart. The browser stores the session ID in tab-scoped `sessionStorage`.
+
+## Data sources and reproducibility
+
+This solo project uses **three source families**. There are no paid financial-data services or third-party paid model APIs. Gemini requests use the named GCP project and its existing Vertex AI access.
+
+| Source | Data and access | Interpretation |
+|---|---|---|
+| [SEC EDGAR](https://www.sec.gov/search-filings/edgar-application-programming-interfaces) | Keyless submissions JSON, archived annual/quarterly filing HTML and Company Facts XBRL | Management excerpts and annual entity financials; exact filing/accession and XBRL tag retained |
+| [FRED](https://fred.stlouisfed.org/) | Keyless graph CSV for `FEDFUNDS` and `CPIAUCSL` | Macro context. Current revised history; **not** an ALFRED real-time vintage |
+| [Yahoo Finance historical prices](https://finance.yahoo.com/quote/TSLA/history/) | Keyless, unofficial chart endpoint, `indicators.adjclose` | Best-effort vendor-adjusted daily closing history. No live quote, execution price or causal inference |
+
+The runtime source-text cache is capped at 64 million characters and 160 URLs. The source loader archives original UTF-8 source bodies with retrieval time, original URL and SHA-256. About 13 MB of gzip archives in `data/snapshots/` ship with the deployment; [The data manifest](data/manifest.json) records coverage. A snapshot is fetched **at archive time**, not at the historical cutoff. The app separately filters SEC records by actual filing date. Source hashes are checked before archives are used. No credentials are stored with the data.
+
+Bundled peer groups:
+
+- Automakers: Tesla (`TSLA`), General Motors (`GM`), Ford (`F`).
+- Consumer staples: Coca-Cola (`KO`), PepsiCo (`PEP`).
+- Archived semiconductor comparisons: NVIDIA (`NVDA`), AMD (`AMD`), Intel (`INTC`).
+- Cloud platforms: Microsoft (`MSFT`), Amazon (`AMZN`), Alphabet (`GOOGL`).
+
+These are curated peer groups, not exhaustive industry universes, and membership is contemporary. They are subject to survivorship and selection bias. Other tickers resolve through the SEC's current ticker directory. Foreign/private companies, delisted-company discovery and complete historical industry membership are outside this version.
+
+### Load the data
+
+```bash
+uv sync --locked
+uv run python -m scripts.load_data
+```
+
+The loader gets the starter companies’ and Coca-Cola/PepsiCo’s Company Facts and price history, filing submissions and up to three recent filings for each demo company, plus the two macro series. It preserves existing matching archives. To refresh a specific source, remove its archive from `data/snapshots/` and rerun the loader; keep the prior archive elsewhere if reproducibility matters. Each filename is the SHA-256 of the source URL. Live fetches use an in-process cache, while the loader explicitly persists archives. Set `OFFLINE_DATA=1` to require bundled data and return explicit gaps elsewhere.
+
+Endpoint patterns:
+
+```text
+https://data.sec.gov/submissions/CIK##########.json
+https://data.sec.gov/submissions/CIK##########-submissions-NNN.json
+https://data.sec.gov/api/xbrl/companyfacts/CIK##########.json
+https://www.sec.gov/Archives/edgar/data/{cik}/{accession_without_dashes}/{primaryDocument}
+https://fred.stlouisfed.org/graph/fredgraph.csv?id={series}&cosd={start}&coed={end}
+https://query1.finance.yahoo.com/v8/finance/chart/{ticker}?period1={unix_start}&period2={exclusive_unix_end}&interval=1d
+```
+
+The SEC User-Agent identifies this academic project and its author's contact email. A shared process adapter paces SEC request starts at less than five per second; one Cloud Run instance is configured. A block, invalid response, missing adjusted close or missing series becomes an explicit evidence gap. No raw-close or invented financial fallback is substituted.
+
+### Scope and limitations
+
+Financial facts must be USD, from annual 10-K/10-K/A filings, with duration **330–380 days**. YTD, quarterly and instant values are excluded. Only facts filed on or before the requested availability date are eligible. For each period the adapter takes the earliest filed observation, breaking ties using a documented tag preference. This preserves original-reported observations instead of silently replacing them with later restatements. Historical SEC facts cannot enter the known-then room merely because their fiscal period ended before the cutoff.
+
+Total `Revenues` takes precedence over contract revenue where both are reported, particularly for automakers with financing businesses. Revenue fallback concepts and capex definitions can still differ; the exact tag is exposed in the ledger. Cash capex uses `PaymentsToAcquirePropertyPlantAndEquipment`. No segment aggregation, quarter derivation, inflation adjustment, GAAP reconciliation or currency conversion is inferred. NVIDIA and Microsoft fiscal-year ends differ from calendar-year peers. Future filings, later restatements, revised FRED series and retrospectively adjusted stock prices cannot support a statement about what investors knew at the cutoff.
+
+Management passages are a ranked, bounded retrieval from at most three latest 10-K/10-Q filings in the selected range. It is a sentence-level normalized excerpt search for forward-looking language, not an exhaustive earnings-call archive, semantic search across all exhibits or proof that no other guidance existed. The UI exposes the exact excerpt and a find-in-filing locator. Only explicitly retrieved passages can become claim receipts.
+
+The app compares company-wide annual results. It does not reconstruct earnings calls, infer operating targets from financial results, reconstruct historical macroeconomic vintages, or test causation.
 
 ## Run locally
 
@@ -464,83 +481,21 @@ uv run python app.py
 
 Open `http://localhost:8000`. When ADC is absent locally, the model adapter can reuse the existing `gcloud` sign-in for `ap4839@columbia.edu`, keeping the token in memory. Cloud Run uses its service account and never invokes `gcloud`. Model failures expose a useful error, not credential contents. The configurable model is `GEMINI_MODEL`, defaulting to `gemini-3.5-flash-lite`; `SEC_USER_AGENT` can set another valid project contact.
 
-## Tests
+## Verification
 
-Local regression verification (November 7): **94 checks passed** (86 Python tests and 8 JavaScript tests). The public Cloud Run service also returned HTTP 200 for the homepage, health, catalog and a complete, cited `/chat` investigation. A second browser-driven live investigation completed with working source links, receipt cards and charts.
+The regression suite has 86 Python tests and 8 JavaScript tests. It covers historical filing cutoffs, financial definitions, source integrity, citation and claim checks, sessions, the Project 1 API contract, and parallel research with bounded follow-ups.
 
 ```bash
 uv run pytest -q
-# Real deployed prompts and edge cases (uses Vertex AI quota):
-uv run python -m scripts.test_live
-uv run python -m compileall -q app.py receipts scripts
-node --check static/app.js
+node --test tests/company-directory.test.cjs
 ```
 
-Tests include real archived SEC/price parsing, as-of filing filters, annual-duration selection, no silent restatement substitution, total-versus-contract revenue, integrity checks, offline gaps, request validation, separate sessions, Project 1 response compatibility, actual concurrent fresh-context Researchers, bounded gap filling, citation rejection and invalid claim/outcome links. Unit/model-orchestration tests use fake model calls; the separate sample investigations and `scripts.test_live` make actual Vertex AI and source calls. The deployed prompt and edge-case review is recorded in [evaluations/live-suite/README.md](evaluations/live-suite/README.md), including failures found before fixes and the verified results afterward.
+The [functional audit](evaluations/ai-audit-2026-11-07/README.md) records real research prompts and edge cases, including unavailable data and rate limits. The [Coca-Cola example record](evaluations/coca-cola-example-2026-11-07/README.md) documents the featured case. To run the live research suite against a locally running app with Vertex AI credentials, use `uv run python -m scripts.test_live --base-url http://localhost:8000`. For the deployed app, use the browser with Columbia sign-in.
 
-## Cloud Run and continuous deployment
+## Deployment
 
-Target: `ieor-4570-f26-ap4839`, account `ap4839@columbia.edu`, region `us-east1`, service `the-receipts`. Root `app.py` binds `0.0.0.0:$PORT`. Docker installs the pinned `uv.lock`; `cloudbuild.yaml` runs the test suite, builds/pushes the image and deploys it on main-branch pushes. The GitHub repository is private. The Developer Connect link and trigger configuration are in `docs/trigger.yaml`; it uses the course project's existing connection and service account.
+[Cloud Build](cloudbuild.yaml) runs the tests, builds the image, and deploys to Cloud Run on pushes to `main`. The [trigger configuration](docs/trigger.yaml) identifies the Developer Connect repository link. The deployed image ships with the source archives in `data/snapshots/`. The Cloud Run request timeout is 300 seconds; the agent has its own 240-second research budget and turn limits.
 
-The runtime service account needs Vertex AI access; the build identity also needs Artifact Registry write, Cloud Run deployment and service-account-use permissions. These identities are reused from the existing course setup. Deployment uses 1 CPU, 1 GiB memory, minimum 0 instances, maximum 1, HTTP concurrency 32 and a 300-second timeout. AI investigations are separately capped at two; the larger HTTP allowance leaves room for page assets, health checks and short validation requests. Maximum 1 supports in-memory sessions and a single SEC request limiter. Cold starts and restarts can lose sessions; archived sources are immutable image data. Keep the service available through grading.
+The service uses Google Cloud Identity-Aware Proxy (IAP) for Columbia accounts. Unauthenticated requests go to sign-in. The [submission file](submission.json) records the deployed URL, author, and Deep Research path. A manual deployment fallback is available in [scripts/deploy.sh](scripts/deploy.sh).
 
-Access is restricted by IAP directly on this Cloud Run service. The service-level IAP policy grants `roles/iap.httpsResourceAccessor` to `domain:columbia.edu`; the Cloud Run invocation policy grants `roles/run.invoker` only to `service-1027747864849@gcp-sa-iap.iam.gserviceaccount.com`. Anonymous requests must reach Google sign-in. Both deployment paths explicitly keep IAP and invoker IAM checks enabled and disallow unauthenticated invocation. The IAP domain binding persists separately from application revisions; do not remove it when deploying. See [Google’s direct Cloud Run IAP guide](https://docs.cloud.google.com/run/docs/securing/identity-aware-proxy-cloud-run).
-
-Inspect the access policy with:
-
-```bash
-gcloud iap web get-iam-policy --project=ieor-4570-f26-ap4839 \
-  --account=ap4839@columbia.edu --region=us-east1 \
-  --resource-type=cloud-run --service=the-receipts
-```
-
-The recorded public-endpoint stress suites preceded IAP. After enabling IAP, use the signed-in browser for live checks, or point the live-test scripts at a local app; anonymous requests to `/chat` or `/health` are intentionally intercepted by sign-in.
-
-A manual fallback is available with `./scripts/deploy.sh`. Do not run it concurrently with an in-flight continuous build. `submission.json` contains the verified deployed URL only after successful deployment and a real live investigation. Submit the **GitHub repository URL** on CourseWorks; deployment is not the same as assignment submission. Instructor collaborator invitations are a separate user action if the repository remains private.
-
-## Delivery scope and November 11 deadline
-
-This version covers sourced annual-financial investigations, bounded outlook retrieval, peer comparisons, historical visibility, market/macro context, traceable multi-agent research and JSON case export. Full earnings-call ingestion, semantic search over every filing exhibit, operational delivery-target datasets, ALFRED vintage reconstruction and causal event studies are outside the November 11 scope.
-
-- **November 3:** implement, test real questions, bundle data, deploy and verify the course contract.
-- **November 4–6:** try unfamiliar companies and adversarial questions; review a sample of citations manually and record gaps.
-- **November 7–8:** improve only observed retrieval/accounting failures; freeze the three grader examples and baselines.
-- **November 9–10:** verify private-repo grader access, continuous deployment and the live URL. Rehearse the demo and export a case.
-- **November 11, by 11:59 p.m. America/New_York:** submit the repository URL on CourseWorks. Keep Cloud Run running until grades are released.
-
-Historical investigation supports due diligence. It does not establish fraud, management intent, causation, fair value or future returns, and it does not provide personalized financial advice or trading recommendations.
-
-## Interface redesign — November 7
-
-The interface takes visual inspiration from the [Sage reference](https://www.siteofsites.co/websites/sage%C2%AE): a dark full-screen canvas, original animated wireframe, large futuristic wordmark and bright green accents. Questions submit directly from the main bar, with optional company, peer and date controls beneath it. About, How to use and Sources open native dialog panels. The results, evidence ledger, research log and chart use the same visual system. All research APIs and source validation remain in place.
-
-[DESIGN.md](DESIGN.md) records the reference observations, original implementation choices, locally hosted OFL fonts, responsive behavior and accessibility controls. The background is decorative geometry; it is not financial data. Background motion can be paused and honors reduced-motion preferences. The adjacent sun/moon button switches between dark and ivory light palettes and remembers the choice in this browser. The saved theme is applied before the first paint; storage restrictions do not prevent switching.
-
-### Company lookup and typography — November 7, 2026
-
-Body text and controls use self-hosted Sora; Orbitron is used for the wordmark and navigation. The user chose these free alternatives to Sage’s licensed typefaces. No generic or browser-font fallback stack is declared. The main search and investigation company field share a keyboard-accessible company picker. Name/ticker prefixes, aliases (Google, Facebook), common spelling errors and share-class punctuation are supported. Arrow keys move through matches, Enter selects and Escape dismisses. Full research questions remain supported. No external autocomplete or paid logo API is used.
-
-`static/companies.json` contains 10,409 entries from the SEC ticker directory, with its source URL, retrieval timestamp and original-response SHA-256. It is a dated lookup snapshot, not a guarantee of historical filing or metric coverage. Both the picker and the research adapter use these SEC ticker/CIK identities; unknown tickers still attempt live SEC resolution. To update the directory, retain the curated display names/aliases/logo paths while replacing ticker/CIK rows from the source URL and recording the new retrieval timestamp and hash.
-
-Twenty-six ticker entries have bundled brand images. Every SEC-directory ticker can additionally request an issuer logo on demand; share classes reuse the SEC CIK identity. Some filers have no published image, and those remain visibly unavailable. Asset origins are recorded in `static/logos/SOURCES.json`, including company-site favicons and selected Simple Icons 11.15.0 marks. The Simple Icons license and font OFL licenses are bundled beside their assets. Logos identify companies and do not imply affiliation. Browsers request logo assets only from this app. The server retrieves keyless public image assets from Financial Modeling Prep’s image-stock CDN or CompaniesMarketCap’s image directory. No financial-data API subscription, key, or paid logo service is used. Only SEC-verified symbols can reach fixed image hosts, redirects are refused, bodies are size/type bounded, and tiny PNG placeholders are rejected. Successful images cache for 24 hours and missing images for 15 minutes, with an in-memory ceiling of 512 entries / 12 MB. These are current brand identifiers, not financial evidence or historical branding claims.
-
-Run `node --test tests/company-directory.test.cjs` for lookup regressions and `uv run pytest -q` for the API/data suite. Both run before automatic deployment.
-
-
-### Direct questions — November 7, 2026
-
-The setup dialog has been removed. The main bar accepts a multiline question and starts research directly; company names, ticker aliases, and up to two named peers are resolved locally. Optional controls show the existing historical defaults (2020-01-01 start, 2023-03-01 knowledge cutoff, 2025-03-01 outcome cutoff) before submission. They do not infer new historical cutoffs from a fiscal year mentioned in a question. The Lead still clarifies explicit date/scope conflicts.
-
-A company-only search offers specific questions instead of starting broad research. A question without a company asks for the missing company inline. Invalid dates, duplicate peers and oversized comparisons are blocked before a research request. Featured cases fill an editable question; the user submits it when ready. The question stays intact throughout research and failures. No additional model call is used to prepare the form. Regression checks cover these decisions as well as ordinary words such as “AI” and “cash” that must not become unintended peers.
-
-
-### Research lens and font verification — November 7, 2026
-
-The context disclosure is now a flat timeline with subject lookup, removable branded peer chips and a custom calendar. Manual ISO dates are validated for real calendar dates, coverage starts in 2012, and future cutoffs are rejected. Validation messages use the app’s own typography. The search textarea no longer inherits a bottom margin; the text box and submit button share a vertical center.
-
-Orbitron and Sora variable font files and their OFL licenses are bundled. `static/fonts.js` checks actual face loading before revealing text; a vector-only retry control is shown if font loading fails. Old Roboto/Michroma files and system font stacks have been removed. Glyph-based decorative stars/orbits are vectors, and chart labels explicitly use Sora. Sage’s exact Necosmic/TT Firs Neue files are not shipped.
-
-
-## November 7 functional and stress audit
-
-The updated AI pipeline passed 24 real prompt cases, 26 invalid-input requests, five session checks and 94 local regression checks. Browser tests verified question-specific answers, exports, exact citation navigation and historical chart filtering. Failures, fixes, the observed upstream Vertex rate-limit event, and verified deployment details are recorded in [the full audit](evaluations/ai-audit-2026-11-07/README.md). The load fix retains two AI investigations while allowing 32 lightweight HTTP requests on the single Cloud Run instance.
+The interface’s design references, accessibility controls, and implementation notes are in [DESIGN.md](DESIGN.md).
