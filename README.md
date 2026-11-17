@@ -2,9 +2,9 @@
 
 **They said it. Did they deliver?** The Receipts helps investors and traders check public companies’ past management statements against later financial results and compare peers. It shows what was knowable at the time, what happened later, and which claims the available evidence can test.
 
-**[Open the live application](https://the-receipts-7l4zrnepoq-ue.a.run.app/)** · Sign in with a Columbia Google account.
+**[Open the live application](https://the-receipts-7l4zrnepoq-ue.a.run.app/)** · Google sign-in is required for this deployment.
 
-**Author:** Aditya Pendyala (`ap4839@columbia.edu`) · **IEOR 4570 Project 2:** Deep Research (`research` in [submission.json](submission.json)).
+**Author:** Aditya Pendyala
 
 ## Use the application
 
@@ -13,7 +13,7 @@
 3. In the results, open **Check the management claims** to compare an outlook with its observed outcome. Under **Compare performance**, use **Show later results** to compare the historical view with what followed.
 4. Open a numbered citation to inspect its source. **Sources** shows the evidence ledger, **Research log** shows the agents’ inputs and results, and **Download** exports the case as JSON.
 
-## Three grader queries and model-only comparisons
+## Example investigations and model-only comparisons
 
 The featured cases use the default dates: **history starts January 1, 2020; information known by March 1, 2023; later results through March 1, 2025**. Use the same dates when entering the questions manually.
 
@@ -395,7 +395,7 @@ When required company/date information is absent, the Lead asks for clarificatio
 
 Citation validation checks evidence existence, rejects unknown references and generated URLs; a gap reference can support only an explicit statement about missing evidence, normalizes grouped references, and requires actual management passages for claim receipts. It also requires same-company outcomes for testable receipts, a compatible financial metric, and a financial period ending after the management statement. The historical-knowledge section cannot cite later filings or revised market/macro context. A claim card without outcomes is conservatively marked not testable; an overall claim verdict without any testable receipts becomes insufficient evidence. It does **not** prove semantic entailment of every sentence or automatically guarantee that two accounting definitions match. Inspect the primary sources. Qualitative, segment-specific, operational or undated promises may remain **not testable** with entity-wide annual financial data.
 
-### Project 1 API compatibility
+### Chat API
 
 `POST /chat` still accepts `message` and optional `session_id`, and returns the original fields:
 
@@ -455,7 +455,7 @@ https://fred.stlouisfed.org/graph/fredgraph.csv?id={series}&cosd={start}&coed={e
 https://query1.finance.yahoo.com/v8/finance/chart/{ticker}?period1={unix_start}&period2={exclusive_unix_end}&interval=1d
 ```
 
-The SEC User-Agent identifies this academic project and its author's contact email. A shared process adapter paces SEC request starts at less than five per second; one Cloud Run instance is configured. A block, invalid response, missing adjusted close or missing series becomes an explicit evidence gap. No raw-close or invented financial fallback is substituted.
+The SEC User-Agent identifies your application and its contact email. A shared process adapter paces SEC request starts at less than five per second; one Cloud Run instance is configured. A block, invalid response, missing adjusted close or missing series becomes an explicit evidence gap. No raw-close or invented financial fallback is substituted.
 
 ### Scope and limitations
 
@@ -473,29 +473,29 @@ Requires Python 3.12+ and [uv](https://docs.astral.sh/uv/). No secret API key is
 
 ```bash
 uv sync --locked
-gcloud auth login ap4839@columbia.edu
-gcloud auth application-default login --account=ap4839@columbia.edu
-export GOOGLE_CLOUD_PROJECT=ieor-4570-f26-ap4839
+gcloud auth application-default login
+export GOOGLE_CLOUD_PROJECT=your-google-cloud-project-id
+export SEC_USER_AGENT="TheReceipts your-contact-email@example.com"
 uv run python app.py
 ```
 
-Open `http://localhost:8000`. When ADC is absent locally, the model adapter can reuse the existing `gcloud` sign-in for `ap4839@columbia.edu`, keeping the token in memory. Cloud Run uses its service account and never invokes `gcloud`. Model failures expose a useful error, not credential contents. The configurable model is `GEMINI_MODEL`, defaulting to `gemini-3.5-flash-lite`; `SEC_USER_AGENT` can set another valid project contact.
+Open `http://localhost:8000`. When ADC is absent locally, the model adapter can reuse the configured `gcloud` sign-in, keeping the token in memory. Cloud Run uses its service account and never invokes `gcloud`. Model failures expose a useful error, not credential contents. The configurable model is `GEMINI_MODEL`, defaulting to `gemini-3.5-flash-lite`; `SEC_USER_AGENT` can set another valid project contact.
 
 ## Verification
 
-The regression suite has 86 Python tests and 8 JavaScript tests. It covers historical filing cutoffs, financial definitions, source integrity, citation and claim checks, sessions, the Project 1 API contract, and parallel research with bounded follow-ups.
+The regression suite has 86 Python tests and 8 JavaScript tests. It covers historical filing cutoffs, financial definitions, source integrity, citation and claim checks, sessions, the chat API contract, and parallel research with bounded follow-ups.
 
 ```bash
 uv run pytest -q
 node --test tests/company-directory.test.cjs
 ```
 
-The [functional audit](evaluations/ai-audit-2026-11-07/README.md) records real research prompts and edge cases, including unavailable data and rate limits. The [Coca-Cola example record](evaluations/coca-cola-example-2026-11-07/README.md) documents the featured case. To run the live research suite against a locally running app with Vertex AI credentials, use `uv run python -m scripts.test_live --base-url http://localhost:8000`. For the deployed app, use the browser with Columbia sign-in.
+The [functional audit](evaluations/ai-audit-2026-11-07/README.md) records real research prompts and edge cases, including unavailable data and rate limits. The [Coca-Cola example record](evaluations/coca-cola-example-2026-11-07/README.md) documents the featured case. To run the live research suite against a locally running app with Vertex AI credentials, use `uv run python -m scripts.test_live --base-url http://localhost:8000`. For the deployed app, use an account with access.
 
 ## Deployment
 
-[Cloud Build](cloudbuild.yaml) runs the tests, builds the image, and deploys to Cloud Run on pushes to `main`. The [trigger configuration](docs/trigger.yaml) identifies the Developer Connect repository link. The deployed image ships with the source archives in `data/snapshots/`. The Cloud Run request timeout is 300 seconds; the agent has its own 240-second research budget and turn limits.
+[Cloud Build](cloudbuild.yaml) runs the tests, builds the image, and deploys to Cloud Run on pushes to `main`. The deployed image ships with the source archives in `data/snapshots/`. The Cloud Run request timeout is 300 seconds; the agent has its own 240-second research budget and turn limits.
 
-The service uses Google Cloud Identity-Aware Proxy (IAP) for Columbia accounts. Unauthenticated requests go to sign-in. The [submission file](submission.json) records the deployed URL, author, and Deep Research path. A manual deployment fallback is available in [scripts/deploy.sh](scripts/deploy.sh).
+The service uses Google Cloud Identity-Aware Proxy (IAP). Unauthenticated requests go to sign-in. A manual deployment fallback is available in [scripts/deploy.sh](scripts/deploy.sh).
 
 The interface’s design references, accessibility controls, and implementation notes are in [DESIGN.md](DESIGN.md).

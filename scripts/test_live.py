@@ -56,7 +56,7 @@ def inspect(case, http_status, data):
     traces=data.get('tool_calls',[])
     status=inv.get('status')
     if http_status != 200: return [f'HTTP {http_status} instead of a normal response']
-    if not all(k in data for k in ['response','session_id','tool_calls']): errors.append('Project 1 response fields missing')
+    if not all(k in data for k in ['response','session_id','tool_calls']): errors.append('Required chat response fields missing')
     if any(not isinstance(t.get('result'),str) or not t.get('agent') for t in traces): errors.append('Malformed agent trace')
     if inv.get('rounds',0)>2: errors.append('Research-round cap exceeded')
     evidence=inv.get('evidence',[])

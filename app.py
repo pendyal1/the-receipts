@@ -1,4 +1,4 @@
-"""Cloud Run entrypoint. The Project 1 /chat contract is preserved and extended."""
+"""Cloud Run entrypoint. The /chat interface supports evidence-backed investigations."""
 import json
 import os
 import threading
